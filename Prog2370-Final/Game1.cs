@@ -19,7 +19,7 @@ namespace Prog2370_Final {
              *    Can you find this edit?
              *    Try editing this comment
              *    
-             *    this is the second commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmit
+             *    this is the third commit
              */
         }
 
