@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static System.Math;
 
 namespace Prog2370_Final {
     /// <summary>
@@ -41,13 +42,25 @@ namespace Prog2370_Final {
 
             // TODO: use this.Content to load your game content here
 
-            terrain = new VectorImage(this, spriteBatch, new[] {
-                new Vector2(0, 600),
-                new Vector2(200, 200),
-                new Vector2(400, 400),
-                new Vector2(600, 150),
-                new Vector2(800,250), 
-            }, 10, new Color(130, 52, 65));
+            int vertNum = 40;
+            float yScale = 50;
+            float xScale = GraphicsDevice.Viewport.Bounds.Width;
+            float xRange = 4;
+            float seed = 0;
+            Vector2[] vertices = new Vector2[vertNum];
+            for (float i = 0; i < vertNum; i++) {
+                float x = xRange * (float) PI * i / vertNum + seed;
+                vertices[(int) i] = new Vector2(
+                    xScale * i / (vertNum-1),
+                    GraphicsDevice.Viewport.Bounds.Height * 0.75f -
+                    yScale * (float) (Cos(.95 * x) - Cos(2.11 * (x - PI / 2)) / 2 + Cos(11 * x) / 7 +
+                                      Cos(5.5 * x) / 4 * Cos(x - PI / 2) - Cos(0.75 * x) / 2 + Cos(x / 3) / 2 -
+                                      Cos(17 * x) / 13 +
+                                      Cos(34 * x) / 13));
+            }
+
+
+            terrain = new VectorImage(this, spriteBatch, vertices, 4, new Color(130, 52, 65));
         }
 
         /// <summary>
