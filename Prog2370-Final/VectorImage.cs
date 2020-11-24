@@ -20,6 +20,15 @@ namespace Prog2370_Final {
         public Vector2 offset = Vector2.Zero;
         public Vector2 scale = Vector2.One;
 
+        /// <summary>
+        /// Creates a vector based image by connecting all the vertices given together in a string.
+        /// </summary>
+        /// <param name="game">A reference to the main game</param>
+        /// <param name="spriteBatch">Spritebatch for drawing.</param>
+        /// <param name="vertices">The vertices to connect</param>
+        /// <param name="width">The width of the line</param>
+        /// <param name="color">The color of the line</param>
+        /// <exception cref="Exception">If less than 2 vertices were given.</exception>
         public VectorImage(Game game, SpriteBatch spriteBatch, Vector2[] vertices, int width, Color color) :
             base(game) {
             SetWhitePixel();
@@ -55,12 +64,21 @@ namespace Prog2370_Final {
             circleOffset = new Vector2((float) width / 2, (float) width / 2);
         }
 
+        /// <summary>
+        /// All the drawing is done by stretching a single white pixel and coloring it.
+        /// This method sets up the pixel if it hasn't already been made. 
+        /// </summary>
         private void SetWhitePixel() {
             if (whitePixel != null) return;
             whitePixel = new Texture2D(GraphicsDevice, 1, 1);
             whitePixel.SetData(new[] {new Color(255, 255, 255)});
         }
 
+        
+        /// <summary>
+        /// Draws the vector image.
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Draw(GameTime gameTime) {
             // Setting up the offset array
             Rectangle[] rAdjusted;
