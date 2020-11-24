@@ -13,3 +13,17 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/BoldFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/BoldFont.spritefont
+
+#begin Fonts/RegularFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/RegularFont.spritefont
+
