@@ -11,6 +11,7 @@ namespace Prog2370_Final {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private VectorImage terrain;
+        private VectorImage star;
 
         private readonly Color
             DARK_RED = new Color(60, 44, 49);
@@ -57,8 +58,22 @@ namespace Prog2370_Final {
                                       Cos(34 * x) / 13));
 
 
-            terrain = new VectorImage(this, spriteBatch, vertices, 4, new Color(130, 52, 65));
-            terrain.offset = new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f);
+            terrain = new VectorImage(this, spriteBatch, vertices, 4, new Color(130, 52, 65)) {
+                offset = new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f)
+            };
+
+            star = new VectorImage(this, spriteBatch,
+                new[] {
+                    new Vector2(0, -100),
+                    new Vector2(58.7785f, 80.9017f),
+                    new Vector2(-95.1057f, -30.9017f),
+                    new Vector2(95.1057f, -30.9017f),
+                    new Vector2(-58.7785f, 80.9017f),
+                    new Vector2(0, -100)
+                }, 2, new Color(130, 52, 65)) {
+                offset = new Vector2(200, 200),
+                scale = new Vector2(0.15f, 0.15f)
+            };
         }
 
         /// <summary>
@@ -94,7 +109,12 @@ namespace Prog2370_Final {
             // TODO: Add your drawing code here
 
             terrain.Draw(gameTime);
-
+            star.offset = new Vector2(200,180);
+            star.Draw(gameTime);
+            star.offset = new Vector2(300,200);
+            star.Draw(gameTime);
+            star.offset = new Vector2(260,220);
+            star.Draw(gameTime);
             base.Draw(gameTime);
         }
     }
