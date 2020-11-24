@@ -12,10 +12,12 @@ namespace Prog2370_Final {
         SpriteBatch spriteBatch;
         private VectorImage star;
 
+
         private readonly Color
             DARK_RED = new Color(60, 44, 49);
 
         private StartScene startScene;
+        private PlayScene playScene;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -44,8 +46,14 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            StartScene startScene = new StartScene(this, spriteBatch);
+            startScene = new StartScene(this, spriteBatch);
             this.Components.Add(startScene);
+            startScene.Show(true);
+
+            playScene = new PlayScene(this, spriteBatch);
+            this.Components.Add(playScene);
+            playScene.Show(false);
+
 
             star = new VectorImage(this, spriteBatch,
                 new[] {
@@ -81,6 +89,19 @@ namespace Prog2370_Final {
 
             // TODO: Add your update logic here
 
+            KeyboardState ks = Keyboard.GetState();
+            int selectedIndex = 0;
+
+            if (startScene.Enabled)
+            {
+                selectedIndex = startScene.Menu.SelectedIndex;
+                if(selectedIndex == 0 && ks.IsKeyDown(Keys.Enter))
+                {
+                    HideAllScenes();
+                    playScene.Show(true);
+                }
+            }
+
             base.Update(gameTime);
         }
 
@@ -95,6 +116,14 @@ namespace Prog2370_Final {
 
             star.Draw(gameTime);
             base.Draw(gameTime);
+        }
+
+        private void HideAllScenes()
+        {
+            foreach (GameScene item in this.Components)
+            {
+                item.Show(false);
+            }
         }
     }
 }

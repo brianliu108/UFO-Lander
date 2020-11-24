@@ -25,5 +25,7 @@ namespace Prog2370_Final
 
            this.Components.Add(menu);
         }
+
+        public MenuComponent Menu { get => menu; set => menu = value; }
     }
 }
