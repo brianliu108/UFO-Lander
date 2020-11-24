@@ -9,11 +9,14 @@ namespace Prog2370_Final {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private VectorImage terrain;
+
+        private readonly Color
+            DARK_RED = new Color(60, 44, 49);
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-                        
         }
 
         /// <summary>
@@ -37,6 +40,14 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            terrain = new VectorImage(this, spriteBatch, new[] {
+                new Vector2(0, 600),
+                new Vector2(200, 200),
+                new Vector2(400, 400),
+                new Vector2(600, 150),
+                new Vector2(800,250), 
+            }, 10, new Color(130, 52, 65));
         }
 
         /// <summary>
@@ -53,7 +64,8 @@ namespace Prog2370_Final {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
@@ -66,9 +78,11 @@ namespace Prog2370_Final {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(DARK_RED);
 
             // TODO: Add your drawing code here
+
+            terrain.Draw(gameTime);
 
             base.Draw(gameTime);
         }
