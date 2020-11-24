@@ -14,6 +14,8 @@ namespace Prog2370_Final
         private List<GameComponent> components;
         public GameScene(Game game) : base(game)
         {
+            components = new List<GameComponent>();
+            Show(true) ;
         }
 
         public List<GameComponent> Components { get => components; set => components = value; }        

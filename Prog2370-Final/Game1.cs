@@ -15,6 +15,8 @@ namespace Prog2370_Final {
         private readonly Color
             DARK_RED = new Color(60, 44, 49);
 
+        private StartScene startScene;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -28,6 +30,7 @@ namespace Prog2370_Final {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            Shared.stage = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
             base.Initialize();
         }
@@ -41,7 +44,8 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
+            StartScene startScene = new StartScene(this, spriteBatch);
+            this.Components.Add(startScene);
 
             star = new VectorImage(this, spriteBatch,
                 new[] {

@@ -27,7 +27,16 @@ namespace Prog2370_Final
             SpriteBatch spriteBatch,
             SpriteFont regularFont,
             SpriteFont boldFont,
-            string[] menuItems) : base(game) {
+            string[] menus) : base(game) {
+            
+            this.spriteBatch = spriteBatch;
+            this.regularFont = regularFont;
+            this.boldFont = boldFont;
+            menuItems = new List<string>();
+
+            menuItems = menus.ToList();
+
+            position = new Vector2(Shared.stage.X / 2, Shared.stage.Y / 2);
 
         }
 
@@ -36,6 +45,28 @@ namespace Prog2370_Final
 
         public override void Update(GameTime gameTime)
         {
+            KeyboardState ks = Keyboard.GetState();
+
+            if (ks.IsKeyDown(Keys.Down) && oldState.IsKeyUp(Keys.Down))
+            {
+                selectedIndex++;
+
+                if (selectedIndex == menuItems.Count)
+                {
+                    selectedIndex = 0;
+                }
+            }
+            if (ks.IsKeyDown(Keys.Up) && oldState.IsKeyUp(Keys.Up))
+            {
+                selectedIndex--;
+
+                if (selectedIndex == -1)
+                {
+                    selectedIndex = menuItems.Count - 1;
+                }
+            }
+            oldState = ks;
+
             base.Update(gameTime);
         }
 
