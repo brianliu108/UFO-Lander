@@ -1,2 +1,6 @@
-﻿/Prog2370-Final/bin/
-/Prog2370-Final/obj/
+﻿*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
