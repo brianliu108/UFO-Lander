@@ -10,9 +10,9 @@ namespace Prog2370_Final {
         private SpriteBatch spriteBatch;
         private VectorImage terrain;
 
-        public int samples;
         public float domain;
         public float range;
+        public int samples;
         public float period;
         public float seed;
         public Color color;
@@ -23,15 +23,15 @@ namespace Prog2370_Final {
         /// </summary>
         /// <param name="game">A reference to the main game</param>
         /// <param name="spriteBatch">Spritebatch for drawing.</param>
-        /// <param name="samples">How many points will be used to make the curve. More points means smoother curve.</param>
         /// <param name="domain">The x range. Essentially it starts at 0 pixels, ends at _ pixels.</param>
         /// <param name="range">Essentially the y scale. How far up and down will the graph go.</param>
+        /// <param name="samples">How many points will be used to make the curve. More points means smoother curve.</param>
         /// <param name="period">The period of the base sine wave. Essentially how dense will the hills be.</param>
         /// <param name="seed">The starting point of the curve. Different values will give different terrains.</param>
         /// <param name="color">The color of the lines.</param>
         /// <param name="offset">The offset from the drawn origin/</param>
         public Terrain(Game game, SpriteBatch spriteBatch,
-            int samples, float domain, float range, float period, float seed, Color color, Vector2 offset)
+            float domain, float range,int samples,  float period, float seed, Color color, Vector2 offset)
             : base(game) {
             this.game = game;
             this.spriteBatch = spriteBatch;
