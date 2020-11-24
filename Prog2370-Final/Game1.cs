@@ -52,10 +52,14 @@ namespace Prog2370_Final {
             for (float i = 0, x = 0; i < samples; i++, x = period * (float) PI * i / samples + seed)
                 vertices[(int) i] = new Vector2(
                     domain * i / (samples - 1),
-                    range * -(float) (Cos(.95 * x) - Cos(2.11 * (x - PI / 2)) / 2 + Cos(11 * x) / 7 +
-                                      Cos(5.5 * x) / 4 * Cos(x - PI / 2) - Cos(0.75 * x) / 2 + Cos(x / 3) / 2 -
-                                      Cos(17 * x) / 13 +
-                                      Cos(34 * x) / 13));
+                    range * -(float) (Cos(.95 * x)
+                                      - Cos(2.11 * (x - PI / 2)) / 2
+                                      + Cos(11 * x) / 7
+                                      + Cos(5.5 * x) / 4 * Cos(x - PI / 2)
+                                      - Cos(0.75 * x) / 2
+                                      + Cos(x / 3) / 2
+                                      - Cos(17 * x) / 13
+                                      + Cos(34 * x) / 13));
 
 
             terrain = new VectorImage(this, spriteBatch, vertices, 4, new Color(130, 52, 65)) {
@@ -109,11 +113,11 @@ namespace Prog2370_Final {
             // TODO: Add your drawing code here
 
             terrain.Draw(gameTime);
-            star.offset = new Vector2(200,180);
+            star.offset = new Vector2(200, 90);
             star.Draw(gameTime);
-            star.offset = new Vector2(300,200);
+            star.offset = new Vector2(260, 160);
             star.Draw(gameTime);
-            star.offset = new Vector2(260,220);
+            star.offset = new Vector2(300, 120);
             star.Draw(gameTime);
             base.Draw(gameTime);
         }
