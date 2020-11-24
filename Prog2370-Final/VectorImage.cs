@@ -15,7 +15,7 @@ namespace Prog2370_Final {
         private float[] rotations;
         private float width;
         private Color color;
-        public Vector2 offset;
+        public Vector2 offset = Vector2.Zero;
 
         public VectorImage(Game game, SpriteBatch spriteBatch, Vector2[] vertices, int width, Color color) :
             base(game) {
@@ -57,12 +57,23 @@ namespace Prog2370_Final {
         }
 
         public override void Draw(GameTime gameTime) {
+            // Setting up the offset array
+            Rectangle[] rWithOffset;
+            if (offset == Vector2.Zero) rWithOffset = rectangles;
+            else {
+                rWithOffset = new Rectangle[rectangles.Length];
+                for (int i = 0; i < rectangles.Length; i++)
+                    rWithOffset[i] = 
+                        new Rectangle(rectangles[i].Location + offset.ToPoint(), rectangles[i].Size);
+            }
+
+            // Doing the actual drawing
             spriteBatch.Begin();
-            for (var i = 0; i < rectangles.Length; i++)
+            for (var i = 0; i < rectangles.Length; i++) // Draw the lines
                 spriteBatch.Draw(
-                    whitePixel, rectangles[i], null, color, rotations[i],
+                    whitePixel, rWithOffset[i], null, color, rotations[i],
                     origin, SpriteEffects.None, 0);
-            foreach (var r in rectangles)
+            foreach (var r in rWithOffset) // Draw the dots
                 spriteBatch.Draw(whiteCircle, r.Location.ToVector2() - circleOffset, color);
             spriteBatch.End();
         }
