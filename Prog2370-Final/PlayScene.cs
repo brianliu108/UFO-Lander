@@ -15,7 +15,6 @@ namespace Prog2370_Final {
         public PlayScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
-            this.terrain = terrain;
 
             Terrain tempTerrain = new Terrain(
                 Game, spriteBatch,

@@ -15,18 +15,19 @@ namespace Prog2370_Final {
         }
 
         public override void Draw(GameTime gameTime) {
-            foreach (var terrain in data.AsTerrainList())
+            foreach (var terrain in data.AsTerrainList()) {
                 terrain.Draw(gameTime);
+            }
         }
 
         public override void Update(GameTime gameTime) {
-            data.mainOffset -= 2;
+            data.mainOffset += 2;//TODO remove this debug line eventually
             if ((int) data.mainOffset / (int) data.Domain > data.integerOffset) {
                 data.integerOffset++;
-                data.MoveRight();
+                data.MoveLeft();
             } else if ((int) data.mainOffset / (int) data.Domain < data.integerOffset) {
                 data.integerOffset--;
-                data.MoveLeft();
+                data.MoveRight();
             }
         }
 
@@ -44,26 +45,21 @@ namespace Prog2370_Final {
                 this.genLength = genLength;
                 this.center = new TdqNode(this, startingTerrain, null, null);
                 mainOffset = 0;
-                this.GenRight();
                 this.GenLeft();
+                this.GenRight();
             }
 
-            public List<Terrain> AsTerrainList() {
+            public List<Terrain> AsTerrainList() {//Todo: Make this only return terrain pieces worth drawing.
                 List<Terrain> terrains = new List<Terrain>();
                 var current = center;
-                while (current.left != null) current = current.left;
+                while (current.right != null) current = current.right;
                 do {
                     Terrain tempTerrain = current.terrain;
                     tempTerrain.Offset = new Vector2(mainOffset + current.offsetFromMain, tempTerrain.Offset.Y);
                     terrains.Add(tempTerrain);
-                    current = current.right;
+                    current = current.left;
                 } while (current != null);
                 return terrains;
-            }
-
-            public void MoveRight() {
-                center = center.right;
-                GenRight();
             }
 
             public void MoveLeft() {
@@ -71,19 +67,9 @@ namespace Prog2370_Final {
                 GenLeft();
             }
 
-            public void GenRight() {
-                var current = center;
-                var d = 0;
-                while (++d < genLength) {
-                    if (current.right == null) {
-                        current.right = new TdqNode(this,
-                            current.terrain.NewAdjacentRight(),
-                            current, null);
-                    }
-                    current = current.right;
-                }
-
-                TrimLeft();
+            public void MoveRight() {
+                center = center.right;
+                GenRight();
             }
 
             public void GenLeft() {
@@ -93,19 +79,26 @@ namespace Prog2370_Final {
                     if (current.left == null) {
                         current.left = new TdqNode(this,
                             current.terrain.NewAdjacentLeft(),
-                            null, current);
+                            current, null);
                     }
                     current = current.left;
                 }
+
                 TrimRight();
             }
 
-            public void TrimRight() {
+            public void GenRight() {
                 var current = center;
                 var d = 0;
-                while ((current = current.right) != null)
-                    if (++d > trimLength)
-                        current.CutRecursiveRight();
+                while (++d < genLength) {
+                    if (current.right == null) {
+                        current.right = new TdqNode(this,
+                            current.terrain.NewAdjacentRight(),
+                            null, current);
+                    }
+                    current = current.right;
+                }
+                TrimLeft();
             }
 
             public void TrimLeft() {
@@ -116,35 +109,37 @@ namespace Prog2370_Final {
                         current.CutRecursiveLeft();
             }
 
+            public void TrimRight() {
+                var current = center;
+                var d = 0;
+                while ((current = current.right) != null)
+                    if (++d > trimLength)
+                        current.CutRecursiveRight();
+            }
+
             private class TdqNode {
                 private readonly ShortTerrainDeQueue owner;
-                public TdqNode left, right;
+                public TdqNode right, left;
                 public Terrain terrain;
                 public float offsetFromMain;
 
-                public TdqNode(ShortTerrainDeQueue owner, Terrain terrain, TdqNode left, TdqNode right) {
+                public TdqNode(ShortTerrainDeQueue owner, Terrain terrain, TdqNode right, TdqNode left) {
                     this.owner = owner;
                     this.terrain = terrain;
-                    if (left == null && right == null) {
+                    if (right == null && left == null) {
                         offsetFromMain = 0;
-                    } else if (left != null) {
-                        this.left = left;
-                        offsetFromMain = left.offsetFromMain - terrain.domain;
-                    } else {
+                    } else if (right != null) {
                         this.right = right;
-                        offsetFromMain = right.offsetFromMain + terrain.domain;
+                        offsetFromMain = right.offsetFromMain - terrain.domain;
+                    } else {
+                        this.left = left;
+                        offsetFromMain = left.offsetFromMain + terrain.domain;
                     }
                 }
 
                 public void Cut() {
-                    CutLeft();
                     CutRight();
-                }
-
-                public void CutLeft() {
-                    if (left == null) return;
-                    left.right = null;
-                    left = null;
+                    CutLeft();
                 }
 
                 public void CutRight() {
@@ -153,11 +148,10 @@ namespace Prog2370_Final {
                     right = null;
                 }
 
-                public void CutRecursiveRight() {
-                    CutLeft();
-                    if (right == null) return;
-                    right.CutRecursiveRight();
-                    right = null;
+                public void CutLeft() {
+                    if (left == null) return;
+                    left.right = null;
+                    left = null;
                 }
 
                 public void CutRecursiveLeft() {
@@ -165,6 +159,13 @@ namespace Prog2370_Final {
                     if (left == null) return;
                     left.CutRecursiveLeft();
                     left = null;
+                }
+
+                public void CutRecursiveRight() {
+                    CutLeft();
+                    if (right == null) return;
+                    right.CutRecursiveRight();
+                    right = null;
                 }
             }
         }
