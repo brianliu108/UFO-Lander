@@ -16,7 +16,12 @@ namespace Prog2370_Final {
         }
 
         public override void Draw(GameTime gameTime) {
-            foreach (var terrain in data.AsTerrainList()) terrain.Draw(gameTime);
+            String msg = "";
+            foreach (var terrain in data.AsTerrainList()) {
+                msg += (float)(terrain.seed / Math.PI) + " ";
+                terrain.Draw(gameTime);
+            }
+            
         }
 
         public override void Update(GameTime gameTime) {
@@ -140,32 +145,22 @@ namespace Prog2370_Final {
                     }
                 }
 
-                public void Cut() {
-                    CutRight();
-                    CutLeft();
-                }
-
-                public void CutRight() {
-                    if (right == null) return;
-                    right.left = null;
-                    right = null;
-                }
-
-                public void CutLeft() {
-                    if (left == null) return;
-                    left.right = null;
-                    left = null;
-                }
 
                 public void CutRecursiveLeft() {
-                    CutRight();
+                    if (right != null) {
+                        right.left = null;
+                        right = null;
+                    }
                     if (left == null) return;
                     left.CutRecursiveLeft();
                     left = null;
                 }
 
                 public void CutRecursiveRight() {
-                    CutLeft();
+                    if (left != null) {
+                        left.right = null;
+                        left = null;
+                    }
                     if (right == null) return;
                     right.CutRecursiveRight();
                     right = null;
