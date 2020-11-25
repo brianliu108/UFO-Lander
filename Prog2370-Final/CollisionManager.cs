@@ -8,10 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 
-namespace Prog2370_Final
-{
-    public class CollisionManager : GameComponent
-    {
+namespace Prog2370_Final {
+    public class CollisionManager : GameComponent {
         private Terrain terrain;
         private UFO ufo;
         private SoundEffect crash;
@@ -24,12 +22,9 @@ namespace Prog2370_Final
             UFO ufo,
             SoundEffect crash,
             SoundEffect land,
-            SoundEffect gas) : base(game)
-        {
-        }
+            SoundEffect gas) : base(game) { }
 
-        public override void Update(GameTime gameTime)
-        {
+        public override void Update(GameTime gameTime) {
             base.Update(gameTime);
         }
     }

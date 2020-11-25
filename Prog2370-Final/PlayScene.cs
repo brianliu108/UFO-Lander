@@ -16,15 +16,15 @@ namespace Prog2370_Final {
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
 
-            Terrain tempTerrain = new Terrain(
+            var tempTerrain = new Terrain(
                 Game, spriteBatch,
-                GraphicsDevice.Viewport.Bounds.Width, 50,
-                80, 5, 0,
+                GraphicsDevice.Viewport.Bounds.Width / 5f, 50,
+                80, 1, 0,
                 ColourSchemes.normRed, new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f));
-                
+
             terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 2, 2);
 
-            this.Components.Add(terrain);
+            Components.Add(terrain);
         }
     }
 }

@@ -40,9 +40,9 @@ namespace Prog2370_Final {
             rectangles = new Rectangle[vertices.Length - 1];
             rotations = new float[vertices.Length - 1];
             drawDir = new bool[vertices.Length - 1];
-            for (int i = 0; i < vertices.Length - 1; i++) {
-                Vector2 a = vertices[i];
-                Vector2 b = vertices[i + 1];
+            for (var i = 0; i < vertices.Length - 1; i++) {
+                var a = vertices[i];
+                var b = vertices[i + 1];
                 rectangles[i] = new Rectangle((int) a.X, (int) a.Y,
                     (int) Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2)),
                     width);
@@ -50,12 +50,12 @@ namespace Prog2370_Final {
                 drawDir[i] = a.X <= b.X;
             }
 
-            int r = width / 2;
-            float d2 = width * width * 0.25f;
+            var r = width / 2;
+            var d2 = width * width * 0.25f;
             whiteCircle = new Texture2D(GraphicsDevice, width, width);
-            Color[] circleData = new Color[width * width];
-            for (int i = 0; i < width; i++)
-            for (int j = 0; j < width; j++)
+            var circleData = new Color[width * width];
+            for (var i = 0; i < width; i++)
+            for (var j = 0; j < width; j++)
                 circleData[i * width + j] =
                     Math.Pow(i - r, 2) + Math.Pow(j - r, 2) <= d2
                         ? Color.White
@@ -74,7 +74,7 @@ namespace Prog2370_Final {
             whitePixel.SetData(new[] {new Color(255, 255, 255)});
         }
 
-        
+
         /// <summary>
         /// Draws the vector image.
         /// </summary>
@@ -82,10 +82,11 @@ namespace Prog2370_Final {
         public override void Draw(GameTime gameTime) {
             // Setting up the offset array
             Rectangle[] rAdjusted;
-            if (offset == Vector2.Zero && scale == Vector2.Zero) rAdjusted = rectangles;
-            else {
+            if (offset == Vector2.Zero && scale == Vector2.Zero) {
+                rAdjusted = rectangles;
+            } else {
                 rAdjusted = new Rectangle[rectangles.Length];
-                for (int i = 0; i < rectangles.Length; i++)
+                for (var i = 0; i < rectangles.Length; i++)
                     rAdjusted[i] =
                         new Rectangle(
                             (rectangles[i].Location.ToVector2() * scale + offset).ToPoint(),

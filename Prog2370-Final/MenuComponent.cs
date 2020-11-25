@@ -7,14 +7,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Prog2370_Final
-{
-    public class MenuComponent : DrawableGameComponent
-    {
-        SpriteBatch spriteBatch;
-        SpriteFont regularFont;
-        SpriteFont boldFont;
-        private List<String> menuItems;
+namespace Prog2370_Final {
+    public class MenuComponent : DrawableGameComponent {
+        private SpriteBatch spriteBatch;
+        private SpriteFont regularFont;
+        private SpriteFont boldFont;
+        private List<string> menuItems;
         private int selectedIndex = 0;
 
         private Vector2 position;
@@ -28,7 +26,6 @@ namespace Prog2370_Final
             SpriteFont regularFont,
             SpriteFont boldFont,
             string[] menus) : base(game) {
-            
             this.spriteBatch = spriteBatch;
             this.regularFont = regularFont;
             this.boldFont = boldFont;
@@ -37,61 +34,48 @@ namespace Prog2370_Final
             menuItems = menus.ToList();
 
             position = new Vector2(Shared.stage.X / 2, Shared.stage.Y / 2);
-
         }
 
-        public int SelectedIndex { get => selectedIndex; set => selectedIndex = value; }
+        public int SelectedIndex {
+            get => selectedIndex;
+            set => selectedIndex = value;
+        }
 
 
-        public override void Update(GameTime gameTime)
-        {
-            KeyboardState ks = Keyboard.GetState();
+        public override void Update(GameTime gameTime) {
+            var ks = Keyboard.GetState();
 
-            if (ks.IsKeyDown(Keys.Down) && oldState.IsKeyUp(Keys.Down))
-            {
+            if (ks.IsKeyDown(Keys.Down) && oldState.IsKeyUp(Keys.Down)) {
                 selectedIndex++;
 
-                if (selectedIndex == menuItems.Count)
-                {
-                    selectedIndex = 0;
-                }
+                if (selectedIndex == menuItems.Count) selectedIndex = 0;
             }
-            if (ks.IsKeyDown(Keys.Up) && oldState.IsKeyUp(Keys.Up))
-            {
+            if (ks.IsKeyDown(Keys.Up) && oldState.IsKeyUp(Keys.Up)) {
                 selectedIndex--;
 
-                if (selectedIndex == -1)
-                {
-                    selectedIndex = menuItems.Count - 1;
-                }
+                if (selectedIndex == -1) selectedIndex = menuItems.Count - 1;
             }
             oldState = ks;
 
             base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
-        {
-            Vector2 temp = position;
+        public override void Draw(GameTime gameTime) {
+            var temp = position;
             spriteBatch.Begin();
 
-            for (int i = 0; i < menuItems.Count; i++)
-            {
-                if(selectedIndex == i)
-                {
+            for (var i = 0; i < menuItems.Count; i++)
+                if (selectedIndex == i) {
                     spriteBatch.DrawString(boldFont, menuItems[i], temp, boldColour);
                     temp.Y += boldFont.LineSpacing;
-                }
-                else
-                {
+                } else {
                     spriteBatch.DrawString(regularFont, menuItems[i], temp, regularColour);
                     temp.Y += regularFont.LineSpacing;
                 }
-            }
 
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }        
+        }
     }
 }

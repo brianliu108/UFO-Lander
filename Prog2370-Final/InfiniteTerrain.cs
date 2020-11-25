@@ -12,16 +12,17 @@ namespace Prog2370_Final {
             : base(game) {
             this.spriteBatch = spriteBatch;
             data = new ShortTerrainDeQueue(terrain, trimLength, genLenth);
+            data.MoveRight();
+            data.MoveRight();
+            data.MoveRight();
         }
 
         public override void Draw(GameTime gameTime) {
-            foreach (var terrain in data.AsTerrainList()) {
-                terrain.Draw(gameTime);
-            }
+            foreach (var terrain in data.AsTerrainList()) terrain.Draw(gameTime);
         }
 
         public override void Update(GameTime gameTime) {
-            data.mainOffset += 2;//TODO remove this debug line eventually
+            data.mainOffset -= 2; //TODO remove this debug line eventually
             if ((int) data.mainOffset / (int) data.Domain > data.integerOffset) {
                 data.integerOffset++;
                 data.MoveLeft();
@@ -43,18 +44,18 @@ namespace Prog2370_Final {
             public ShortTerrainDeQueue(Terrain startingTerrain, int trimLength, int genLength) {
                 this.trimLength = trimLength;
                 this.genLength = genLength;
-                this.center = new TdqNode(this, startingTerrain, null, null);
+                center = new TdqNode(this, startingTerrain, null, null);
                 mainOffset = 0;
-                this.GenLeft();
-                this.GenRight();
+                GenLeft();
+                GenRight();
             }
 
-            public List<Terrain> AsTerrainList() {//Todo: Make this only return terrain pieces worth drawing.
-                List<Terrain> terrains = new List<Terrain>();
+            public List<Terrain> AsTerrainList() { //Todo: Make this only return terrain pieces worth drawing.
+                var terrains = new List<Terrain>();
                 var current = center;
                 while (current.right != null) current = current.right;
                 do {
-                    Terrain tempTerrain = current.terrain;
+                    var tempTerrain = current.terrain;
                     tempTerrain.Offset = new Vector2(mainOffset + current.offsetFromMain, tempTerrain.Offset.Y);
                     terrains.Add(tempTerrain);
                     current = current.left;
@@ -76,11 +77,10 @@ namespace Prog2370_Final {
                 var current = center;
                 var d = 0;
                 while (++d < genLength) {
-                    if (current.left == null) {
+                    if (current.left == null)
                         current.left = new TdqNode(this,
                             current.terrain.NewAdjacentLeft(),
                             current, null);
-                    }
                     current = current.left;
                 }
 
@@ -91,11 +91,10 @@ namespace Prog2370_Final {
                 var current = center;
                 var d = 0;
                 while (++d < genLength) {
-                    if (current.right == null) {
+                    if (current.right == null)
                         current.right = new TdqNode(this,
                             current.terrain.NewAdjacentRight(),
                             null, current);
-                    }
                     current = current.right;
                 }
                 TrimLeft();

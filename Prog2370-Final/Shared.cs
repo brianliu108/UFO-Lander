@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Prog2370_Final
-{
-    public class Shared
-    {
+namespace Prog2370_Final {
+    public class Shared {
         public static Vector2 stage;
     }
 }

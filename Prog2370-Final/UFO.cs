@@ -7,10 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Prog2370_Final
-{
-    public class UFO : DrawableGameComponent
-    {
+namespace Prog2370_Final {
+    public class UFO : DrawableGameComponent {
         private SpriteBatch spriteBatch;
         private Texture2D tex;
         private Vector2 position;
@@ -19,8 +17,7 @@ namespace Prog2370_Final
         public UFO(Game game,
             SpriteBatch spriteBatch,
             Texture2D tex,
-            Vector2 position) : base(game)
-        {
+            Vector2 position) : base(game) {
             this.spriteBatch = spriteBatch;
             this.tex = tex;
             this.position = position;

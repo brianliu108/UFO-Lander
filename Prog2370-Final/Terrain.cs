@@ -44,7 +44,7 @@ namespace Prog2370_Final {
             this.period = period;
             this.seed = seed;
             this.color = color;
-            this.Offset = offset;
+            Offset = offset;
             Generate();
         }
 
@@ -61,7 +61,7 @@ namespace Prog2370_Final {
         /// Generates the vectors that form the terrain.
         /// </summary>
         public void Generate() {
-            Vector2[] vertices = new Vector2[samples + 1];
+            var vertices = new Vector2[samples + 1];
             for (float i = 0, x = seed; i <= samples; i++, x = period * (float) PI * i / samples + seed)
                 vertices[(int) i] = new Vector2(
                     domain * i / samples,
@@ -91,13 +91,13 @@ namespace Prog2370_Final {
         }
 
         public Terrain NewAdjacentRight() {
-            Terrain ter = this.Clone();
+            var ter = Clone();
             ter.seed += (float) (PI * ter.period);
             return ter;
         }
 
         public Terrain NewAdjacentLeft() {
-            Terrain ter = this.Clone();
+            var ter = Clone();
             ter.seed -= (float) (PI * ter.period);
             return ter;
         }

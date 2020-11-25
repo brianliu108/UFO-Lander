@@ -8,8 +8,8 @@ namespace Prog2370_Final {
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
         private VectorImage star;
 
 
@@ -47,11 +47,11 @@ namespace Prog2370_Final {
 
             // TODO: use this.Content to load your game content here
             startScene = new StartScene(this, spriteBatch);
-            this.Components.Add(startScene);
+            Components.Add(startScene);
             startScene.Show(true);
 
             playScene = new PlayScene(this, spriteBatch);
-            this.Components.Add(playScene);
+            Components.Add(playScene);
             playScene.Show(false);
 
 
@@ -89,14 +89,12 @@ namespace Prog2370_Final {
 
             // TODO: Add your update logic here
 
-            KeyboardState ks = Keyboard.GetState();
-            int selectedIndex = 0;
+            var ks = Keyboard.GetState();
+            var selectedIndex = 0;
 
-            if (startScene.Enabled)
-            {
+            if (startScene.Enabled) {
                 selectedIndex = startScene.Menu.SelectedIndex;
-                if(selectedIndex == 0 && ks.IsKeyDown(Keys.Enter))
-                {
+                if (selectedIndex == 0 && ks.IsKeyDown(Keys.Enter)) {
                     HideAllScenes();
                     playScene.Show(true);
                 }
@@ -118,12 +116,8 @@ namespace Prog2370_Final {
             base.Draw(gameTime);
         }
 
-        private void HideAllScenes()
-        {
-            foreach (GameScene item in this.Components)
-            {
-                item.Show(false);
-            }
+        private void HideAllScenes() {
+            foreach (GameScene item in Components) item.Show(false);
         }
     }
 }
