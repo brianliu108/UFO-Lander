@@ -93,12 +93,14 @@ namespace Prog2370_Final {
         public Terrain NewAdjacentRight() {
             var ter = Clone();
             ter.seed += (float) (PI * ter.period);
+            ter.Generate();
             return ter;
         }
 
         public Terrain NewAdjacentLeft() {
             var ter = Clone();
             ter.seed -= (float) (PI * ter.period);
+            ter.Generate();
             return ter;
         }
     }
