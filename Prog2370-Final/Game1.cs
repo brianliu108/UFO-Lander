@@ -11,7 +11,7 @@ namespace Prog2370_Final {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private VectorImage star;
-
+        private KeyboardState oldState;
 
         private readonly Color
             DARK_RED = new Color(60, 44, 49);
@@ -85,7 +85,17 @@ namespace Prog2370_Final {
         protected override void Update(GameTime gameTime) {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            {
+                if (playScene.Enabled)
+                {
+                    HideAllScenes();
+                    startScene.Show(true);
+                }
+                else
+                {
+                    Exit();
+                }
+            }
 
             // TODO: Add your update logic here
 
@@ -94,11 +104,18 @@ namespace Prog2370_Final {
 
             if (startScene.Enabled) {
                 selectedIndex = startScene.Menu.SelectedIndex;
-                if (selectedIndex == 0 && ks.IsKeyDown(Keys.Enter)) {
+                if (selectedIndex == 0 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
+                {
                     HideAllScenes();
                     playScene.Show(true);
                 }
+                else if (selectedIndex == 1 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
+                {
+                    HideAllScenes();
+                }
+
             }
+            oldState = ks;
 
             base.Update(gameTime);
         }
