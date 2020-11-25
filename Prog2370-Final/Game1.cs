@@ -83,8 +83,7 @@ namespace Prog2370_Final {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape))
             {
                 if (playScene.Enabled)
                 {
@@ -112,6 +111,7 @@ namespace Prog2370_Final {
                 else if (selectedIndex == 1 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
                 {
                     HideAllScenes();
+                    System.Console.WriteLine("test");
                 }
 
             }
