@@ -1,5 +1,8 @@
-﻿using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static System.Math;
@@ -31,7 +34,7 @@ namespace Prog2370_Final {
         /// <param name="color">The color of the lines.</param>
         /// <param name="offset">The offset from the drawn origin/</param>
         public Terrain(Game game, SpriteBatch spriteBatch,
-            float domain, float range,int samples,  float period, float seed, Color color, Vector2 offset)
+            float domain, float range, int samples, float period, float seed, Color color, Vector2 offset)
             : base(game) {
             this.game = game;
             this.spriteBatch = spriteBatch;
@@ -41,18 +44,27 @@ namespace Prog2370_Final {
             this.period = period;
             this.seed = seed;
             this.color = color;
-            this.offset = offset;
+            this.Offset = offset;
             Generate();
+        }
+
+        public Vector2 Offset {
+            get => offset;
+            set {
+                offset = value;
+                if (terrain != null)
+                    terrain.offset = value;
+            }
         }
 
         /// <summary>
         /// Generates the vectors that form the terrain.
         /// </summary>
         public void Generate() {
-            Vector2[] vertices = new Vector2[samples];
-            for (float i = 0, x = 0; i < samples; i++, x = period * (float) PI * i / samples + seed)
+            Vector2[] vertices = new Vector2[samples + 1];
+            for (float i = 0, x = seed; i <= samples; i++, x = period * (float) PI * i / samples + seed)
                 vertices[(int) i] = new Vector2(
-                    domain * i / (samples - 1),
+                    domain * i / samples,
                     range * -(float) (Cos(.95 * x)
                                       - Cos(2.11 * (x - PI / 2)) / 2
                                       + Cos(11 * x) / 7
@@ -62,8 +74,12 @@ namespace Prog2370_Final {
                                       - Cos(17 * x) / 13
                                       + Cos(34 * x) / 13));
             terrain = new VectorImage(game, spriteBatch, vertices, 4, new Color(130, 52, 65)) {
-                offset = offset
+                offset = Offset
             };
+        }
+
+        public Terrain Clone() {
+            return new Terrain(game, spriteBatch, domain, range, samples, period, seed, color, offset);
         }
 
         /// <summary>
@@ -72,6 +88,18 @@ namespace Prog2370_Final {
         /// <param name="gameTime">Unused.</param>
         public override void Draw(GameTime gameTime) {
             terrain.Draw(gameTime);
+        }
+
+        public Terrain NewAdjacentRight() {
+            Terrain ter = this.Clone();
+            ter.seed -= (float) (PI * ter.period);
+            return ter;
+        }
+
+        public Terrain NewAdjacentLeft() {
+            Terrain ter = this.Clone();
+            ter.seed += (float) (PI * ter.period);
+            return ter;
         }
     }
 }
