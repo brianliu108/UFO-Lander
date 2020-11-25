@@ -12,10 +12,10 @@ namespace Prog2370_Final {
     public class CollisionManager : GameComponent {
         private Terrain terrain;
         private UFO ufo;
+        private GasCan gasCan;
         private SoundEffect crash;
         private SoundEffect land;
         private SoundEffect gas;
-
 
         public CollisionManager(Game game,
             Terrain terrain,

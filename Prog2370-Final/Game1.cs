@@ -46,6 +46,9 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+
+
             startScene = new StartScene(this, spriteBatch);
             Components.Add(startScene);
             startScene.Show(true);
@@ -112,6 +115,10 @@ namespace Prog2370_Final {
                 {
                     HideAllScenes();
                     System.Console.WriteLine("test");
+                }
+                else if (selectedIndex == 2 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
+                {
+                    Exit();
                 }
 
             }
