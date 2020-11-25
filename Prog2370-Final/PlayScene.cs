@@ -18,11 +18,11 @@ namespace Prog2370_Final {
 
             var tempTerrain = new Terrain(
                 Game, spriteBatch,
-                GraphicsDevice.Viewport.Bounds.Width / 5f, 50,
+                GraphicsDevice.Viewport.Bounds.Width / 3f, 50,
                 80, 1, 0,
                 ColourSchemes.normRed, new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f));
 
-            terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 2, 2);
+            terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 3, 3);
 
             Components.Add(terrain);
         }

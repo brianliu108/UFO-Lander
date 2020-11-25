@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Prog2370_Final {
     public class InfiniteTerrain : DrawableGameComponent {
@@ -11,10 +12,7 @@ namespace Prog2370_Final {
         public InfiniteTerrain(Game game, SpriteBatch spriteBatch, Terrain terrain, int trimLength, int genLenth)
             : base(game) {
             this.spriteBatch = spriteBatch;
-            data = new ShortTerrainDeQueue(terrain, trimLength, genLenth);
-            data.MoveRight();
-            data.MoveRight();
-            data.MoveRight();
+            data = new ShortTerrainDeQueue(terrain, trimLength, genLenth, GraphicsDevice.Viewport.Bounds.Width / 2f);
         }
 
         public override void Draw(GameTime gameTime) {
@@ -22,11 +20,16 @@ namespace Prog2370_Final {
         }
 
         public override void Update(GameTime gameTime) {
-            data.mainOffset -= 2; //TODO remove this debug line eventually
-            if ((int) data.mainOffset / (int) data.Domain > data.integerOffset) {
+            KeyboardState ks = Keyboard.GetState();
+            if (ks.IsKeyDown(Keys.Right))
+                data.terrainOffset -= 5; //TODO remove this debug line eventually
+            if (ks.IsKeyDown(Keys.Left))
+                data.terrainOffset += 5; //TODO remove this debug line eventually
+            
+            if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain > data.integerOffset) {
                 data.integerOffset++;
                 data.MoveLeft();
-            } else if ((int) data.mainOffset / (int) data.Domain < data.integerOffset) {
+            } else if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain < data.integerOffset) {
                 data.integerOffset--;
                 data.MoveRight();
             }
@@ -36,16 +39,18 @@ namespace Prog2370_Final {
             private TdqNode center;
             private int genLength;
             private int trimLength;
-            public float mainOffset = 0;
-            public int integerOffset = 0;
+            public float terrainOffset; // The location in the infinite terrain
+            public readonly float drawOffset; // The draw position of the infinite terrain
+            public int integerOffset = 0; // which `chunk` are we currently in
 
             public float Domain => center.terrain.domain;
 
-            public ShortTerrainDeQueue(Terrain startingTerrain, int trimLength, int genLength) {
+            public ShortTerrainDeQueue(Terrain startingTerrain, int trimLength, int genLength, float drawOffset) {
                 this.trimLength = trimLength;
                 this.genLength = genLength;
                 center = new TdqNode(this, startingTerrain, null, null);
-                mainOffset = 0;
+                terrainOffset = 0;
+                this.drawOffset = drawOffset;
                 GenLeft();
                 GenRight();
             }
@@ -56,7 +61,8 @@ namespace Prog2370_Final {
                 while (current.right != null) current = current.right;
                 do {
                     var tempTerrain = current.terrain;
-                    tempTerrain.Offset = new Vector2(mainOffset + current.offsetFromMain, tempTerrain.Offset.Y);
+                    tempTerrain.Offset = new Vector2(drawOffset + terrainOffset + current.offsetFromMain,
+                        tempTerrain.Offset.Y);
                     terrains.Add(tempTerrain);
                     current = current.left;
                 } while (current != null);
@@ -117,13 +123,11 @@ namespace Prog2370_Final {
             }
 
             private class TdqNode {
-                private readonly ShortTerrainDeQueue owner;
                 public TdqNode right, left;
                 public Terrain terrain;
                 public float offsetFromMain;
 
                 public TdqNode(ShortTerrainDeQueue owner, Terrain terrain, TdqNode right, TdqNode left) {
-                    this.owner = owner;
                     this.terrain = terrain;
                     if (right == null && left == null) {
                         offsetFromMain = 0;
