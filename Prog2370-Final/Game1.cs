@@ -46,8 +46,9 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
-
+            Texture2D gasCanTex = this.Content.Load<Texture2D>("Images/gascan");
+            GasCan gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(15, 15));
+            this.Components.Add(gasCan);
 
             startScene = new StartScene(this, spriteBatch);
             Components.Add(startScene);

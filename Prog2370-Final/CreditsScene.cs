@@ -18,8 +18,7 @@ namespace Prog2370_Final
         {
             this.spriteBatch = spriteBatch;
             this.credits = credits; 
-            
-                       
+                                   
         }
     }
 }
