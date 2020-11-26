@@ -59,7 +59,7 @@ namespace Prog2370_Final {
             startScene = new StartScene(this, spriteBatch);
             Components.Add(startScene);
             SimpleString title = new SimpleString(this, spriteBatch, titleFont, new Vector2(graphics.PreferredBackBufferWidth, 100), "Cool Title", ColourSchemes.boldColour);
-            this.Components.Add(title);
+            startScene.Components.Add(title);
             startScene.Show(true);
             
             // Add playScene components
