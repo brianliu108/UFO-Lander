@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Prog2370_Final.Drawable;
 
 namespace Prog2370_Final.Scenes {
     public class CreditsScene : Scene {

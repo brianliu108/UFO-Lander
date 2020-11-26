@@ -2,7 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Prog2370_Final.Scenes;
-using Prog2370_Final.Sprites;
+using Prog2370_Final.Drawable;
+using Prog2370_Final.Drawable.Sprites;
 using static System.Math;
 
 namespace Prog2370_Final {
