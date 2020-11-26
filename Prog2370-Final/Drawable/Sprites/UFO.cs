@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Prog2370_Final.Sprites {
+namespace Prog2370_Final.Drawable.Sprites {
     public class UFO : DrawableGameComponent {
         private SpriteBatch spriteBatch;
         private Texture2D tex;

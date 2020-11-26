@@ -46,19 +46,19 @@
     <Compile Include="Scenes\CreditsScene.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Scenes\Scene.cs" />
-    <Compile Include="Sprites\GasCan.cs" />
+    <Compile Include="Drawable\Sprites\GasCan.cs" />
     <Compile Include="ICollidable.cs" />
-    <Compile Include="InfiniteTerrain.cs" />
-    <Compile Include="MenuComponent.cs" />
+    <Compile Include="Drawable\InfiniteTerrain.cs" />
+    <Compile Include="Drawable\MenuComponent.cs" />
     <Compile Include="Scenes\GameScene.cs" />
     <Compile Include="Shared.cs" />
-    <Compile Include="SimpleString.cs" />
+    <Compile Include="Drawable\SimpleString.cs" />
     <Compile Include="Scenes\StartScene.cs" />
-    <Compile Include="Sprites\UFO.cs" />
-    <Compile Include="VectorImage.cs" />
+    <Compile Include="Drawable\Sprites\UFO.cs" />
+    <Compile Include="Drawable\VectorImage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Terrain.cs" />
+    <Compile Include="Drawable\Terrain.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Prog2370_Final {
+namespace Prog2370_Final.Drawable {
     public class MenuComponent : DrawableGameComponent {
         private SpriteBatch spriteBatch;
         private SpriteFont regularFont;

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static System.Math;
 
-namespace Prog2370_Final {
+namespace Prog2370_Final.Drawable {
     public class Terrain : DrawableGameComponent {
         private Game game;
         private SpriteBatch spriteBatch;

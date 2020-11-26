@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Prog2370_Final {
+namespace Prog2370_Final.Drawable {
     internal class SimpleString : DrawableGameComponent {
         private SpriteBatch spriteBatch;
 

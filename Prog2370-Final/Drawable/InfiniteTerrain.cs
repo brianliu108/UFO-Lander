@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Prog2370_Final {
+namespace Prog2370_Final.Drawable {
     public class InfiniteTerrain : DrawableGameComponent {
         private ShortTerrainDeQueue data;
         private SpriteBatch spriteBatch;
