@@ -16,19 +16,12 @@ namespace Prog2370_Final.Drawable {
         }
 
         public override void Draw(GameTime gameTime) {
-            var msg = "";
-            foreach (var terrain in data.AsTerrainList()) {
-                msg += (float) (terrain.seed / Math.PI) + " ";
-                terrain.Draw(gameTime);
-            }
+            foreach (var terrain in data.AsTerrainList()) terrain.Draw(gameTime);
         }
 
         public override void Update(GameTime gameTime) {
-            var ks = Keyboard.GetState();
-            if (ks.IsKeyDown(Keys.Right))
-                data.terrainOffset -= 5; //TODO remove this debug line eventually
-            if (ks.IsKeyDown(Keys.Left))
-                data.terrainOffset += 5; //TODO remove this debug line eventually
+            // data.terrainOffset -= 5; // Terrain moves left
+            // data.terrainOffset += 5; // Terrain moves right
 
             if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain > data.integerOffset) {
                 data.integerOffset++;
