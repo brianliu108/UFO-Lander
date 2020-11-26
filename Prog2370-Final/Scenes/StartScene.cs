@@ -16,6 +16,8 @@ namespace Prog2370_Final.Scenes {
                 menuItems);
 
             Components.Add(menu);
+
+            LoadContent();
         }
 
         public MenuComponent Menu {
