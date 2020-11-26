@@ -90,7 +90,7 @@ namespace Prog2370_Final {
                     new Vector2(95.1057f, -30.9017f),
                     new Vector2(-58.7785f, 80.9017f),
                     new Vector2(0, -100)
-                }, 2, new Color(130, 52, 65)) {
+                }, 2, ColourSchemes.pink) {
                 offset = new Vector2(200, 200),
                 scale = new Vector2(0.15f, 0.15f)
             };

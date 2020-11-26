@@ -73,7 +73,7 @@ namespace Prog2370_Final {
                                       + Cos(x / 3) / 2
                                       - Cos(17 * x) / 13
                                       + Cos(34 * x) / 13));
-            terrain = new VectorImage(game, spriteBatch, vertices, 4, new Color(130, 52, 65)) {
+            terrain = new VectorImage(game, spriteBatch, vertices, 4, color) {
                 offset = Offset
             };
         }

@@ -32,8 +32,11 @@ namespace Prog2370_Final {
             menuItems = new List<string>();
 
             menuItems = menus.ToList();
-
-            position = new Vector2(Shared.stage.X / 2, Shared.stage.Y / 2);
+            float maxWidth = 0;
+            foreach (string s in menus) maxWidth = Math.Max(maxWidth, boldFont.MeasureString(s).X);
+            float maxHeight = boldFont.MeasureString("A").Y + 
+                              regularFont.MeasureString("A").Y * (menus.Length - 1);
+            position = new Vector2((Shared.stage.X - maxWidth) / 2, (Shared.stage.Y - maxHeight) / 2);
         }
 
         public int SelectedIndex {
