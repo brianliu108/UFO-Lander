@@ -51,35 +51,20 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            var gasCanTex = Content.Load<Texture2D>("Images/gascan");
-            var ufoThrust = Content.Load<Texture2D>("Images/UFOThrust");
-
-            // Loading SpriteFonts
-            var boldFont = Content.Load<SpriteFont>("Fonts/BoldFont");
-            var titleFont = Content.Load<SpriteFont>("Fonts/TitleFont");
-
-            // Add startScene components
+                                                          
+            // Add startScene
             startScene = new StartScene(this, spriteBatch);
-            Components.Add(startScene);
-            var title = new SimpleString(this, spriteBatch, titleFont,
-                new Vector2(graphics.PreferredBackBufferWidth, 100), "Cool Title", ColourSchemes.boldColour);
-            startScene.Components.Add(title);
+            Components.Add(startScene);            
             startScene.Show(true);
 
-            // Add playScene components
+            // Add playScene
             playScene = new GameScene(this, spriteBatch);
-            Components.Add(playScene);
-            var gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(200, 200));
-            playScene.Components.Add(gasCan);
+            Components.Add(playScene);            
             playScene.Show(false);
 
-            // Add creditsScene components
+            // Add creditsScene 
             creditsScene = new CreditsScene(this, spriteBatch);
-            Components.Add(creditsScene);
-
-            creditsString = new SimpleString(this, spriteBatch, boldFont, new Vector2(220, 220),
-                "Made By:\nTim Skibik\nBrian Liu", ColourSchemes.boldColour);
-            creditsScene.Components.Add(creditsString);
+            Components.Add(creditsScene);            
             creditsScene.Show(false);
 
             star = new VectorImage(this, spriteBatch,

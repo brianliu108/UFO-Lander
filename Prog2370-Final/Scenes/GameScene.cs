@@ -20,5 +20,11 @@ namespace Prog2370_Final.Scenes {
 
             Components.Add(terrain);
         }
+
+        protected override void LoadContent()
+        {
+            //var gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(200, 200));
+            //this.Components.Add(gasCan);
+        }
     }
 }
