@@ -49,6 +49,7 @@ namespace Prog2370_Final {
 
             // TODO: use this.Content to load your game content here
             Texture2D gasCanTex = this.Content.Load<Texture2D>("Images/gascan");
+            Texture2D ufoThrust = this.Content.Load<Texture2D>("Images/UFOThrust");
 
             // Loading SpriteFonts
             SpriteFont boldFont = this.Content.Load<SpriteFont>("Fonts/BoldFont");
@@ -58,7 +59,7 @@ namespace Prog2370_Final {
             startScene = new StartScene(this, spriteBatch);
             Components.Add(startScene);
             SimpleString title = new SimpleString(this, spriteBatch, titleFont, new Vector2(graphics.PreferredBackBufferWidth, 100), "Cool Title", ColourSchemes.boldColour);
-            startScene.Components.Add(title);
+            this.Components.Add(title);
             startScene.Show(true);
             
             // Add playScene components
