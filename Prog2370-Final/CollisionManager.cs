@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using Prog2370_Final.Sprites;
 
 namespace Prog2370_Final {
     public class CollisionManager : GameComponent {

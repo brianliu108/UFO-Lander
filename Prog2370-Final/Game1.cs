@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Prog2370_Final.Scenes;
+using Prog2370_Final.Sprites;
 using static System.Math;
 
 namespace Prog2370_Final {
@@ -19,8 +21,9 @@ namespace Prog2370_Final {
         private StartScene startScene;
         private PlayScene playScene;
         private CreditsScene creditsScene;
-        
+
         private SimpleString creditsString;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -48,31 +51,32 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            Texture2D gasCanTex = this.Content.Load<Texture2D>("Images/gascan");
-            Texture2D ufoThrust = this.Content.Load<Texture2D>("Images/UFOThrust");
+            var gasCanTex = Content.Load<Texture2D>("Images/gascan");
+            var ufoThrust = Content.Load<Texture2D>("Images/UFOThrust");
 
             // Loading SpriteFonts
-            SpriteFont boldFont = this.Content.Load<SpriteFont>("Fonts/BoldFont");
-            SpriteFont titleFont = this.Content.Load<SpriteFont>("Fonts/TitleFont");
-                       
+            var boldFont = Content.Load<SpriteFont>("Fonts/BoldFont");
+            var titleFont = Content.Load<SpriteFont>("Fonts/TitleFont");
+
             // Add startScene components
             startScene = new StartScene(this, spriteBatch);
             Components.Add(startScene);
-            SimpleString title = new SimpleString(this, spriteBatch, titleFont, new Vector2(graphics.PreferredBackBufferWidth, 100), "Cool Title", ColourSchemes.boldColour);
+            var title = new SimpleString(this, spriteBatch, titleFont,
+                new Vector2(graphics.PreferredBackBufferWidth, 100), "Cool Title", ColourSchemes.boldColour);
             startScene.Components.Add(title);
             startScene.Show(true);
-            
+
             // Add playScene components
             playScene = new PlayScene(this, spriteBatch);
-            Components.Add(playScene);            
-            GasCan gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(200,200));
+            Components.Add(playScene);
+            var gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(200, 200));
             playScene.Components.Add(gasCan);
             playScene.Show(false);
 
-            /// Add creditsScene components
+            // Add creditsScene components
             creditsScene = new CreditsScene(this, spriteBatch);
-            this.Components.Add(creditsScene);
-            
+            Components.Add(creditsScene);
+
             creditsString = new SimpleString(this, spriteBatch, boldFont, new Vector2(220, 220),
                 "Made By:\nTim Skibik\nBrian Liu", ColourSchemes.boldColour);
             creditsScene.Components.Add(creditsString);
@@ -106,15 +110,11 @@ namespace Prog2370_Final {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape))
-            {
-                if (playScene.Enabled || creditsScene.Enabled)
-                {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape)) {
+                if (playScene.Enabled || creditsScene.Enabled) {
                     HideAllScenes();
                     startScene.Show(true);
-                }
-                else
-                {
+                } else {
                     Exit();
                 }
             }
@@ -126,21 +126,15 @@ namespace Prog2370_Final {
 
             if (startScene.Enabled) {
                 selectedIndex = startScene.Menu.SelectedIndex;
-                if (selectedIndex == 0 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
-                {
+                if (selectedIndex == 0 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
                     HideAllScenes();
                     playScene.Show(true);
-                }
-                else if (selectedIndex == 1 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
-                {
+                } else if (selectedIndex == 1 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
                     HideAllScenes();
                     creditsScene.Show(true);
-                }
-                else if (selectedIndex == 2 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
-                {
+                } else if (selectedIndex == 2 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
                     Exit();
                 }
-
             }
             oldState = ks;
 
@@ -157,7 +151,7 @@ namespace Prog2370_Final {
             // TODO: Add your drawing code here
 
             star.Draw(gameTime);
-            
+
             base.Draw(gameTime);
         }
 

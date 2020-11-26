@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
-namespace Prog2370_Final {
+namespace Prog2370_Final.Sprites {
     public class UFO : DrawableGameComponent {
         private SpriteBatch spriteBatch;
         private Texture2D tex;
@@ -23,6 +17,9 @@ namespace Prog2370_Final {
             this.position = position;
         }
 
-        public Texture2D Tex { get => tex; set => tex = value; }
+        public Texture2D Tex {
+            get => tex;
+            set => tex = value;
+        }
     }
 }

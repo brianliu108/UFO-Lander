@@ -16,21 +16,20 @@ namespace Prog2370_Final {
         }
 
         public override void Draw(GameTime gameTime) {
-            String msg = "";
+            var msg = "";
             foreach (var terrain in data.AsTerrainList()) {
-                msg += (float)(terrain.seed / Math.PI) + " ";
+                msg += (float) (terrain.seed / Math.PI) + " ";
                 terrain.Draw(gameTime);
             }
-            
         }
 
         public override void Update(GameTime gameTime) {
-            KeyboardState ks = Keyboard.GetState();
+            var ks = Keyboard.GetState();
             if (ks.IsKeyDown(Keys.Right))
                 data.terrainOffset -= 5; //TODO remove this debug line eventually
             if (ks.IsKeyDown(Keys.Left))
                 data.terrainOffset += 5; //TODO remove this debug line eventually
-            
+
             if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain > data.integerOffset) {
                 data.integerOffset++;
                 data.MoveLeft();
