@@ -5,6 +5,7 @@ using Prog2370_Final.Scenes;
 using Prog2370_Final.Drawable;
 using Prog2370_Final.Drawable.Sprites;
 using static System.Math;
+using Prog2370_Final;
 
 namespace Prog2370_Final {
     /// <summary>
@@ -53,6 +54,7 @@ namespace Prog2370_Final {
             // TODO: use this.Content to load your game content here
 
             _resources = new Resources(this);
+
             // Add startScene
             startScene = new StartScene(this, spriteBatch);
             Components.Add(startScene);

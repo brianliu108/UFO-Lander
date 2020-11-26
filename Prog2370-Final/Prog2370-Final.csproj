@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>UFO.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -72,6 +72,7 @@
     <Content Include="Content\Fonts\BoldFont.spritefont" />
     <Content Include="Content\Fonts\RegularFont.spritefont" />
     <Content Include="Icon.ico" />
+    <Content Include="UFO.ico" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
