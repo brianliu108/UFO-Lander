@@ -18,7 +18,10 @@ namespace Prog2370_Final {
 
         private StartScene startScene;
         private PlayScene playScene;
+        private CreditsScene creditsScene;
 
+        private SpriteFont boldFont;
+        private SimpleString creditsString;
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -47,8 +50,11 @@ namespace Prog2370_Final {
 
             // TODO: use this.Content to load your game content here
             Texture2D gasCanTex = this.Content.Load<Texture2D>("Images/gascan");
-            GasCan gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(15, 15));
-            this.Components.Add(gasCan);
+
+            // Add SimpleString to creditsScene
+            boldFont = this.Content.Load<SpriteFont>("Fonts/BoldFont");
+            creditsString = new SimpleString(this,spriteBatch, boldFont, new Vector2(220,220), "Made By:\nTim Skibik\nBrian Liu", ColourSchemes.boldColour);
+            
 
             startScene = new StartScene(this, spriteBatch);
             Components.Add(startScene);
@@ -57,8 +63,16 @@ namespace Prog2370_Final {
             playScene = new PlayScene(this, spriteBatch);
             Components.Add(playScene);
             playScene.Show(false);
+            GasCan gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(200,200));
+            playScene.Components.Add(gasCan);
 
 
+            creditsScene = new CreditsScene(this, spriteBatch);
+            this.Components.Add(creditsScene);
+            creditsScene.Show(false);
+
+            creditsScene.Components.Add(creditsString);
+            
             star = new VectorImage(this, spriteBatch,
                 new[] {
                     new Vector2(0, -100),
@@ -89,7 +103,7 @@ namespace Prog2370_Final {
         protected override void Update(GameTime gameTime) {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape))
             {
-                if (playScene.Enabled)
+                if (playScene.Enabled || creditsScene.Enabled)
                 {
                     HideAllScenes();
                     startScene.Show(true);
@@ -115,7 +129,7 @@ namespace Prog2370_Final {
                 else if (selectedIndex == 1 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
                 {
                     HideAllScenes();
-                    System.Console.WriteLine("test");
+                    creditsScene.Show(true);
                 }
                 else if (selectedIndex == 2 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
                 {
@@ -138,6 +152,7 @@ namespace Prog2370_Final {
             // TODO: Add your drawing code here
 
             star.Draw(gameTime);
+            
             base.Draw(gameTime);
         }
 

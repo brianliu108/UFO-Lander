@@ -19,6 +19,7 @@ namespace Prog2370_Final {
 
         public CollisionManager(Game game,
             Terrain terrain,
+            GasCan gasCan,
             UFO ufo,
             SoundEffect crash,
             SoundEffect land,

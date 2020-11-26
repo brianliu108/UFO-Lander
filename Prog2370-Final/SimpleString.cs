@@ -17,12 +17,14 @@ namespace Prog2370_Final
         private Vector2 position;
         private String message;
         private Color color;
-        public SimpleString(Game game,
+        public SimpleString(Game game, 
+            SpriteBatch spriteBatch,
             SpriteFont spriteFont,
             Vector2 position,
             String message,
             Color color) : base(game)
         {
+            this.spriteBatch = spriteBatch;
             this.spriteFont = spriteFont;
             this.position = position;
             this.message = message;
@@ -36,7 +38,6 @@ namespace Prog2370_Final
             spriteBatch.DrawString(spriteFont, message, position, color);
 
             spriteBatch.End();
-            base.Draw(gameTime);
         }
 
         public override void Update(GameTime gameTime) { }

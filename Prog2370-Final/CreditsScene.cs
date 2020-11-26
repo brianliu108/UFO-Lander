@@ -12,13 +12,14 @@ namespace Prog2370_Final
     public class CreditsScene : GameScene
     {
         private SpriteBatch spriteBatch;
-        private string credits;
+        private SimpleString sS;
+        
 
-        public CreditsScene(Game game, SpriteBatch spriteBatch, string credits) : base(game)
+        public CreditsScene(Game game, SpriteBatch spriteBatch) : base(game)
         {
-            this.spriteBatch = spriteBatch;
-            this.credits = credits; 
-                                   
+            this.spriteBatch = spriteBatch;                                               
         }
+
+        
     }
 }

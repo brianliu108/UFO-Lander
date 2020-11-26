@@ -13,7 +13,8 @@ namespace Prog2370_Final
     {
         private SpriteBatch spriteBatch;
         private Texture2D tex;
-        private Rectangle size;        
+        private Rectangle position;    
+        
 
         public GasCan(Game game,
             SpriteBatch spriteBatch,
@@ -22,7 +23,7 @@ namespace Prog2370_Final
         {
             this.spriteBatch = spriteBatch;
             this.tex = tex;
-            this.size = new Rectangle((int)(position.X),(int)(position.Y), tex.Width/2,tex.Height/2);
+            this.position = new Rectangle((int)(position.X),(int)(position.Y), tex.Width/2,tex.Height/2);
         }
 
         public void Show(bool enable)
@@ -43,7 +44,7 @@ namespace Prog2370_Final
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(tex,size,Color.White);
+            spriteBatch.Draw(tex, position, Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -53,6 +54,9 @@ namespace Prog2370_Final
         {
             base.Update(gameTime);
         }
-       
     }
+
+    
+
+        
 }
