@@ -19,7 +19,7 @@ namespace Prog2370_Final {
             DARK_RED = new Color(60, 44, 49);
 
         private StartScene startScene;
-        private PlayScene playScene;
+        private GameScene playScene;
         private CreditsScene creditsScene;
 
         private SimpleString creditsString;
@@ -67,7 +67,7 @@ namespace Prog2370_Final {
             startScene.Show(true);
 
             // Add playScene components
-            playScene = new PlayScene(this, spriteBatch);
+            playScene = new GameScene(this, spriteBatch);
             Components.Add(playScene);
             var gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(200, 200));
             playScene.Components.Add(gasCan);
@@ -156,7 +156,7 @@ namespace Prog2370_Final {
         }
 
         private void HideAllScenes() {
-            foreach (GameScene item in Components) item.Show(false);
+            foreach (Scene item in Components) item.Show(false);
         }
     }
 }

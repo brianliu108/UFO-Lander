@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Scenes {
-    internal class StartScene : GameScene {
+    internal class StartScene : Scene {
         private MenuComponent menu;
         private SpriteBatch spriteBatch;
         private string[] menuItems = {"Start", "Credits", "Exit"};

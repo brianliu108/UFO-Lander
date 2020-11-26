@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Scenes {
-    public class CreditsScene : GameScene {
+    public class CreditsScene : Scene {
         private SpriteBatch spriteBatch;
         private SimpleString sS;
 
