@@ -19,8 +19,7 @@ namespace Prog2370_Final {
         private StartScene startScene;
         private PlayScene playScene;
         private CreditsScene creditsScene;
-
-        private SpriteFont boldFont;
+        
         private SimpleString creditsString;
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -51,28 +50,33 @@ namespace Prog2370_Final {
             // TODO: use this.Content to load your game content here
             Texture2D gasCanTex = this.Content.Load<Texture2D>("Images/gascan");
 
-            // Add SimpleString to creditsScene
-            boldFont = this.Content.Load<SpriteFont>("Fonts/BoldFont");
-            creditsString = new SimpleString(this,spriteBatch, boldFont, new Vector2(220,220), "Made By:\nTim Skibik\nBrian Liu", ColourSchemes.boldColour);
-            
-
+            // Loading SpriteFonts
+            SpriteFont boldFont = this.Content.Load<SpriteFont>("Fonts/BoldFont");
+            SpriteFont titleFont = this.Content.Load<SpriteFont>("Fonts/TitleFont");
+                       
+            // Add startScene components
             startScene = new StartScene(this, spriteBatch);
             Components.Add(startScene);
+            SimpleString title = new SimpleString(this, spriteBatch, titleFont, new Vector2(graphics.PreferredBackBufferWidth, 100), "Cool Title", ColourSchemes.boldColour);
+            startScene.Components.Add(title);
             startScene.Show(true);
-
+            
+            // Add playScene components
             playScene = new PlayScene(this, spriteBatch);
-            Components.Add(playScene);
-            playScene.Show(false);
+            Components.Add(playScene);            
             GasCan gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(200,200));
             playScene.Components.Add(gasCan);
+            playScene.Show(false);
 
-
+            /// Add creditsScene components
             creditsScene = new CreditsScene(this, spriteBatch);
             this.Components.Add(creditsScene);
+            
+            creditsString = new SimpleString(this, spriteBatch, boldFont, new Vector2(220, 220),
+                "Made By:\nTim Skibik\nBrian Liu", ColourSchemes.boldColour);
+            creditsScene.Components.Add(creditsString);
             creditsScene.Show(false);
 
-            creditsScene.Components.Add(creditsString);
-            
             star = new VectorImage(this, spriteBatch,
                 new[] {
                     new Vector2(0, -100),
