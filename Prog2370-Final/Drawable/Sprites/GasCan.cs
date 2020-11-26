@@ -43,9 +43,8 @@ namespace Prog2370_Final.Drawable.Sprites {
             base.Update(gameTime);
         }
 
-        protected override void LoadContent()
-        {
-            var gasCanTex = Game.Content.Load<Texture2D>("Images/gascan");
+        protected override void LoadContent() {
+            tex = ((Game1) Game).Resources.GasCan;
         }
     }
 }

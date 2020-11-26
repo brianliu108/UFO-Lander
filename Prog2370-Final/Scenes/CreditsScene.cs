@@ -10,15 +10,14 @@ namespace Prog2370_Final.Scenes {
 
         public CreditsScene(Game game, SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
+            LoadContent();
         }
 
-        protected override void LoadContent()
-        {
-            var boldFont = Game.Content.Load<SpriteFont>("Fonts/BoldFont");
-
-            SimpleString creditsString = new SimpleString(Game, spriteBatch, boldFont, new Vector2(220, 220),
+        protected override void LoadContent() {
+            SimpleString creditsString = new SimpleString(Game, spriteBatch, ((Game1) Game).Resources.BoldFont,
+                new Vector2(220, 220),
                 "Made By:\nTim Skibik\nBrian Liu", ColourSchemes.boldColour);
-             this.Components.Add(creditsString);
+            this.Components.Add(creditsString);
         }
     }
 }

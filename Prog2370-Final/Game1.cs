@@ -13,6 +13,7 @@ namespace Prog2370_Final {
     public class Game1 : Game {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private Resources _resources;
         private VectorImage star;
         private KeyboardState oldState;
 
@@ -24,6 +25,8 @@ namespace Prog2370_Final {
         private CreditsScene creditsScene;
 
         private SimpleString creditsString;
+
+        public Resources Resources => _resources;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -52,20 +55,21 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-                                                          
+
+            _resources = new Resources(this);
             // Add startScene
             startScene = new StartScene(this, spriteBatch);
-            Components.Add(startScene);            
+            Components.Add(startScene);
             startScene.Show(true);
 
             // Add playScene
             playScene = new GameScene(this, spriteBatch);
-            Components.Add(playScene);            
+            Components.Add(playScene);
             playScene.Show(false);
 
             // Add creditsScene 
             creditsScene = new CreditsScene(this, spriteBatch);
-            Components.Add(creditsScene);            
+            Components.Add(creditsScene);
             creditsScene.Show(false);
 
             star = new VectorImage(this, spriteBatch,

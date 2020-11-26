@@ -11,7 +11,7 @@ namespace Prog2370_Final.Scenes {
         public StartScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
-            menu = new MenuComponent(game, spriteBatch, game.Content.Load<SpriteFont>("Fonts/RegularFont"),
+            menu = new MenuComponent(game, spriteBatch, ((Game1) Game).Resources.RegularFont,
                 game.Content.Load<SpriteFont>("Fonts/BoldFont"),
                 menuItems);
 
@@ -25,9 +25,7 @@ namespace Prog2370_Final.Scenes {
 
         protected override void LoadContent()
         {
-            var titleFont = Game.Content.Load<SpriteFont>("Fonts/TitleFont");
-
-            var title = new SimpleString(Game, spriteBatch, titleFont,
+            var title = new SimpleString(Game, spriteBatch, ((Game1)Game).Resources.TitleFont,
                 new Vector2(100, 100), "Cool Title", ColourSchemes.boldColour);
             this.Components.Add(title);
 
