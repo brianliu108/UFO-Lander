@@ -43,16 +43,16 @@
   <ItemGroup>
     <Compile Include="CollisionManager.cs" />
     <Compile Include="ColourSchemes.cs" />
-    <Compile Include="CreditsScene.cs" />
+    <Compile Include="Scenes\CreditsScene.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameScene.cs" />
+    <Compile Include="Scenes\GameScene.cs" />
     <Compile Include="GasCan.cs" />
     <Compile Include="InfiniteTerrain.cs" />
     <Compile Include="MenuComponent.cs" />
-    <Compile Include="PlayScene.cs" />
+    <Compile Include="Scenes\PlayScene.cs" />
     <Compile Include="Shared.cs" />
     <Compile Include="SimpleString.cs" />
-    <Compile Include="StartScene.cs" />
+    <Compile Include="Scenes\StartScene.cs" />
     <Compile Include="UFO.cs" />
     <Compile Include="VectorImage.cs" />
     <Compile Include="Program.cs" />

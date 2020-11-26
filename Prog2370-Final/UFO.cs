@@ -22,5 +22,7 @@ namespace Prog2370_Final {
             this.tex = tex;
             this.position = position;
         }
+
+        public Texture2D Tex { get => tex; set => tex = value; }
     }
 }
