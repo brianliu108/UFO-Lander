@@ -11,6 +11,7 @@ namespace Prog2370_Final {
         public readonly Texture2D
             UFO, UFO_thrust,
             GasCan;
+        
 
         public Resources(Game game) {
             RegularFont = game.Content.Load<SpriteFont>("Fonts/RegularFont");

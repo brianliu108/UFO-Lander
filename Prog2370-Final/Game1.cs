@@ -14,11 +14,7 @@ namespace Prog2370_Final {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private Resources _resources;
-        private VectorImage star;
         private KeyboardState oldState;
-
-        private readonly Color
-            DARK_RED = new Color(60, 44, 49);
 
         private StartScene startScene;
         private GameScene playScene;
@@ -72,18 +68,7 @@ namespace Prog2370_Final {
             Components.Add(creditsScene);
             creditsScene.Show(false);
 
-            star = new VectorImage(this, spriteBatch,
-                new[] {
-                    new Vector2(0, -100),
-                    new Vector2(58.7785f, 80.9017f),
-                    new Vector2(-95.1057f, -30.9017f),
-                    new Vector2(95.1057f, -30.9017f),
-                    new Vector2(-58.7785f, 80.9017f),
-                    new Vector2(0, -100)
-                }, 2, ColourSchemes.pink) {
-                offset = new Vector2(200, 200),
-                scale = new Vector2(0.15f, 0.15f)
-            };
+
         }
 
         /// <summary>
@@ -136,11 +121,10 @@ namespace Prog2370_Final {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(DARK_RED);
+            GraphicsDevice.Clear(ColourSchemes.darkRed);
 
             // TODO: Add your drawing code here
 
-            star.Draw(gameTime);
 
             base.Draw(gameTime);
         }
