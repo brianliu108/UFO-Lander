@@ -15,5 +15,7 @@ namespace Prog2370_Final {
         public static readonly Color normBlue = new Color(30, 84, 97);
         public static readonly Color darkRed = new Color(60, 44, 49);
         public static readonly Color normRed = new Color(130, 52, 65);
+        public static readonly Color brown = new Color(79, 51, 56);
+        public static readonly Color pink = new Color(129,34,85);
     }
 }
