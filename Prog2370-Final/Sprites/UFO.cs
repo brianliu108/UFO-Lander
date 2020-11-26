@@ -21,5 +21,10 @@ namespace Prog2370_Final.Sprites {
             get => tex;
             set => tex = value;
         }
+
+        protected override void LoadContent()
+        {
+            var ufoThrust = Game.Content.Load<Texture2D>("Images/UFOThrust");
+        }
     }
 }

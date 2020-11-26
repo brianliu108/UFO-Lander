@@ -42,5 +42,10 @@ namespace Prog2370_Final.Sprites {
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
         }
+
+        protected override void LoadContent()
+        {
+            var gasCanTex = Game.Content.Load<Texture2D>("Images/gascan");
+        }
     }
 }

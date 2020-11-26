@@ -14,7 +14,7 @@ namespace Prog2370_Final.Scenes {
                 Game, spriteBatch,
                 GraphicsDevice.Viewport.Bounds.Width / 3f, 50,
                 80, 1, 0,
-                ColourSchemes.pink, new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f));
+                ColourSchemes.normRed, new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f));
 
             terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 3, 3);
 

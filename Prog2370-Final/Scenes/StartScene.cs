@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Scenes {
-    internal class StartScene : GameScene {
+    internal class StartScene : Scene {
         private MenuComponent menu;
         private SpriteBatch spriteBatch;
         private string[] menuItems = {"Start", "Credits", "Exit"};
@@ -20,6 +20,17 @@ namespace Prog2370_Final.Scenes {
         public MenuComponent Menu {
             get => menu;
             set => menu = value;
+        }
+
+        protected override void LoadContent()
+        {
+            var titleFont = Game.Content.Load<SpriteFont>("Fonts/TitleFont");
+
+            var title = new SimpleString(Game, spriteBatch, titleFont,
+                new Vector2(100, 100), "Cool Title", ColourSchemes.boldColour);
+            this.Components.Add(title);
+
+
         }
     }
 }

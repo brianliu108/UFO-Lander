@@ -1,43 +1,30 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Scenes {
-    public abstract class GameScene : DrawableGameComponent {
-        private List<GameComponent> components;
+    public class GameScene : Scene {
+        private SpriteBatch spriteBatch;
+        private InfiniteTerrain terrain;
 
-        public GameScene(Game game) : base(game) {
-            components = new List<GameComponent>();
-            Show(false);
+        public GameScene(Game game,
+            SpriteBatch spriteBatch) : base(game) {
+            this.spriteBatch = spriteBatch;
+
+            var tempTerrain = new Terrain(
+                Game, spriteBatch,
+                GraphicsDevice.Viewport.Bounds.Width / 3f, 50,
+                80, 1, 0,
+                ColourSchemes.normRed, new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f));
+
+            terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 3, 3);
+
+            Components.Add(terrain);
         }
 
-        public List<GameComponent> Components {
-            get => components;
-            set => components = value;
-        }
-
-        public virtual void Show(bool enable) {
-            Enabled = enable;
-            Visible = enable;
-        }
-
-        public override void Update(GameTime gameTime) {
-            foreach (var item in components)
-                if (item.Enabled)
-                    item.Update(gameTime);
-
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime) {
-            DrawableGameComponent component = null;
-
-            foreach (var item in components)
-                if (item is DrawableGameComponent) {
-                    component = (DrawableGameComponent) item;
-                    if (component.Visible) component.Draw(gameTime);
-                }
-
-            base.Draw(gameTime);
+        protected override void LoadContent()
+        {
+            //var gasCan = new GasCan(this, spriteBatch, gasCanTex, new Vector2(200, 200));
+            //this.Components.Add(gasCan);
         }
     }
 }
