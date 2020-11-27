@@ -4,9 +4,11 @@ using Microsoft.Xna.Framework;
 namespace Prog2370_Final.Scenes {
     public abstract class Scene : DrawableGameComponent {
         private List<GameComponent> components;
+        protected readonly Resources resources;
 
         public Scene(Game game) : base(game) {
             components = new List<GameComponent>();
+            this.resources = ((Game1) game).Resources;
             Show(false);
         }
 

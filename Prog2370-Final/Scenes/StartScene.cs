@@ -11,7 +11,7 @@ namespace Prog2370_Final.Scenes {
         public StartScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
-            menu = new MenuComponent(game, spriteBatch, ((Game1) Game).Resources.RegularFont,
+            menu = new MenuComponent(game, spriteBatch, resources.RegularFont,
                 game.Content.Load<SpriteFont>("Fonts/BoldFont"),
                 menuItems);
 

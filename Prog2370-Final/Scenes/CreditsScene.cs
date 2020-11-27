@@ -20,8 +20,8 @@ namespace Prog2370_Final.Scenes {
             // Credit words
             string header = "Made by:";
             string credit = "Brian Liu\nTim Skibik";
-            var fontHeader = ((Game1) Game).Resources.RegularFont;
-            var fontCredit = ((Game1) Game).Resources.BoldFont;
+            SpriteFont fontHeader = resources.RegularFont;
+            SpriteFont fontCredit = resources.BoldFont;
             Vector2 center = new Vector2(
                 GraphicsDevice.Viewport.Bounds.Width / 2f - fontCredit.MeasureString(credit).X / 2,
                 GraphicsDevice.Viewport.Bounds.Height / 2f);

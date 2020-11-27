@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Drawable.Sprites {
-    public class GasCan : DrawableGameComponent {
+    public class GasCan : DrawableGameComponent { //TODO Make this inherit from `Sprite` instead.
         private SpriteBatch spriteBatch;
         private Texture2D tex;
         private Rectangle position;

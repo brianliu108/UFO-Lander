@@ -20,6 +20,11 @@ namespace Prog2370_Final.Drawable {
         }
 
         public override void Update(GameTime gameTime) {
+            var ks = Keyboard.GetState();
+            if (ks.IsKeyDown(Keys.Right))
+                data.terrainOffset -= 5; //TODO remove this debug line eventually
+            if (ks.IsKeyDown(Keys.Left))
+                data.terrainOffset += 5; //TODO remove this debug line eventually
             // data.terrainOffset -= 5; // Terrain moves left
             // data.terrainOffset += 5; // Terrain moves right
 

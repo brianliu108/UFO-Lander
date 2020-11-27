@@ -18,6 +18,7 @@ namespace Prog2370_Final.Drawable {
         public int samples;
         public float period;
         public float seed;
+        public int width;
         public Color color;
         public Vector2 offset;
 
@@ -31,10 +32,11 @@ namespace Prog2370_Final.Drawable {
         /// <param name="samples">How many points will be used to make the curve. More points means smoother curve.</param>
         /// <param name="period">The period of the base sine wave. Essentially how dense will the hills be.</param>
         /// <param name="seed">The starting point of the curve. Different values will give different terrains.</param>
+        /// <param name="width">The width of the lines</param>
         /// <param name="color">The color of the lines.</param>
         /// <param name="offset">The offset from the drawn origin/</param>
         public Terrain(Game game, SpriteBatch spriteBatch,
-            float domain, float range, int samples, float period, float seed, Color color, Vector2 offset)
+            float domain, float range, int samples, float period, float seed, int width, Color color, Vector2 offset)
             : base(game) {
             this.game = game;
             this.spriteBatch = spriteBatch;
@@ -43,6 +45,7 @@ namespace Prog2370_Final.Drawable {
             this.domain = domain;
             this.period = period;
             this.seed = seed;
+            this.width = width;
             this.color = color;
             Offset = offset;
             Generate();
@@ -73,13 +76,13 @@ namespace Prog2370_Final.Drawable {
                                       + Cos(x / 3) / 2
                                       - Cos(17 * x) / 13
                                       + Cos(34 * x) / 13));
-            terrain = new VectorImage(game, spriteBatch, vertices, 4, color) {
+            terrain = new VectorImage(game, spriteBatch, vertices, width, color) {
                 offset = Offset
             };
         }
 
         public Terrain Clone() {
-            return new Terrain(game, spriteBatch, domain, range, samples, period, seed, color, offset);
+            return new Terrain(game, spriteBatch, domain, range, samples, period, seed, width, color, offset);
         }
 
         /// <summary>
