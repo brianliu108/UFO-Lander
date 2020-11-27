@@ -10,7 +10,6 @@ namespace Prog2370_Final.Scenes {
         private InfiniteTerrain terrain;
         private UFO ufo;
         private GasCan gasCan;
-        private Resources resource;
 
         public GameScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
@@ -29,7 +28,6 @@ namespace Prog2370_Final.Scenes {
         }
 
         protected override void LoadContent() {
-            resource = new Resources(Game);
             ufo = new UFO(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/UFO"), new Vector2(200, 200));
             gasCan = new GasCan(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/gascan"),
                 new Vector2(100, 100));
