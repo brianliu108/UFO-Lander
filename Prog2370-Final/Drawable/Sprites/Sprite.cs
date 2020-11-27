@@ -11,6 +11,7 @@ using Prog2370_Final;
 
 namespace Prog2370_Final.Drawable.Sprites
 {
+
     public class Sprite : DrawableGameComponent
     {
         protected SpriteBatch spriteBatch;

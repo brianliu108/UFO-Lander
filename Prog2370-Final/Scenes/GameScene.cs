@@ -37,7 +37,7 @@ namespace Prog2370_Final.Scenes {
 
             if (ks.IsKeyDown(Keys.Up))
             {
-                //ufo.Tex = 
+                ufo.Tex = resources.UFO_thrust;
             }
         }
 
