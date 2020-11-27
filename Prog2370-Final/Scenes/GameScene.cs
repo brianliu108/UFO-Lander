@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
 using Prog2370_Final.Drawable;
 using Prog2370_Final.Drawable.Sprites;
 
@@ -10,6 +12,8 @@ namespace Prog2370_Final.Scenes {
         private InfiniteTerrain terrain;
         private UFO ufo;
         private GasCan gasCan;
+        private KeyboardState ks;
+        
 
         public GameScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
@@ -27,7 +31,18 @@ namespace Prog2370_Final.Scenes {
             LoadContent();
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            ks = Keyboard.GetState();
+
+            if (ks.IsKeyDown(Keys.Up))
+            {
+                //ufo.Tex = 
+            }
+        }
+
         protected override void LoadContent() {
+           
             ufo = new UFO(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/UFO"), new Vector2(200, 200));
             gasCan = new GasCan(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/gascan"),
                 new Vector2(100, 100));

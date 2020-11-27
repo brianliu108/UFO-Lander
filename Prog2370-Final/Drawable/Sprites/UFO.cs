@@ -2,22 +2,19 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Drawable.Sprites { //TODO Make this inherit from `Sprite` instead.
-    public class UFO : DrawableGameComponent {
-        private SpriteBatch spriteBatch;
-        private Texture2D tex;
+    public class UFO : Sprite {        
         private Texture2D thrustTex;
-        private Vector2 position;
-        private Vector2 speed;
-        protected readonly Resources resources; //TODO move this line from `UFO` to `Sprite`
+        private Rectangle position;
+        private Vector2 speed = Vector2.Zero;        
         bool thrusting = false;
 
         public UFO(Game game,
             SpriteBatch spriteBatch,
             Texture2D tex,
-            Vector2 position) : base(game) {
+            Vector2 position) : base(game, spriteBatch, tex, position) {
             this.spriteBatch = spriteBatch;
             this.tex = tex;
-            this.position = position;
+            this.position = new Rectangle((int)(position.X),(int)(position.Y),tex.Width /2, tex.Height/2);
             resources = ((Game1) game).Resources;
         }
 
