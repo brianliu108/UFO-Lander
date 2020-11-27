@@ -8,7 +8,7 @@ namespace Prog2370_Final.Drawable.Sprites { //TODO Make this inherit from `Sprit
         private Texture2D thrustTex;
         private Vector2 position;
         private Vector2 speed;
-        protected readonly Resources resources;
+        protected readonly Resources resources; //TODO move this line from `UFO` to `Sprite`
         bool thrusting = false;
 
         public UFO(Game game,
