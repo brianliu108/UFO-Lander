@@ -1,39 +1,58 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
+using System;
 
-namespace Prog2370_Final.Drawable.Sprites { //TODO Make this inherit from `Sprite` instead.
-    public class UFO : Sprite {        
-        private Texture2D thrustTex;
-        private Rectangle position;
-        private Vector2 speed = Vector2.Zero;        
-        bool thrusting = false;
+namespace Prog2370_Final.Drawable.Sprites
+{
+    public class UFO : Sprite
+    {
+        public Vector2 position;        
+        public Vector2 velocity = new Vector2(0f,0f);
+        public float gravity = .05f;
+        public float acceleration = .075f;
+        public double angle = Math.PI / 2;
 
+        public static float maxVelocity = 1.4f;
+        //public static float maxGravity = .2f;
         public UFO(Game game,
             SpriteBatch spriteBatch,
             Texture2D tex,
-            Vector2 position) : base(game, spriteBatch, tex, position) {
+            Vector2 position) : base(game, spriteBatch, tex, position)
+        {
             this.spriteBatch = spriteBatch;
-            this.tex = tex;
-            this.position = new Rectangle((int)(position.X),(int)(position.Y),tex.Width /2, tex.Height/2);
-            resources = ((Game1) game).Resources;
+            this.tex = tex;            
+            resources = ((Game1)game).Resources;            
         }
-
-        public Texture2D Tex {
-            get => tex;
-            set => tex = value;
-        }
-
-        public override void Draw(GameTime gameTime) {
+                        
+        public override void Draw(GameTime gameTime)
+        {
             spriteBatch.Begin();
-            if (!thrusting) {
-                spriteBatch.Draw(tex, position, Color.White);
-            }
+
+            spriteBatch.Draw(tex, new Rectangle((int)position.X,(int)position.Y, tex.Width/3, tex.Height/3),Color.White);
+
             spriteBatch.End();
         }
 
-        protected override void LoadContent() {
-            tex = resources.UFO;
-            thrustTex = resources.UFO_thrust;
+        public void Update(GameTime gameTime, KeyboardState ks)
+        {
+            this.tex = resources.UFO;
+            if (ks.IsKeyDown(Keys.Up))
+            {
+                this.velocity.Y -= acceleration;
+                this.tex = resources.UFO_thrust;
+            }
+            this.velocity.Y += gravity;
+            this.position += this.velocity;
+
+            if (Math.Abs(velocity.Y) <= maxVelocity)
+            {
+                
+            }
+            
+            
         }
+
     }
 }

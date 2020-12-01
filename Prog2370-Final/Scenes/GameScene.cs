@@ -14,7 +14,6 @@ namespace Prog2370_Final.Scenes {
         private GasCan gasCan;
         private KeyboardState ks;
         
-
         public GameScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
@@ -34,11 +33,17 @@ namespace Prog2370_Final.Scenes {
         public override void Update(GameTime gameTime)
         {
             ks = Keyboard.GetState();
+            ufo.Update(gameTime,ks);            
 
-            if (ks.IsKeyDown(Keys.Up))
-            {
-                ufo.Tex = resources.UFO_thrust;
-            }
+            //if (ks.IsKeyDown(Keys.Up))
+            //{
+            //    ufo.tex = resources.UFO_thrust;
+            //    ufo.velocity.Y -= ufo.acceleration;
+            //}
+            //else
+            //{
+            //    ufo.tex = resources.UFO;
+            //}
         }
 
         protected override void LoadContent() {
