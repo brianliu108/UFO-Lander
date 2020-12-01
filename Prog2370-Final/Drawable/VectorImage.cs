@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Drawable {
     public class VectorImage : DrawableGameComponent {
+        private static bool debug = false;
+        
         private static readonly Vector2 originRight = new Vector2(0, .5f);
         private static readonly Vector2 originLeft = new Vector2(1, .5f);
         private static Texture2D whitePixel = null;
@@ -12,13 +14,29 @@ namespace Prog2370_Final.Drawable {
         private Texture2D whiteCircle;
         private Vector2 circleOffset;
 
+        private readonly Vector2[] vertices;
+        private readonly Rectangle boundingBox;
         private Rectangle[] rectangles;
         private float[] rotations;
         private bool[] drawDir;
         private float width;
         private Color color;
+
+        public Vector2[] Vertices => vertices;
         public Vector2 offset = Vector2.Zero;
         public Vector2 scale = Vector2.One;
+
+        public Rectangle BoundingBox {
+            get {
+                Rectangle r = boundingBox;
+                r.X += (int) offset.X;
+                r.Y += (int) offset.Y;
+                r.Width *= (int) scale.X;
+                r.Height *= (int) scale.Y;
+                return r;
+            }
+        }
+
 
         /// <summary>
         /// Creates a vector based image by connecting all the vertices given together in a string.
@@ -34,12 +52,14 @@ namespace Prog2370_Final.Drawable {
             SetWhitePixel();
             if (vertices.Length < 2) throw new Exception("There must be at least 2 vertices");
             this.spriteBatch = spriteBatch;
+            this.vertices = vertices;
             this.width = width;
             this.color = color;
 
             rectangles = new Rectangle[vertices.Length - 1];
             rotations = new float[vertices.Length - 1];
             drawDir = new bool[vertices.Length - 1];
+            boundingBox = new Rectangle((int) vertices[0].X, (int) vertices[0].Y, 0, 0);
             for (var i = 0; i < vertices.Length - 1; i++) {
                 var a = vertices[i];
                 var b = vertices[i + 1];
@@ -48,7 +68,13 @@ namespace Prog2370_Final.Drawable {
                     width);
                 rotations[i] = (float) Math.Atan((b.Y - a.Y) / (b.X - a.X));
                 drawDir[i] = a.X <= b.X;
+                boundingBox.X = (int) Math.Min(boundingBox.X, b.X);
+                boundingBox.Y = (int) Math.Min(boundingBox.Y, b.Y);
+                boundingBox.Width = (int) Math.Max(boundingBox.Width, b.X);
+                boundingBox.Height = (int) Math.Max(boundingBox.Height, b.Y);
             }
+            boundingBox.Width -= boundingBox.X;
+            boundingBox.Height -= boundingBox.Y;
 
             var r = width / 2;
             var d2 = width * width * 0.25f;
@@ -95,6 +121,7 @@ namespace Prog2370_Final.Drawable {
 
             // Doing the actual drawing
             spriteBatch.Begin();
+            if (debug) DebugDraw();
             for (var i = 0; i < rectangles.Length; i++) // Draw the lines
                 spriteBatch.Draw(
                     whitePixel, rAdjusted[i], null, color, rotations[i],
@@ -102,6 +129,22 @@ namespace Prog2370_Final.Drawable {
             foreach (var r in rAdjusted) // Draw the dots
                 spriteBatch.Draw(whiteCircle, r.Location.ToVector2() - circleOffset, color);
             spriteBatch.End();
+        }
+
+        private void DebugDraw() {
+            Rectangle line, bb = BoundingBox;
+            // Y
+            line = bb;
+            line.Height = 1;
+            spriteBatch.Draw(whitePixel, line, Color.Wheat);
+            line.Y += bb.Height;
+            spriteBatch.Draw(whitePixel, line, Color.Wheat);
+            // X
+            line = bb;
+            line.Width = 1;
+            spriteBatch.Draw(whitePixel, line, Color.Wheat);
+            line.X += bb.Width;
+            spriteBatch.Draw(whitePixel, line, Color.Wheat);
         }
     }
 }
