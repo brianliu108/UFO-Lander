@@ -27,32 +27,22 @@ namespace Prog2370_Final.Scenes {
             terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 3, 3);
 
             Components.Add(terrain);
-            LoadContent();
-        }
 
-        public override void Update(GameTime gameTime)
-        {
-            ks = Keyboard.GetState();
-            ufo.Update(gameTime,ks);            
 
-            //if (ks.IsKeyDown(Keys.Up))
-            //{
-            //    ufo.tex = resources.UFO_thrust;
-            //    ufo.velocity.Y -= ufo.acceleration;
-            //}
-            //else
-            //{
-            //    ufo.tex = resources.UFO;
-            //}
-        }
-
-        protected override void LoadContent() {
-           
             ufo = new UFO(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/UFO"), new Vector2(200, 200));
             gasCan = new GasCan(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/gascan"),
                 new Vector2(100, 100));
             this.Components.Add(gasCan);
             this.Components.Add(ufo);
         }
+
+        public override void Update(GameTime gameTime)
+        {
+            ks = Keyboard.GetState();
+            ufo.Update(gameTime,ks);            
+            
+        }
+
+        
     }
 }

@@ -27,6 +27,8 @@ namespace Prog2370_Final {
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;            
             Content.RootDirectory = "Content";
         }
 
