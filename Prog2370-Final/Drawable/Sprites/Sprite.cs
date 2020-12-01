@@ -15,8 +15,9 @@ namespace Prog2370_Final.Drawable.Sprites
     public class Sprite : DrawableGameComponent
     {
         protected SpriteBatch spriteBatch;
-        protected Texture2D tex;
+        public Texture2D tex;
         protected Resources resources;
+        public Rectangle hitbox; // TODO: Find hitboxes for each of our sprites=-
 
         public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game)
         {
