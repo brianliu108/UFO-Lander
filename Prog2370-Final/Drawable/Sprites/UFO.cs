@@ -54,5 +54,9 @@ namespace Prog2370_Final.Drawable.Sprites
             
         }
 
+        private static Vector2 unitVectorFromAngle(float angle)
+            => new Vector2(
+                (float) Math.Cos(angle),
+                (float) Math.Sin(angle));
     }
 }
