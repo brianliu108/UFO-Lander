@@ -12,12 +12,11 @@ namespace Prog2370_Final.Drawable.Sprites
         public Vector2 velocity = new Vector2(0f,0f);
         public float gravity = .05f;
         public float acceleration = 0.15f;
+        public float maxVelocity = 10f;
         public float drag = 0.01f;
         public double angle = (Math.PI/2);
-        public double changeInAngle = (Math.PI / 270);
-        
-
-        public static float maxVelocity = 1.4f;
+        public double changeInAngle = (Math.PI / 100);
+                        
         //public static float maxGravity = .2f;
         public UFO(Game game,
             SpriteBatch spriteBatch,
@@ -45,7 +44,17 @@ namespace Prog2370_Final.Drawable.Sprites
             this.tex = resources.UFO;
             if (ks.IsKeyDown(Keys.Up))
             {
-                this.velocity -= UnitVectorFromAngle((float)angle) * acceleration;
+                
+                velocity -= UnitVectorFromAngle((float)angle) * acceleration;
+                if(velocity.X > maxVelocity)
+                {
+                    velocity.X = maxVelocity;
+                }
+                else if(velocity.X < (maxVelocity * -1))
+                {
+                    velocity.X = (maxVelocity * -1);
+                }
+                
                 this.tex = resources.UFO_thrust;
             }
             if (ks.IsKeyDown(Keys.Right))
@@ -69,12 +78,17 @@ namespace Prog2370_Final.Drawable.Sprites
             }
             this.position += this.velocity;
 
-            //if(position.Y == )
-            //{
-            //    velocity = Vector2.Zero;
-            //}
-            
-            
+            if (position.Y < -30)
+            {
+                position.Y = -30;
+                velocity.Y = 0;
+            }
+            if (position.Y > Shared.stage.Y - 50)
+            {
+                position.Y = Shared.stage.Y - 50;
+                velocity.Y = 0;
+            }
+
         }
 
         private static Vector2 UnitVectorFromAngle(float angle)
