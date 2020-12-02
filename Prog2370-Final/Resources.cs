@@ -9,11 +9,15 @@ namespace Prog2370_Final {
             TitleFont;
 
         public readonly Texture2D
+            WhitePixel,
             UFO, UFO_thrust,
             GasCan;
         
 
         public Resources(Game game) {
+            WhitePixel = new Texture2D(game.GraphicsDevice, 1, 1);
+            WhitePixel.SetData(new[] {new Color(255, 255, 255)});
+            
             RegularFont = game.Content.Load<SpriteFont>("Fonts/RegularFont");
             BoldFont = game.Content.Load<SpriteFont>("Fonts/BoldFont");
             TitleFont = game.Content.Load<SpriteFont>("Fonts/TitleFont");

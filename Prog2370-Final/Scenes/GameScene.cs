@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Xml.Schema;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
@@ -13,6 +15,8 @@ namespace Prog2370_Final.Scenes {
         private UFO ufo;
         private GasCan gasCan;
         private KeyboardState ks;
+
+        private MeterBar mb;
 
         public GameScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
@@ -34,6 +38,12 @@ namespace Prog2370_Final.Scenes {
                 new Vector2(100, 100));
             this.Components.Add(gasCan);
             this.Components.Add(ufo);
+
+            Components.Add(mb = new MeterBar(
+                new SimpleString(game, spriteBatch, resources.RegularFont, 
+                    new Vector2(20, 200), "Speed: ", Color.Black),
+                0, ufo.maxVelocity
+                ));
         }
 
         public override void Update(GameTime gameTime) {
@@ -49,6 +59,8 @@ namespace Prog2370_Final.Scenes {
                 terrain.MasterOffset -= dif;
                 ufo.position.X -= dif;
             }
+            mb.current = (float) Math.Sqrt(ufo.velocity.X * ufo.velocity.X + ufo.velocity.Y * ufo.velocity.Y);
+            mb.Update(gameTime);
         }
     }
 }

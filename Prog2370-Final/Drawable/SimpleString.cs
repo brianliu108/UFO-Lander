@@ -8,13 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Prog2370_Final.Drawable {
-    internal class SimpleString : DrawableGameComponent {
-        private SpriteBatch spriteBatch;
+    public class SimpleString : DrawableGameComponent {
+        public readonly SpriteBatch spriteBatch;
 
-        private SpriteFont spriteFont;
-        private Vector2 position;
-        private string message;
-        private Color color;
+        public SpriteFont spriteFont;
+        public Vector2 position;
+        public string message;
+        public Color color;
 
         public SimpleString(Game game,
             SpriteBatch spriteBatch,

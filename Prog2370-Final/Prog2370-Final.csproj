@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CollisionManager.cs" />
     <Compile Include="ColourSchemes.cs" />
+    <Compile Include="Drawable\MeterBar.cs" />
     <Compile Include="Drawable\Sprites\Sprite.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Scenes\CreditsScene.cs" />

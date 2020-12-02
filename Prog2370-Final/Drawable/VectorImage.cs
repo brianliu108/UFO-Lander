@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Prog2370_Final.Drawable {
     public class VectorImage : DrawableGameComponent {
         private static bool debug = false;
-        
+
         private static readonly Vector2 originRight = new Vector2(0, .5f);
         private static readonly Vector2 originLeft = new Vector2(1, .5f);
         private static Texture2D whitePixel = null;
@@ -49,13 +49,12 @@ namespace Prog2370_Final.Drawable {
         /// <exception cref="Exception">If less than 2 vertices were given.</exception>
         public VectorImage(Game game, SpriteBatch spriteBatch, Vector2[] vertices, int width, Color color) :
             base(game) {
-            SetWhitePixel();
             if (vertices.Length < 2) throw new Exception("There must be at least 2 vertices");
             this.spriteBatch = spriteBatch;
             this.vertices = vertices;
             this.width = width;
             this.color = color;
-
+            if (whitePixel == null) whitePixel = ((Game1) game).Resources.WhitePixel;
             rectangles = new Rectangle[vertices.Length - 1];
             rotations = new float[vertices.Length - 1];
             drawDir = new bool[vertices.Length - 1];
@@ -88,16 +87,6 @@ namespace Prog2370_Final.Drawable {
                         : Color.Transparent;
             whiteCircle.SetData(circleData);
             circleOffset = new Vector2((float) width / 2, (float) width / 2);
-        }
-
-        /// <summary>
-        /// All the drawing is done by stretching a single white pixel and coloring it.
-        /// This method sets up the pixel if it hasn't already been made. 
-        /// </summary>
-        private void SetWhitePixel() {
-            if (whitePixel != null) return;
-            whitePixel = new Texture2D(GraphicsDevice, 1, 1);
-            whitePixel.SetData(new[] {new Color(255, 255, 255)});
         }
 
 
