@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Drawable {
     public class VectorImage : DrawableGameComponent {
-        private static bool debug = true;
+        private static bool debug = false;
         
         private static readonly Vector2 originRight = new Vector2(0, .5f);
         private static readonly Vector2 originLeft = new Vector2(1, .5f);
