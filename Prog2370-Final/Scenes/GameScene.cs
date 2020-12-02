@@ -13,7 +13,7 @@ namespace Prog2370_Final.Scenes {
         private UFO ufo;
         private GasCan gasCan;
         private KeyboardState ks;
-        
+
         public GameScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
@@ -36,13 +36,19 @@ namespace Prog2370_Final.Scenes {
             this.Components.Add(ufo);
         }
 
-        public override void Update(GameTime gameTime)
-        {
+        public override void Update(GameTime gameTime) {
             ks = Keyboard.GetState();
-            ufo.Update(gameTime,ks);            
-            
+            ufo.Update(gameTime, ks);
+            int ufoMinPos = 0, ufoMaxPos = 500;
+            if (ufo.position.X > ufoMaxPos) {
+                float dif = ufo.position.X - ufoMaxPos;
+                terrain.MasterOffset -= dif;
+                ufo.position.X -= dif;
+            } else if (ufo.position.X < ufoMinPos) {
+                float dif = ufo.position.X - ufoMinPos;
+                terrain.MasterOffset -= dif;
+                ufo.position.X -= dif;
+            }
         }
-
-        
     }
 }

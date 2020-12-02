@@ -9,6 +9,20 @@ namespace Prog2370_Final.Drawable {
         private ShortTerrainDeQueue data;
         private SpriteBatch spriteBatch;
 
+        public float MasterOffset {
+            get => data.terrainOffset;
+            set {
+                data.terrainOffset = value;
+                if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain > data.integerOffset) {
+                    data.integerOffset++;
+                    data.MoveLeft();
+                } else if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain < data.integerOffset) {
+                    data.integerOffset--;
+                    data.MoveRight();
+                }
+            }
+        }
+
         public InfiniteTerrain(Game game, SpriteBatch spriteBatch, Terrain terrain, int trimLength, int genLenth)
             : base(game) {
             this.spriteBatch = spriteBatch;
@@ -23,13 +37,7 @@ namespace Prog2370_Final.Drawable {
             // data.terrainOffset -= 5; // Terrain moves left
             // data.terrainOffset += 5; // Terrain moves right
 
-            if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain > data.integerOffset) {
-                data.integerOffset++;
-                data.MoveLeft();
-            } else if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain < data.integerOffset) {
-                data.integerOffset--;
-                data.MoveRight();
-            }
+            
         }
 
         private class ShortTerrainDeQueue { //TODO rename
