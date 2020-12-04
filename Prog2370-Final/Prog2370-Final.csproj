@@ -72,7 +72,10 @@
   <ItemGroup>
     <Content Include="Content\Fonts\BoldFont.spritefont" />
     <Content Include="Content\Fonts\RegularFont.spritefont" />
+    <Content Include="crash.mp3" />
     <Content Include="Icon.ico" />
+    <Content Include="land.mp3" />
+    <Content Include="rocket.wav" />
     <Content Include="UFO.ico" />
   </ItemGroup>
   <ItemGroup>
