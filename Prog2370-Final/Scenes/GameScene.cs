@@ -17,6 +17,7 @@ namespace Prog2370_Final.Scenes {
         private KeyboardState ks;
 
         private MeterBar mb;
+        private MeterBar gasBar;
 
         public GameScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
@@ -35,7 +36,7 @@ namespace Prog2370_Final.Scenes {
 
             ufo = new UFO(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/UFO"), new Vector2(200, 200));
             gasCan = new GasCan(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/gascan"),
-                new Vector2(100, 100));
+                new Vector2(900, 590));
             this.Components.Add(gasCan);
             this.Components.Add(ufo);
 
@@ -44,6 +45,10 @@ namespace Prog2370_Final.Scenes {
                     new Vector2(20, 200), "Speed: ", Color.Black),
                 0, ufo.maxVelocity
                 ));
+
+            Components.Add(gasBar = new MeterBar(
+                new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 100),
+                "Gas: ", Color.Black), 0, ufo.gas));
         }
 
         public override void Update(GameTime gameTime) {
@@ -60,7 +65,9 @@ namespace Prog2370_Final.Scenes {
                 ufo.position.X -= dif;
             }
             mb.current = (float) Math.Sqrt(ufo.velocity.X * ufo.velocity.X + ufo.velocity.Y * ufo.velocity.Y);
+            gasBar.current = ufo.gas;
             mb.Update(gameTime);
+            gasBar.Update(gameTime);
         }
     }
 }

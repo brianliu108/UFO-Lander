@@ -37,6 +37,9 @@ namespace Prog2370_Final.Drawable {
             spriteBatch.End();
         }
 
-        public override void Update(GameTime gameTime) { }
+        public override void Update(GameTime gameTime) 
+        {
+            
+        }
     }
 }
