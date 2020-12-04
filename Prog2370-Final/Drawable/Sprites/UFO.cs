@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Prog2370_Final.Drawable.Sprites
 {
@@ -21,13 +22,11 @@ namespace Prog2370_Final.Drawable.Sprites
         public double changeInAngle = (Math.PI / 100);
         public float gas = 100;
 
-        public List<CollisionLog> collisionList;
-
         public Rectangle AABB => new Rectangle((int)position.X - (drawPos.Width/2),(int)position.Y - (drawPos.Height/2),drawPos.Width,drawPos.Height - 12);
 
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Location;
 
-        public List<CollisionLog> CollisionLogs { set => collisionList = value; }
+        public List<CollisionLog> CollisionLogs { get; set; }
 
         //public static float maxGravity = .2f;
         public UFO(Game game,
@@ -51,8 +50,6 @@ namespace Prog2370_Final.Drawable.Sprites
             
 
             spriteBatch.End();
-            if (collisionList != null)
-                DrawBoundingBox(AABB,(Game1)Game,collisionList.Count == 0 ? ColourSchemes.normRed : Color.Wheat);
         }
 
         public void Update(GameTime gameTime, KeyboardState ks)

@@ -15,7 +15,7 @@ namespace Prog2370_Final {
         private GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         private Resources _resources;
-        private KeyboardState oldState;
+        public KeyboardState oldState;
 
         private StartScene startScene;
         private GameScene playScene;

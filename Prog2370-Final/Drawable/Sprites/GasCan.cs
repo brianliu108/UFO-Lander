@@ -6,13 +6,12 @@ namespace Prog2370_Final.Drawable.Sprites {
     public class GasCan : Sprite , ICollidable
     { //TODO Make this inherit from `Sprite` instead.        
         private Rectangle position;
-        List<CollisionLog> collisionList;
 
         public Rectangle AABB => position;
 
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Partner;
 
-        public List<CollisionLog> CollisionLogs { set => collisionList = value; }
+        public List<CollisionLog> CollisionLogs { get; set; }
 
         public GasCan(Game game,
             SpriteBatch spriteBatch,
@@ -47,8 +46,6 @@ namespace Prog2370_Final.Drawable.Sprites {
             
 
             base.Draw(gameTime);
-            if (collisionList != null)
-                DrawBoundingBox(AABB, (Game1)Game, collisionList.Count == 0 ? ColourSchemes.normRed : Color.Wheat);
         }
 
         public override void Update(GameTime gameTime)

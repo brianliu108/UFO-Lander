@@ -52,7 +52,7 @@ namespace Prog2370_Final.Scenes {
                 "Gas: ", Color.Black), 0, ufo.gas));
             
             
-            collisionManager = new CollisionManager(Game);
+            Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
             collisionManager.Add(gasCan);
             

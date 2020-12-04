@@ -12,7 +12,8 @@ using Prog2370_Final.Drawable.Sprites;
 using static Prog2370_Final.CollisionNotificationLevel;
 
 namespace Prog2370_Final {
-    public class CollisionManager : GameComponent {
+    public class CollisionManager : DrawableGameComponent {
+        private bool debug = true;
         private readonly List<WeakReference<ICollidable>> collidables = new List<WeakReference<ICollidable>>();
 
         public CollisionManager(Game game) : base(game) { }
@@ -20,9 +21,9 @@ namespace Prog2370_Final {
         public override void Update(GameTime gameTime) {
             collidables.RemoveAll(weakReference => weakReference.TryGetTarget(out ICollidable ignored) == false);
             List<CollisionLog>[] collisionLogs = new List<CollisionLog>[collidables.Count];
-            for(int i = 0; i < collisionLogs.Length; i++) collisionLogs[i] = new List<CollisionLog>();
+            for (int i = 0; i < collisionLogs.Length; i++) collisionLogs[i] = new List<CollisionLog>();
             for (int i = 0; i < collidables.Count - 1; i++)
-            for (int j = i + 1; j < collidables.Count ; j++)
+            for (int j = i + 1; j < collidables.Count; j++)
                 if (collidables[i].TryGetTarget(out ICollidable left) &&
                     collidables[j].TryGetTarget(out ICollidable right) &&
                     CheckAabbCollision(left, right)
@@ -50,17 +51,25 @@ namespace Prog2370_Final {
                         if (leftC.BoundingLinesLoop && leftC.BoundingLinesFormConvexPolygon &&
                             rightC.BoundingLinesLoop && rightC.BoundingLinesFormConvexPolygon) {
                             //TODO logic for convex polygons
-                        // } else if (leftC.BoundingLinesLoop && rightC.BoundingLinesLoop) {
-                        //     //TODO logic for concave polygons
+                            // } else if (leftC.BoundingLinesLoop && rightC.BoundingLinesLoop) {
+                            //     //TODO logic for concave polygons
                         } else {
                             //TODO logic for line intersections only
                         }
-                        
                     }
                 }
             for (int i = 0; i < collidables.Count; i++)
                 if (collidables[i].TryGetTarget(out ICollidable item))
                     item.CollisionLogs = collisionLogs[i];
+        }
+
+
+        public override void Draw(GameTime gameTime) {
+            if (debug)
+                foreach (var reference in collidables)
+                    if (reference.TryGetTarget(out ICollidable item))
+                        Sprite.DrawBoundingBox(item.AABB, (Game1) Game,
+                            item.CollisionLogs.Count == 0 ? ColourSchemes.normRed : Color.Wheat);
         }
 
         public void Add(ICollidable item) => collidables.Add(new WeakReference<ICollidable>(item));
@@ -106,7 +115,7 @@ namespace Prog2370_Final {
         /// When all the collision testing is done, this ICollidable object will be given a list of all collisions
         /// logged to the level that the <c>CollisionNotificationLevel</c> property specifies.
         /// </summary>
-        List<CollisionLog> CollisionLogs { set; }
+        List<CollisionLog> CollisionLogs { get; set; }
     }
 
     public interface ICollidableComplex : ICollidable {
@@ -144,6 +153,7 @@ namespace Prog2370_Final {
         public CollisionNotificationLevel CollisionNotificationLevel => collidable.CollisionNotificationLevel;
 
         public List<CollisionLog> CollisionLogs {
+            get => collidable.CollisionLogs;
             set => collidable.CollisionLogs = value;
         }
 
