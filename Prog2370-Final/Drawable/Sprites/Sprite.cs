@@ -9,20 +9,31 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Prog2370_Final;
 
-namespace Prog2370_Final.Drawable.Sprites
-{
-
-    public class Sprite : DrawableGameComponent
-    {
+namespace Prog2370_Final.Drawable.Sprites {
+    public class Sprite : DrawableGameComponent {
         protected SpriteBatch spriteBatch;
         public Texture2D tex;
         protected Resources resources;
         public Rectangle hitbox; // TODO: Find hitboxes for each of our sprites=-
 
-        public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game)
-        {
-            resources = ((Game1)(Game)).Resources;
+        public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game) {
+            resources = ((Game1) (Game)).Resources;
         }
-        
+
+        public static void DrawBoundingBox(Rectangle boundingBox, Game1 game) {
+            Rectangle line, bb = line = boundingBox;
+            // Y
+            line = bb;
+            line.Height = 1;
+            game.spriteBatch.Draw(game.Resources.WhitePixel, line, ColourSchemes.normRed);
+            line.Y += bb.Height;
+            game.spriteBatch.Draw(game.Resources.WhitePixel, line, ColourSchemes.normRed);
+            // X
+            line = bb;
+            line.Width = 1;
+            game.spriteBatch.Draw(game.Resources.WhitePixel, line, ColourSchemes.normRed);
+            line.X += bb.Width;
+            game.spriteBatch.Draw(game.Resources.WhitePixel, line, ColourSchemes.normRed);
+        }
     }
 }

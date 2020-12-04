@@ -13,7 +13,7 @@ namespace Prog2370_Final {
     /// </summary>
     public class Game1 : Game {
         private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
         private Resources _resources;
         private KeyboardState oldState;
 
