@@ -47,6 +47,8 @@ namespace Prog2370_Final.Drawable.Sprites {
             
 
             base.Draw(gameTime);
+            if (collisionList != null)
+                DrawBoundingBox(AABB, (Game1)Game, collisionList.Count == 0 ? ColourSchemes.normRed : Color.Wheat);
         }
 
         public override void Update(GameTime gameTime)
