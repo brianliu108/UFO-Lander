@@ -8,6 +8,7 @@ namespace Prog2370_Final.Drawable {
     public class InfiniteTerrain : DrawableGameComponent {
         private ShortTerrainDeQueue data;
         private SpriteBatch spriteBatch;
+        public List<Terrain> Chunks => data.AsTerrainList();
 
         public float MasterOffset {
             get => data.terrainOffset;
@@ -36,8 +37,6 @@ namespace Prog2370_Final.Drawable {
         public override void Update(GameTime gameTime) {
             // data.terrainOffset -= 5; // Terrain moves left
             // data.terrainOffset += 5; // Terrain moves right
-
-            
         }
 
         private class ShortTerrainDeQueue { //TODO rename

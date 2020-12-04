@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Drawable {
-    public class VectorImage : DrawableGameComponent {
+    public class VectorImage : DrawableGameComponent, ICollidableComplex {
         private static bool debug = false;
 
         private static readonly Vector2 originRight = new Vector2(0, .5f);
@@ -135,5 +136,16 @@ namespace Prog2370_Final.Drawable {
             line.X += bb.Width;
             spriteBatch.Draw(whitePixel, line, Color.Wheat);
         }
+
+        #region ICollidableComplex Members
+
+        public Rectangle AABB => BoundingBox;
+        public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.None;
+        public List<CollisionLog> CollisionLogs { get; set; }
+        public Vector2[] BoundingVertices => Vertices;
+        public bool BoundingLinesLoop => false;
+        public bool BoundingLinesFormConvexPolygon => false;
+
+        #endregion
     }
 }

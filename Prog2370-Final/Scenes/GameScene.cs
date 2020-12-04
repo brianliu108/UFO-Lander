@@ -55,10 +55,13 @@ namespace Prog2370_Final.Scenes {
             Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
             collisionManager.Add(gasCan);
-            
+
         }
 
         public override void Update(GameTime gameTime) {
+            foreach (Terrain chunk in terrain.Chunks)
+                if (!collisionManager.Contains(chunk.terrain))
+                    collisionManager.Add(chunk.terrain);
             collisionManager.Update(gameTime);
             ks = Keyboard.GetState();
             ufo.Update(gameTime, ks);

@@ -11,7 +11,7 @@ namespace Prog2370_Final.Drawable {
     public class Terrain : DrawableGameComponent {
         private Game game;
         private SpriteBatch spriteBatch;
-        private VectorImage terrain;
+        public VectorImage terrain;
 
         public float domain;
         public float range;
