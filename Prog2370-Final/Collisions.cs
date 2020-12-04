@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 using Prog2370_Final.Drawable;
 using Prog2370_Final.Drawable.Sprites;
+using static Prog2370_Final.CollisionNotificationLevel;
 
 namespace Prog2370_Final {
     public class CollisionManager : GameComponent {
@@ -18,12 +19,32 @@ namespace Prog2370_Final {
 
         public override void Update(GameTime gameTime) {
             collidables.RemoveAll(weakReference => weakReference.TryGetTarget(out ICollidable ignored) == false);
+            List<CollisionLog>[] collisionLogs = new List<CollisionLog>[collidables.Count];
             for (int i = 0; i < collidables.Count - 1; i++)
             for (int j = i + 1; j < collidables.Count - 1; j++)
                 if (collidables[i].TryGetTarget(out ICollidable left) &&
                     collidables[j].TryGetTarget(out ICollidable right) &&
-                    CheckAabbCollision(left, right))
-                    ProcessCollision(left, right);
+                    CheckAabbCollision(left, right)
+                ) {
+                    // First case: both objects are simple
+                    if (!(left is ICollidableComplex) && !(right is ICollidableComplex)) {
+                        switch (left.CollisionNotificationLevel) {
+                            case Location: // TODO add detailed...
+                            case Partner:
+                                collisionLogs[i].Add(new CollisionLog(right));
+                                break;
+                        }
+                        switch (right.CollisionNotificationLevel) {
+                            case Location: // TODO add detailed...
+                            case Partner:
+                                collisionLogs[j].Add(new CollisionLog(left));
+                                break;
+                        }
+                    } else { }
+                }
+            for (int i = 0; i < collidables.Count; i++)
+                if (collidables[i].TryGetTarget(out ICollidable item))
+                    item.CollisionLogs = collisionLogs[i];
         }
 
         public void Add(ICollidable item) => collidables.Add(new WeakReference<ICollidable>(item));
@@ -50,13 +71,6 @@ namespace Prog2370_Final {
         /// <returns>True if the objects AABBs' intersect</returns>
         private static bool CheckAabbCollision(ICollidable left, ICollidable right)
             => Rectangle.Intersect(left.AABB, right.AABB) != Rectangle.Empty;
-
-        /// <summary>
-        /// Checks if there is a collision between two items, and if so, where it occured.
-        /// </summary>
-        /// <param name="left">One of the two objects to process</param>
-        /// <param name="right">The second of the two objects to process</param>
-        private static void ProcessCollision(ICollidable left, ICollidable right) { }
     }
 
     public interface ICollidable {
@@ -106,26 +120,22 @@ namespace Prog2370_Final {
     public enum CollisionNotificationLevel {
         None, // For when you don't care at all
         Partner, // Only care about who you collided with
-        Location, // Who did you collide with, and where did it happen
-        Full // As much information as we can possibly supply
+        Location // Who did you collide with, and where did it happen
     }
 
     public class CollisionLog {
         public readonly ICollidable collisionPartner;
         public readonly Vector2? yourCollisionLocation;
         public readonly Vector2? theirCollisionLocation;
-        public readonly float? angle;
 
         public CollisionLog(
             ICollidable collisionPartner,
             Vector2? yourCollisionLocation = null,
-            Vector2? theirCollisionLocation = null,
-            float? angle = null
+            Vector2? theirCollisionLocation = null
         ) {
             this.collisionPartner = collisionPartner;
             this.yourCollisionLocation = yourCollisionLocation;
             this.theirCollisionLocation = theirCollisionLocation;
-            this.angle = angle;
         }
     }
 }
