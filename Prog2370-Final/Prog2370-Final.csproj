@@ -41,7 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CollisionManager.cs" />
+    <Compile Include="Collisions.cs" />
     <Compile Include="ColourSchemes.cs" />
     <Compile Include="Drawable\MeterBar.cs" />
     <Compile Include="Drawable\Sprites\Sprite.cs" />
@@ -50,7 +50,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Drawable\Sprites\GasCan.cs" />
-    <Compile Include="ICollidable.cs" />
     <Compile Include="Drawable\InfiniteTerrain.cs" />
     <Compile Include="Drawable\MenuComponent.cs" />
     <Compile Include="Scenes\GameScene.cs" />

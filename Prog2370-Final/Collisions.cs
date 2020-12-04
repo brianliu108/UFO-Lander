@@ -1,0 +1,131 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Prog2370_Final.Drawable;
+using Prog2370_Final.Drawable.Sprites;
+
+namespace Prog2370_Final {
+    public class CollisionManager : GameComponent {
+        private readonly List<WeakReference<ICollidable>> collidables = new List<WeakReference<ICollidable>>();
+
+        public CollisionManager(Game game) : base(game) { }
+
+        public override void Update(GameTime gameTime) {
+            collidables.RemoveAll(weakReference => weakReference.TryGetTarget(out ICollidable ignored) == false);
+            for (int i = 0; i < collidables.Count - 1; i++)
+            for (int j = i + 1; j < collidables.Count - 1; j++)
+                if (collidables[i].TryGetTarget(out ICollidable left) &&
+                    collidables[j].TryGetTarget(out ICollidable right) &&
+                    CheckAabbCollision(left, right))
+                    ProcessCollision(left, right);
+        }
+
+        public void Add(ICollidable item) => collidables.Add(new WeakReference<ICollidable>(item));
+
+        public bool Contains(ICollidable item) {
+            foreach (var reference in collidables)
+                if (reference.TryGetTarget(out ICollidable target) && target == item)
+                    return true;
+            return false;
+        }
+
+        public bool Remove(ICollidable item) {
+            foreach (var reference in collidables)
+                if (reference.TryGetTarget(out ICollidable target) && target == item)
+                    return collidables.Remove(reference);
+            return false;
+        }
+
+        /// <summary>
+        /// Tests if two <c>ICollidable</c> objects' AABBs' overlap. True if they do, false otherwise.
+        /// </summary>
+        /// <param name="left">One of the two objects to check</param>
+        /// <param name="right">The second of the two objects to check</param>
+        /// <returns>True if the objects AABBs' intersect</returns>
+        private static bool CheckAabbCollision(ICollidable left, ICollidable right)
+            => Rectangle.Intersect(left.AABB, right.AABB) != Rectangle.Empty;
+
+        /// <summary>
+        /// Checks if there is a collision between two items, and if so, where it occured.
+        /// </summary>
+        /// <param name="left">One of the two objects to process</param>
+        /// <param name="right">The second of the two objects to process</param>
+        private static void ProcessCollision(ICollidable left, ICollidable right) { }
+    }
+
+    public interface ICollidable {
+        /// <summary>
+        /// An axis-aligned bounding box is a rectangle whose sides are all parallel to either the X or Y axis.
+        /// This specific bounding box should completely surround the true bounds of the object, as these bounds
+        /// will be used to determine if further collision checking should be done. 
+        /// </summary>
+        Rectangle AABB { get; }
+
+        /// <summary>
+        /// What level of collision information would you like to receive?
+        /// </summary>
+        CollisionNotificationLevel CollisionNotificationLevel { get; }
+
+        /// <summary>
+        /// When all the collision testing is done, this ICollidable object will be given a list of all collisions
+        /// logged to the level that the <c>CollisionNotificationLevel</c> property specifies.
+        /// </summary>
+        List<CollisionLog> CollisionLogs { set; }
+    }
+
+    public interface ICollidableComplex : ICollidable {
+        /// <summary>
+        /// A series of vectors which represent the outer-most vertices of an object, defining the shape the object
+        /// takes. The shapes drawn by these vertices are the shapes tested for collision. If zero vertices are given,
+        /// this object's <c>AABB</c> will be considered the primary bounding box.
+        /// </summary>
+        Vector2[] BoundingVertices { get; }
+
+        /// <summary>
+        /// Whether or not the first and last vertices are meant to be connected. If this is true, the vertices will
+        /// form a closed polygon with <c>n</c> sides, and if it is set to false the vertices will instead define
+        /// a (potentially) jagged line made of <c>n-1</c> connected line segments.
+        /// </summary>
+        bool BoundingLinesLoop { get; }
+
+        /// <summary>
+        /// Note: if <c>BoundingLinesLoop</c> is set to false, this property will be assumed to be false as well.
+        /// Whether or not the polygon drawn. Convex polygons are easier to check for intersections,
+        /// especially for the case that one polygon is inside the other. For the sake of simplicity, I will only
+        /// check if one polygon is inside the other if they are both convex. 
+        /// </summary>
+        bool BoundingLinesFormConvexPolygon { get; }
+    }
+
+    public enum CollisionNotificationLevel {
+        None, // For when you don't care at all
+        Partner, // Only care about who you collided with
+        Location, // Who did you collide with, and where did it happen
+        Full // As much information as we can possibly supply
+    }
+
+    public class CollisionLog {
+        public readonly ICollidable collisionPartner;
+        public readonly Vector2? yourCollisionLocation;
+        public readonly Vector2? theirCollisionLocation;
+        public readonly float? angle;
+
+        public CollisionLog(
+            ICollidable collisionPartner,
+            Vector2? yourCollisionLocation = null,
+            Vector2? theirCollisionLocation = null,
+            float? angle = null
+        ) {
+            this.collisionPartner = collisionPartner;
+            this.yourCollisionLocation = yourCollisionLocation;
+            this.theirCollisionLocation = theirCollisionLocation;
+            this.angle = angle;
+        }
+    }
+}
