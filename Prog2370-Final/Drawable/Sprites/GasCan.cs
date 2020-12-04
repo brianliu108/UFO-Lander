@@ -43,7 +43,7 @@ namespace Prog2370_Final.Drawable.Sprites {
         {
             spriteBatch.Begin();
             spriteBatch.Draw(tex, position, Color.White);
-
+            spriteBatch.End();
             
 
             base.Draw(gameTime);

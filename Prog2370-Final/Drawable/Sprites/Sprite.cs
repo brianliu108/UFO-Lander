@@ -20,20 +20,22 @@ namespace Prog2370_Final.Drawable.Sprites {
             resources = ((Game1) (Game)).Resources;
         }
 
-        public static void DrawBoundingBox(Rectangle boundingBox, Game1 game) {
+        public static void DrawBoundingBox(Rectangle boundingBox, Game1 game, Color color) {
+            game.spriteBatch.Begin();
             Rectangle line, bb = line = boundingBox;
             // Y
             line = bb;
             line.Height = 1;
-            game.spriteBatch.Draw(game.Resources.WhitePixel, line, ColourSchemes.normRed);
+            game.spriteBatch.Draw(game.Resources.WhitePixel, line, color);
             line.Y += bb.Height;
-            game.spriteBatch.Draw(game.Resources.WhitePixel, line, ColourSchemes.normRed);
+            game.spriteBatch.Draw(game.Resources.WhitePixel, line, color);
             // X
             line = bb;
             line.Width = 1;
-            game.spriteBatch.Draw(game.Resources.WhitePixel, line, ColourSchemes.normRed);
+            game.spriteBatch.Draw(game.Resources.WhitePixel, line, color);
             line.X += bb.Width;
-            game.spriteBatch.Draw(game.Resources.WhitePixel, line, ColourSchemes.normRed);
+            game.spriteBatch.Draw(game.Resources.WhitePixel, line, color);
+            game.spriteBatch.End();
         }
     }
 }

@@ -51,6 +51,8 @@ namespace Prog2370_Final.Drawable.Sprites
             
 
             spriteBatch.End();
+            if (collisionList != null)
+                DrawBoundingBox(AABB,(Game1)Game,collisionList.Count == 0 ? ColourSchemes.normRed : Color.Wheat);
         }
 
         public void Update(GameTime gameTime, KeyboardState ks)

@@ -20,6 +20,7 @@ namespace Prog2370_Final {
         public override void Update(GameTime gameTime) {
             collidables.RemoveAll(weakReference => weakReference.TryGetTarget(out ICollidable ignored) == false);
             List<CollisionLog>[] collisionLogs = new List<CollisionLog>[collidables.Count];
+            for(int i = 0; i < collisionLogs.Length; i++) collisionLogs[i] = new List<CollisionLog>();
             for (int i = 0; i < collidables.Count - 1; i++)
             for (int j = i + 1; j < collidables.Count - 1; j++)
                 if (collidables[i].TryGetTarget(out ICollidable left) &&
@@ -40,7 +41,22 @@ namespace Prog2370_Final {
                                 collisionLogs[j].Add(new CollisionLog(left));
                                 break;
                         }
-                    } else { }
+                    }
+                    // Second case: At least one is a complex collidable
+                    else {
+                        ICollidableComplex
+                            leftC = left is ICollidableComplex tl ? tl : new DefaultComplexCollidable(left),
+                            rightC = right is ICollidableComplex tr ? tr : new DefaultComplexCollidable(right);
+                        if (leftC.BoundingLinesLoop && leftC.BoundingLinesFormConvexPolygon &&
+                            rightC.BoundingLinesLoop && rightC.BoundingLinesFormConvexPolygon) {
+                            //TODO logic for convex polygons
+                        // } else if (leftC.BoundingLinesLoop && rightC.BoundingLinesLoop) {
+                        //     //TODO logic for concave polygons
+                        } else {
+                            //TODO logic for line intersections only
+                        }
+                        
+                    }
                 }
             for (int i = 0; i < collidables.Count; i++)
                 if (collidables[i].TryGetTarget(out ICollidable item))
@@ -115,6 +131,37 @@ namespace Prog2370_Final {
         /// check if one polygon is inside the other if they are both convex. 
         /// </summary>
         bool BoundingLinesFormConvexPolygon { get; }
+    }
+
+    /// <summary>
+    /// This can be used to represent an <c>ICollidable</c> object as an <c>ICollidableComplex</c> object without
+    /// needing to manually set the other properties.
+    /// </summary>
+    public class DefaultComplexCollidable : ICollidableComplex {
+        private readonly ICollidable collidable;
+
+        public Rectangle AABB => collidable.AABB;
+        public CollisionNotificationLevel CollisionNotificationLevel => collidable.CollisionNotificationLevel;
+
+        public List<CollisionLog> CollisionLogs {
+            set => collidable.CollisionLogs = value;
+        }
+
+        public Vector2[] BoundingVertices {
+            get {
+                AABB.Deconstruct(out int x, out int y, out int dx, out int dy);
+                return new[] {
+                    new Vector2(x, y),
+                    new Vector2(x, y + dy),
+                    new Vector2(x + dx, y + dy),
+                    new Vector2(x + dx, y)
+                };
+            }
+        }
+
+        public bool BoundingLinesLoop => true;
+        public bool BoundingLinesFormConvexPolygon => true;
+        public DefaultComplexCollidable(ICollidable collidable) => this.collidable = collidable;
     }
 
     public enum CollisionNotificationLevel {

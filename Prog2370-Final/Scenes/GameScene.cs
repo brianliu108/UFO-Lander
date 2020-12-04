@@ -12,6 +12,7 @@ namespace Prog2370_Final.Scenes {
     public class GameScene : Scene {
         private SpriteBatch spriteBatch;
         private InfiniteTerrain terrain;
+        private CollisionManager collisionManager;
         private UFO ufo;
         private GasCan gasCan;
         private KeyboardState ks;
@@ -49,9 +50,16 @@ namespace Prog2370_Final.Scenes {
             Components.Add(gasBar = new MeterBar(
                 new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 100),
                 "Gas: ", Color.Black), 0, ufo.gas));
+            
+            
+            collisionManager = new CollisionManager(Game);
+            collisionManager.Add(ufo);
+            collisionManager.Add(gasCan);
+            
         }
 
         public override void Update(GameTime gameTime) {
+            collisionManager.Update(gameTime);
             ks = Keyboard.GetState();
             ufo.Update(gameTime, ks);
             int ufoMinPos = 0, ufoMaxPos = 500;
