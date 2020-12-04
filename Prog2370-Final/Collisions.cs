@@ -22,7 +22,7 @@ namespace Prog2370_Final {
             List<CollisionLog>[] collisionLogs = new List<CollisionLog>[collidables.Count];
             for(int i = 0; i < collisionLogs.Length; i++) collisionLogs[i] = new List<CollisionLog>();
             for (int i = 0; i < collidables.Count - 1; i++)
-            for (int j = i + 1; j < collidables.Count - 1; j++)
+            for (int j = i + 1; j < collidables.Count ; j++)
                 if (collidables[i].TryGetTarget(out ICollidable left) &&
                     collidables[j].TryGetTarget(out ICollidable right) &&
                     CheckAabbCollision(left, right)
