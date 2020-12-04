@@ -1,10 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Prog2370_Final.Drawable.Sprites {
-    public class GasCan : Sprite
+    public class GasCan : Sprite , ICollidable
     { //TODO Make this inherit from `Sprite` instead.        
         private Rectangle position;
+        List<CollisionLog> collisionList;
+
+        public Rectangle AABB => position;
+
+        public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Partner;
+
+        public List<CollisionLog> CollisionLogs { set => collisionList = value; }
 
         public GasCan(Game game,
             SpriteBatch spriteBatch,
@@ -35,7 +43,8 @@ namespace Prog2370_Final.Drawable.Sprites {
         {
             spriteBatch.Begin();
             spriteBatch.Draw(tex, position, Color.White);
-            spriteBatch.End();
+
+            
 
             base.Draw(gameTime);
         }

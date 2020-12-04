@@ -3,13 +3,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Prog2370_Final.Drawable.Sprites
 {
-    public class UFO : Sprite
+    public class UFO : Sprite , ICollidable
     {
-        public Vector2 position;        
+        public Vector2 position = new Vector2(50, 50);        
         public Vector2 velocity = new Vector2(0f,0f);
+        public Rectangle drawPos;
         public float gravity = .05f;
         public float acceleration = 0.15f;
         public float lightAcceleration = 0.075f;
@@ -17,8 +19,16 @@ namespace Prog2370_Final.Drawable.Sprites
         public float drag = 0.02f;
         public double angle = (Math.PI/2);
         public double changeInAngle = (Math.PI / 100);
-        public float gas = 100;        
-                        
+        public float gas = 100;
+
+        public List<CollisionLog> collisionList;
+
+        public Rectangle AABB => new Rectangle((int)position.X - (drawPos.Width/2),(int)position.Y - (drawPos.Height/2),drawPos.Width,drawPos.Height - 12);
+
+        public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Location;
+
+        public List<CollisionLog> CollisionLogs { set => collisionList = value; }
+
         //public static float maxGravity = .2f;
         public UFO(Game game,
             SpriteBatch spriteBatch,
@@ -35,11 +45,11 @@ namespace Prog2370_Final.Drawable.Sprites
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            Rectangle r = new Rectangle((int)position.X + 50, (int)position.Y+50, tex.Width / 3, tex.Height / 3);
+            drawPos = new Rectangle((int)position.X, (int)position.Y, tex.Width / 3, tex.Height / 3);
 
-            spriteBatch.Draw(tex,r,null,Color.White,(float)angle - (float)(Math.PI / 2),new Vector2(tex.Width/2,tex.Height/2),SpriteEffects.None,0);
-
+            spriteBatch.Draw(tex,drawPos,null,Color.White,(float)angle - (float)(Math.PI / 2),new Vector2(tex.Width/2,tex.Height/2),SpriteEffects.None,0);
             
+
             spriteBatch.End();
         }
 
@@ -63,7 +73,7 @@ namespace Prog2370_Final.Drawable.Sprites
 
                     gas = gas - 0.05f;
                     this.tex = resources.UFO_thrust;
-                    
+                    this.Dispose();
                 }
                                                 
             }
@@ -106,14 +116,14 @@ namespace Prog2370_Final.Drawable.Sprites
             }
             this.position += this.velocity;
 
-            if (position.Y < -30)
+            if (position.Y < 0)
             {
-                position.Y = -30;
+                position.Y = 0;
                 velocity.Y = 0;
             }
-            if (position.Y > Shared.stage.Y - 50)
+            if (position.Y > Shared.stage.Y - 0)
             {
-                position.Y = Shared.stage.Y - 50;
+                position.Y = Shared.stage.Y - 0;
                 velocity.Y = 0;
             }
 
