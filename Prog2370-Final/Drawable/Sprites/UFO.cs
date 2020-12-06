@@ -41,8 +41,7 @@ namespace Prog2370_Final.Drawable.Sprites
             resources = ((Game1)game).Resources;
             
         }
-            
-        
+                    
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();

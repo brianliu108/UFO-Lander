@@ -10,7 +10,7 @@ using Prog2370_Final.Drawable.Sprites;
 
 namespace Prog2370_Final.Scenes {
     public class GameScene : Scene {
-        private SpriteBatch spriteBatch;
+        
         private InfiniteTerrain terrain;
         private CollisionManager collisionManager;
         private UFO ufo;

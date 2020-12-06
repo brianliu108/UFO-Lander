@@ -48,6 +48,7 @@
     <Compile Include="Resources.cs" />
     <Compile Include="Scenes\CreditsScene.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Scenes\HelpScene.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Drawable\Sprites\GasCan.cs" />
     <Compile Include="Drawable\InfiniteTerrain.cs" />
@@ -72,10 +73,10 @@
   <ItemGroup>
     <Content Include="Content\Fonts\BoldFont.spritefont" />
     <Content Include="Content\Fonts\RegularFont.spritefont" />
-    <Content Include="crash.mp3" />
+    <Content Include="Content\Sounds\crash.mp3" />
+    <Content Include="Content\Sounds\land.mp3" />
+    <Content Include="Content\Sounds\rocket.wav" />
     <Content Include="Icon.ico" />
-    <Content Include="land.mp3" />
-    <Content Include="rocket.wav" />
     <Content Include="UFO.ico" />
   </ItemGroup>
   <ItemGroup>

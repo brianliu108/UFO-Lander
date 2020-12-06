@@ -5,8 +5,8 @@ using Prog2370_Final.Drawable;
 namespace Prog2370_Final.Scenes {
     internal class StartScene : Scene {
         private MenuComponent menu;
-        private SpriteBatch spriteBatch;
-        private string[] menuItems = {"Start", "Credits", "Exit"};
+        
+        private string[] menuItems = {"Start", "Help","Credits", "Exit"};
 
         public StartScene(Game game,
             SpriteBatch spriteBatch) : base(game) {

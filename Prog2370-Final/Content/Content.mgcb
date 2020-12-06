@@ -82,3 +82,21 @@
 /processorParam:TextureFormat=Color
 /build:Images/UFOThrust.png
 
+#begin Sounds/crash.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/crash.mp3
+
+#begin Sounds/land.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/land.mp3
+
+#begin Sounds/rocket.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/rocket.wav
+

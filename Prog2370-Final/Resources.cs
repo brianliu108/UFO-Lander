@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Prog2370_Final {
     public class Resources {
@@ -12,6 +13,8 @@ namespace Prog2370_Final {
         public static readonly Color darkBrown = new Color(69, 49, 51);
         public static readonly Color brown = new Color(102, 59, 58);
         public static readonly Color pink = new Color(129, 34, 85);
+        public static readonly SoundEffect thrust;
+
 
         public readonly SpriteFont
             RegularFont,
@@ -34,6 +37,8 @@ namespace Prog2370_Final {
             UFO = game.Content.Load<Texture2D>("Images/UFO");
             UFO_thrust = game.Content.Load<Texture2D>("Images/UFOThrust");
             GasCan = game.Content.Load<Texture2D>("Images/gascan");
+
+            thrust = Content.Load<SoundEffect>("Sounds/");
         }
 
     }

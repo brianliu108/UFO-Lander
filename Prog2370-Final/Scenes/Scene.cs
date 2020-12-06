@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Prog2370_Final.Scenes {
     public abstract class Scene : DrawableGameComponent {
         private List<GameComponent> components;
         protected readonly Resources resources;
+        protected SpriteBatch spriteBatch;
 
         public Scene(Game game) : base(game) {
             components = new List<GameComponent>();

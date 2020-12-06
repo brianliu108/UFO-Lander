@@ -15,11 +15,11 @@ namespace Prog2370_Final {
         private GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         private Resources _resources;
-        public KeyboardState oldState;
-
+        public KeyboardState oldState;       
         private StartScene startScene;
         private GameScene playScene;
         private CreditsScene creditsScene;
+        private HelpScene helpScene;
 
         private SimpleString creditsString;
 
@@ -72,7 +72,10 @@ namespace Prog2370_Final {
             Components.Add(creditsScene);
             creditsScene.Show(false);
 
-
+            // Add helpScene
+            helpScene = new HelpScene(this, spriteBatch);
+            Components.Add(helpScene);
+            helpScene.Show(false);
         }
 
         /// <summary>
@@ -90,7 +93,7 @@ namespace Prog2370_Final {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape)) {
-                if (playScene.Enabled || creditsScene.Enabled) {
+                if (playScene.Enabled || creditsScene.Enabled || helpScene.Enabled) {
                     HideAllScenes();
                     startScene.Show(true);
                 } else {
@@ -108,10 +111,16 @@ namespace Prog2370_Final {
                 if (selectedIndex == 0 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
                     HideAllScenes();
                     playScene.Show(true);
-                } else if (selectedIndex == 1 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
+                }
+                else if (selectedIndex == 1 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
+                {
+                    HideAllScenes();
+                    helpScene.Show(true);
+                }
+                else if (selectedIndex == 2 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
                     HideAllScenes();
                     creditsScene.Show(true);
-                } else if (selectedIndex == 2 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
+                } else if (selectedIndex == 3 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
                     Exit();
                 }
             }
