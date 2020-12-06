@@ -28,7 +28,10 @@ namespace Prog2370_Final {
                     collidables[j].TryGetTarget(out ICollidable right) &&
                     CheckAabbCollision(left, right)
                 ) {
-                    if (left.CollisionNotificationLevel == None && right.CollisionNotificationLevel == None) continue;
+                    if (left.CollisionNotificationLevel == None && right.CollisionNotificationLevel == None
+                        || left.CanCollide == false 
+                        || right.CanCollide == false) 
+                        continue;
                     // First case: both objects are simple
                     if (!(left is ICollidableComplex) && !(right is ICollidableComplex)) {
                         switch (left.CollisionNotificationLevel) {
@@ -132,6 +135,11 @@ namespace Prog2370_Final {
 
     public interface ICollidable {
         /// <summary>
+        /// Can the object currently collide with anything?
+        /// </summary>
+        bool CanCollide { get; }
+
+        /// <summary>
         /// An axis-aligned bounding box is a rectangle whose sides are all parallel to either the X or Y axis.
         /// This specific bounding box should completely surround the true bounds of the object, as these bounds
         /// will be used to determine if further collision checking should be done. 
@@ -180,7 +188,7 @@ namespace Prog2370_Final {
     /// </summary>
     public class DefaultComplexCollidable : ICollidableComplex {
         private readonly ICollidable collidable;
-
+        public bool CanCollide => collidable.CanCollide;
         public Rectangle AABB => collidable.AABB;
         public CollisionNotificationLevel CollisionNotificationLevel => collidable.CollisionNotificationLevel;
 

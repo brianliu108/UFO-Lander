@@ -21,6 +21,8 @@ namespace Prog2370_Final.Drawable.Sprites
         public double angle = (Math.PI/2);
         public double changeInAngle = (Math.PI / 100);
         public float gas = 100;
+        
+        public bool CanCollide => true;
 
         public Rectangle AABB => new Rectangle((int)position.X - (drawPos.Width/2),(int)position.Y - (drawPos.Height/2),drawPos.Width,drawPos.Height - 12);
 

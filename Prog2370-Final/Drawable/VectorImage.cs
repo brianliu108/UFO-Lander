@@ -23,6 +23,7 @@ namespace Prog2370_Final.Drawable {
         private float width;
         private Color color;
 
+        public bool CanCollide => true;
         public Vector2[] Vertices => vertices;
         public Vector2 offset = Vector2.Zero;
         public Vector2 scale = Vector2.One;

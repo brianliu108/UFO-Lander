@@ -7,6 +7,7 @@ namespace Prog2370_Final.Drawable.Sprites {
     { //TODO Make this inherit from `Sprite` instead.        
         private Rectangle position;
 
+        public bool CanCollide => true;
         public Rectangle AABB => position;
 
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Partner;
