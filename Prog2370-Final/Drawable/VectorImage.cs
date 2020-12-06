@@ -142,7 +142,15 @@ namespace Prog2370_Final.Drawable {
         public Rectangle AABB => BoundingBox;
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.None;
         public List<CollisionLog> CollisionLogs { get; set; }
-        public Vector2[] BoundingVertices => Vertices;
+        public Vector2[] BoundingVertices {
+            get {
+                Vector2[] boundingVertices = new Vector2[vertices.Length];
+                for (int i = 0; i < vertices.Length; i++)
+                    boundingVertices[i] = vertices[i] + offset;
+                return boundingVertices;
+            }
+        }
+
         public bool BoundingLinesLoop => false;
         public bool BoundingLinesFormConvexPolygon => false;
 

@@ -27,7 +27,7 @@ namespace Prog2370_Final.Scenes {
             var tempTerrain = new Terrain(
                 Game, spriteBatch,
                 GraphicsDevice.Viewport.Bounds.Width / 3f, 50,
-                80, 1, 0, 4,
+                1, 1, 0, 4,
                 ColourSchemes.brown, new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f));
 
             terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 3, 3);

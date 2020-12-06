@@ -28,6 +28,7 @@ namespace Prog2370_Final {
                     collidables[j].TryGetTarget(out ICollidable right) &&
                     CheckAabbCollision(left, right)
                 ) {
+                    if (left.CollisionNotificationLevel == None && right.CollisionNotificationLevel == None) continue;
                     // First case: both objects are simple
                     if (!(left is ICollidableComplex) && !(right is ICollidableComplex)) {
                         switch (left.CollisionNotificationLevel) {
@@ -54,7 +55,30 @@ namespace Prog2370_Final {
                             // } else if (leftC.BoundingLinesLoop && rightC.BoundingLinesLoop) {
                             //     //TODO logic for concave polygons
                         } else {
-                            //TODO logic for line intersections only
+                            const double error = 10;
+                            int leftItCount = leftC.BoundingVertices.Length - (leftC.BoundingLinesLoop ? 0 : 1);
+                            int rightItCount = rightC.BoundingVertices.Length - (rightC.BoundingLinesLoop ? 0 : 1);
+                            for (int p = 0; p < leftItCount; p++)
+                            for (int q = 0; q < rightItCount; q++) {
+                                Vector2
+                                    p0 = leftC.BoundingVertices[p],
+                                    p1 = leftC.BoundingVertices[(p + 1) % leftC.BoundingVertices.Length],
+                                    q0 = rightC.BoundingVertices[q],
+                                    q1 = rightC.BoundingVertices[(q + 1) % rightC.BoundingVertices.Length];
+                                Vector2
+                                    s1 = new Vector2(p1.X - p0.X, p1.Y - p0.Y),
+                                    s2 = new Vector2(q1.X - q0.X, q1.Y - q0.Y);
+                                float s, t;
+                                s = (-s1.Y * (p0.X - q0.X) + s1.X * (p0.Y - q0.Y)) / (-s2.X * s1.Y + s1.X * s2.Y);
+                                t = (s2.X * (p0.Y - q0.Y) - s2.Y * (p0.X - q0.X)) / (-s2.X * s1.Y + s1.X * s2.Y);
+
+                                if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
+                                    // Collision!
+                                    Vector2 location = new Vector2(p0.X + (t * s1.X), p0.Y + (t * s1.Y));
+                                    collisionLogs[i].Add(new CollisionLog(right, location));
+                                    collisionLogs[j].Add(new CollisionLog(left, location));
+                                }
+                            }
                         }
                     }
                 }
@@ -67,9 +91,17 @@ namespace Prog2370_Final {
         public override void Draw(GameTime gameTime) {
             if (debug)
                 foreach (var reference in collidables)
-                    if (reference.TryGetTarget(out ICollidable item))
+                    if (reference.TryGetTarget(out ICollidable item)) {
                         Sprite.DrawBoundingBox(item.AABB, (Game1) Game,
                             item.CollisionLogs.Count == 0 ? ColourSchemes.normRed : Color.Wheat);
+                        foreach (CollisionLog log in item.CollisionLogs) {
+                            if (log.collisionLocation != null)
+                                Sprite.DrawBoundingBox(
+                                    new Rectangle(log.collisionLocation.Value.ToPoint() - new Point(5), new Point(10)),
+                                    (Game1) Game, Color.Wheat
+                                );
+                        }
+                    }
         }
 
         public void Add(ICollidable item) => collidables.Add(new WeakReference<ICollidable>(item));
@@ -161,9 +193,9 @@ namespace Prog2370_Final {
             get {
                 AABB.Deconstruct(out int x, out int y, out int dx, out int dy);
                 return new[] {
-                    new Vector2(x, y),
+                    new Vector2(x + 10, y + 10),
                     new Vector2(x, y + dy),
-                    new Vector2(x + dx, y + dy),
+                    new Vector2(x + dx - 10, y + dy - 10),
                     new Vector2(x + dx, y)
                 };
             }
@@ -182,17 +214,15 @@ namespace Prog2370_Final {
 
     public class CollisionLog {
         public readonly ICollidable collisionPartner;
-        public readonly Vector2? yourCollisionLocation;
-        public readonly Vector2? theirCollisionLocation;
+        public readonly Vector2? collisionLocation;
 
         public CollisionLog(
             ICollidable collisionPartner,
-            Vector2? yourCollisionLocation = null,
+            Vector2? collisionLocation = null,
             Vector2? theirCollisionLocation = null
         ) {
             this.collisionPartner = collisionPartner;
-            this.yourCollisionLocation = yourCollisionLocation;
-            this.theirCollisionLocation = theirCollisionLocation;
+            this.collisionLocation = collisionLocation;
         }
     }
 }
