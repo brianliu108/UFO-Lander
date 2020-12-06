@@ -75,7 +75,7 @@ namespace Prog2370_Final.Drawable.Sprites
 
                     gas = gas - 0.05f;
                     this.tex = resources.UFO_thrust;
-                    this.Dispose();
+                    
                 }
                                                 
             }
