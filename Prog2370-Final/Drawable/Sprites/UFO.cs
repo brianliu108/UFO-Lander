@@ -21,6 +21,8 @@ namespace Prog2370_Final.Drawable.Sprites
         public double angle = (Math.PI/2);
         public double changeInAngle = (Math.PI / 100);
         public float gas = 100;
+
+        public float Speed => (float) Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
         
         public bool CanCollide => true;
 

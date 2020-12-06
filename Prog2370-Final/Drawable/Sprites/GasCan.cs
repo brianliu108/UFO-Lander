@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Prog2370_Final.Drawable.Sprites {
-    public class GasCan : Sprite , ICollidable
+    public class GasCan : Sprite , ICollidable, IPerishable
     { //TODO Make this inherit from `Sprite` instead.        
         private Rectangle position;
 
-        public bool CanCollide => true;
+        public bool CanCollide { get; private set; }
         public Rectangle AABB => position;
 
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Partner;
@@ -22,6 +23,8 @@ namespace Prog2370_Final.Drawable.Sprites {
             this.spriteBatch = spriteBatch;
             this.tex = tex;
             this.position = new Rectangle((int)position.X, (int)position.Y, tex.Width / 2, tex.Height / 2);
+            CanCollide = true;
+            Perished = false;
         }
 
         public void Show(bool enable)
@@ -49,9 +52,10 @@ namespace Prog2370_Final.Drawable.Sprites {
             base.Draw(gameTime);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
+        public override void Update(GameTime gameTime) {
+            if (CollisionLogs.Count(log => log.collisionPartner is UFO) > 0)
+                Perished = true;
+
         }
 
         protected override void LoadContent()
@@ -59,5 +63,6 @@ namespace Prog2370_Final.Drawable.Sprites {
             tex = ((Game1)Game).Resources.GasCan;
         }
 
+        public bool Perished { get; private set; }
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="ColourSchemes.cs" />
     <Compile Include="Drawable\MeterBar.cs" />
     <Compile Include="Drawable\Sprites\Sprite.cs" />
+    <Compile Include="IPerishable.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Scenes\CreditsScene.cs" />
     <Compile Include="Game1.cs" />
