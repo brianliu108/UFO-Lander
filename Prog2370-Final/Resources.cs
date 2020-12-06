@@ -13,7 +13,7 @@ namespace Prog2370_Final {
         public static readonly Color darkBrown = new Color(69, 49, 51);
         public static readonly Color brown = new Color(102, 59, 58);
         public static readonly Color pink = new Color(129, 34, 85);
-        public static readonly SoundEffect thrust;
+        public readonly SoundEffect thrust;
 
 
         public readonly SpriteFont
@@ -38,7 +38,7 @@ namespace Prog2370_Final {
             UFO_thrust = game.Content.Load<Texture2D>("Images/UFOThrust");
             GasCan = game.Content.Load<Texture2D>("Images/gascan");
 
-            thrust = Content.Load<SoundEffect>("Sounds/");
+            thrust = game.Content.Load<SoundEffect>("Sounds/rocket");
         }
 
     }
