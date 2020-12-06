@@ -59,6 +59,7 @@ namespace Prog2370_Final.Scenes {
         }
 
         public override void Update(GameTime gameTime) {
+            Components.RemoveAll(component => component is IPerishable p && p.Perished);
             foreach (Terrain chunk in terrain.Chunks)
                 if (!collisionManager.Contains(chunk.terrain))
                     collisionManager.Add(chunk.terrain);
@@ -75,7 +76,7 @@ namespace Prog2370_Final.Scenes {
                 terrain.MasterOffset -= dif;
                 ufo.position.X -= dif;
             }
-            mb.current = (float) Math.Sqrt(ufo.velocity.X * ufo.velocity.X + ufo.velocity.Y * ufo.velocity.Y);
+            mb.current = ufo.Speed;
             gasBar.current = ufo.gas;
             mb.Update(gameTime);
             gasBar.Update(gameTime);
