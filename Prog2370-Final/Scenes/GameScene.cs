@@ -14,7 +14,6 @@ namespace Prog2370_Final.Scenes {
         private InfiniteTerrain terrain;
         private CollisionManager collisionManager;
         private UFO ufo;
-        private GasCan gasCan;
         private KeyboardState ks;
 
         private MeterBar mb;
@@ -36,8 +35,8 @@ namespace Prog2370_Final.Scenes {
 
 
             ufo = new UFO(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/UFO"), new Vector2(200, 200));
-            gasCan = new GasCan(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/gascan"),
-                new Vector2(200, 100));
+            GasCan gasCan = new GasCan(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/gascan"),
+                new Vector2(200, GraphicsDevice.Viewport.Bounds.Height - 50));
             this.Components.Add(gasCan);
             this.Components.Add(ufo);
 

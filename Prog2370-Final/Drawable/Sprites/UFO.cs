@@ -21,6 +21,10 @@ namespace Prog2370_Final.Drawable.Sprites
         public double angle = (Math.PI/2);
         public double changeInAngle = (Math.PI / 100);
         public float gas = 100;
+        public int framesStill = 0;
+        
+        public const float SPEED_MARGIN = 0.1f;
+        public const int FRAMES_STILL_MARGIN = 60;
 
         public float Speed => (float) Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
         
@@ -55,8 +59,17 @@ namespace Prog2370_Final.Drawable.Sprites
             spriteBatch.End();
         }
 
-        public void Update(GameTime gameTime, KeyboardState ks)
-        {
+        public void Update(GameTime gameTime, KeyboardState ks) {
+            if (Speed < SPEED_MARGIN) framesStill++;
+            else framesStill = 0;
+            if (framesStill > FRAMES_STILL_MARGIN) {
+                foreach (var log in CollisionLogs) {
+                    if (log.collisionPartner is GasCan gasCan) {
+                        gas = 100; //TODO make a const?
+                        gasCan.Perished = true;
+                    }
+                }
+            }
             this.tex = resources.UFO;
             if (ks.IsKeyDown(Keys.Up))
             {
