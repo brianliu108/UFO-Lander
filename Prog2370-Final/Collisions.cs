@@ -29,8 +29,8 @@ namespace Prog2370_Final {
                     CheckAabbCollision(left, right)
                 ) {
                     if (left.CollisionNotificationLevel == None && right.CollisionNotificationLevel == None
-                        || left.CanCollide == false 
-                        || right.CanCollide == false) 
+                        || left.CanCollide == false
+                        || right.CanCollide == false)
                         continue;
                     // First case: both objects are simple
                     if (!(left is ICollidableComplex) && !(right is ICollidableComplex)) {
@@ -49,20 +49,33 @@ namespace Prog2370_Final {
                     }
                     // Second case: At least one is a complex collidable
                     else {
+                        // We need to be able to reference both the left and right as Complex Collidables
                         ICollidableComplex
                             leftC = left is ICollidableComplex tl ? tl : new DefaultComplexCollidable(left),
                             rightC = right is ICollidableComplex tr ? tr : new DefaultComplexCollidable(right);
+
+                        // A place to store all collisions (assuming we care about them)
+                        List<Vector2> collisionLocations =
+                            left.CollisionNotificationLevel >= Partner ||
+                            right.CollisionNotificationLevel >= Partner
+                                ? new List<Vector2>() // At least one requires specific locations
+                                : null; // Neither require specific locations
+
+                        // If we don't care about specific locations, this lets us short circuit our collision finds.
+                        // IF `collisionLocations == null` THEN `lookForCollisions == false →implies→ collision found`
+                        bool lookForCollisions = true;
+
+
                         if (leftC.BoundingLinesLoop && leftC.BoundingLinesFormConvexPolygon &&
                             rightC.BoundingLinesLoop && rightC.BoundingLinesFormConvexPolygon) {
                             //TODO logic for convex polygons
                             // } else if (leftC.BoundingLinesLoop && rightC.BoundingLinesLoop) {
                             //     //TODO logic for concave polygons
                         } else {
-                            const double error = 10;
                             int leftItCount = leftC.BoundingVertices.Length - (leftC.BoundingLinesLoop ? 0 : 1);
                             int rightItCount = rightC.BoundingVertices.Length - (rightC.BoundingLinesLoop ? 0 : 1);
-                            for (int p = 0; p < leftItCount; p++)
-                            for (int q = 0; q < rightItCount; q++) {
+                            for (int p = 0; lookForCollisions && p < leftItCount; p++)
+                            for (int q = 0; lookForCollisions && q < rightItCount; q++) {
                                 Vector2
                                     p0 = leftC.BoundingVertices[p],
                                     p1 = leftC.BoundingVertices[(p + 1) % leftC.BoundingVertices.Length],
@@ -75,12 +88,33 @@ namespace Prog2370_Final {
                                 s = (-s1.Y * (p0.X - q0.X) + s1.X * (p0.Y - q0.Y)) / (-s2.X * s1.Y + s1.X * s2.Y);
                                 t = (s2.X * (p0.Y - q0.Y) - s2.Y * (p0.X - q0.X)) / (-s2.X * s1.Y + s1.X * s2.Y);
 
-                                if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
-                                    // Collision!
-                                    Vector2 location = new Vector2(p0.X + (t * s1.X), p0.Y + (t * s1.Y));
-                                    collisionLogs[i].Add(new CollisionLog(right, location));
-                                    collisionLogs[j].Add(new CollisionLog(left, location));
+                                if (s >= 0 && s <= 1 && t >= 0 && t <= 1) { // If this is true then COLLISION!
+                                    if (collisionLocations == null) lookForCollisions = false;
+                                    else
+                                        collisionLocations.Add(
+                                            new Vector2(p0.X + (t * s1.X), p0.Y + (t * s1.Y)));
                                 }
+                            }
+                        }
+                        // Now time to log this
+                         if (collisionLocations == null) { // Care about no more than partner (NONE falls here too)
+                            if (lookForCollisions == false) { // At least one collision found
+                                if (left.CollisionNotificationLevel == Partner) // Only add for partner / NONE gets none
+                                    collisionLogs[i].Add(new CollisionLog(right));
+                                if (right.CollisionNotificationLevel == Partner) // same ↑
+                                    collisionLogs[j].Add(new CollisionLog(left));
+                            }
+                        } else { // Care about collision locations
+                            if (collisionLocations.Count > 0) { // Collisions were found
+                                if (left.CollisionNotificationLevel == Location)
+                                    collisionLogs[i].Add(new CollisionLog(right, collisionLocations.ToArray()));
+                                else if (left.CollisionNotificationLevel == Partner)
+                                    collisionLogs[i].Add(new CollisionLog(right));
+                                // ↑ Left | Right ↓
+                                if (right.CollisionNotificationLevel == Location)
+                                    collisionLogs[j].Add(new CollisionLog(left, collisionLocations.ToArray()));
+                                else if (right.CollisionNotificationLevel == Partner)
+                                    collisionLogs[j].Add(new CollisionLog(right));
                             }
                         }
                     }
@@ -98,9 +132,9 @@ namespace Prog2370_Final {
                         Sprite.DrawBoundingBox(item.AABB, (Game1) Game,
                             item.CollisionLogs.Count == 0 ? ColourSchemes.normRed : Color.Wheat);
                         foreach (CollisionLog log in item.CollisionLogs) {
-                            if (log.collisionLocation != null)
+                            foreach (Vector2 loc in log.collisionLocations)
                                 Sprite.DrawBoundingBox(
-                                    new Rectangle(log.collisionLocation.Value.ToPoint() - new Point(5), new Point(10)),
+                                    new Rectangle(loc.ToPoint() - new Point(5), new Point(10)),
                                     (Game1) Game, Color.Wheat
                                 );
                         }
@@ -222,15 +256,13 @@ namespace Prog2370_Final {
 
     public class CollisionLog {
         public readonly ICollidable collisionPartner;
-        public readonly Vector2? collisionLocation;
+        public readonly Vector2[] collisionLocations;
 
-        public CollisionLog(
-            ICollidable collisionPartner,
-            Vector2? collisionLocation = null,
-            Vector2? theirCollisionLocation = null
-        ) {
+        public CollisionLog(ICollidable collisionPartner) : this(collisionPartner, new Vector2[0]) { }
+
+        public CollisionLog(ICollidable collisionPartner, Vector2[] collisionLocations) {
             this.collisionPartner = collisionPartner;
-            this.collisionLocation = collisionLocation;
+            this.collisionLocations = collisionLocations;
         }
     }
 }
