@@ -76,28 +76,29 @@ namespace Prog2370_Final {
                             int rightItCount = rightC.BoundingVertices.Length - (rightC.BoundingLinesLoop ? 0 : 1);
                             for (int p = 0; lookForCollisions && p < leftItCount; p++)
                             for (int q = 0; lookForCollisions && q < rightItCount; q++) {
-                                Vector2
+                                Vector2 // The raw points (allowing for rollover to make loops)
                                     p0 = leftC.BoundingVertices[p],
                                     p1 = leftC.BoundingVertices[(p + 1) % leftC.BoundingVertices.Length],
                                     q0 = rightC.BoundingVertices[q],
                                     q1 = rightC.BoundingVertices[(q + 1) % rightC.BoundingVertices.Length];
-                                Vector2
+                                Vector2 // End points for `p + s` or `q + s` form
                                     s1 = new Vector2(p1.X - p0.X, p1.Y - p0.Y),
                                     s2 = new Vector2(q1.X - q0.X, q1.Y - q0.Y);
-                                float s, t;
-                                s = (-s1.Y * (p0.X - q0.X) + s1.X * (p0.Y - q0.Y)) / (-s2.X * s1.Y + s1.X * s2.Y);
-                                t = (s2.X * (p0.Y - q0.Y) - s2.Y * (p0.X - q0.X)) / (-s2.X * s1.Y + s1.X * s2.Y);
+                                float // Solve for s & t
+                                    s = (-s1.Y * (p0.X - q0.X) + s1.X * (p0.Y - q0.Y)) / (-s2.X * s1.Y + s1.X * s2.Y),
+                                    t = (s2.X * (p0.Y - q0.Y) - s2.Y * (p0.X - q0.X)) / (-s2.X * s1.Y + s1.X * s2.Y);
 
-                                if (s >= 0 && s <= 1 && t >= 0 && t <= 1) { // If this is true then COLLISION!
-                                    if (collisionLocations == null) lookForCollisions = false;
-                                    else
-                                        collisionLocations.Add(
-                                            new Vector2(p0.X + (t * s1.X), p0.Y + (t * s1.Y)));
+                                if (0 <= s && s <= 1 && 0 <= t && t <= 1) { // If this is true then COLLISION!
+                                    if (collisionLocations != null)
+                                        collisionLocations.Add(new Vector2(
+                                            p0.X + (t * s1.X),
+                                            p0.Y + (t * s1.Y)));
+                                    else lookForCollisions = false;
                                 }
                             }
                         }
                         // Now time to log this
-                         if (collisionLocations == null) { // Care about no more than partner (NONE falls here too)
+                        if (collisionLocations == null) { // Care about no more than partner (NONE falls here too)
                             if (lookForCollisions == false) { // At least one collision found
                                 if (left.CollisionNotificationLevel == Partner) // Only add for partner / NONE gets none
                                     collisionLogs[i].Add(new CollisionLog(right));
