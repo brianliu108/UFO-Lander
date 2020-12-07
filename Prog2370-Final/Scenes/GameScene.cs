@@ -11,7 +11,6 @@ using Prog2370_Final.Drawable.Sprites;
 
 namespace Prog2370_Final.Scenes {
     public class GameScene : Scene {
-        
         private InfiniteTerrain terrain;
         private CollisionManager collisionManager;
         private UFO ufo;
@@ -22,58 +21,63 @@ namespace Prog2370_Final.Scenes {
         private SimpleString died;
         private SoundEffectInstance deathSouthIns;
 
-        private MeterBar mb;
-        private MeterBar gasBar;
+        private MeterBar meterSpeed;
+        private MeterBar meterGas;
         private SimpleString distance;
 
         private Explosion explosion;
-        private MouseState oldState; // temp
 
-        public GameScene(Game game,
-            SpriteBatch spriteBatch) : base(game) {
+        public GameScene(Game game, SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
 
-            var tempTerrain = new Terrain(
-                Game, spriteBatch,
+            // Add our UFO
+            this.Components.Add(ufo = new UFO(Game, spriteBatch, new Vector2(50, 200)));
+
+            // Add the infinite terrain (which also does gas cans)
+            var tempTerrain = new Terrain(Game, spriteBatch,
                 GraphicsDevice.Viewport.Bounds.Width / 3f, 50,
                 80, 1, 0, 4,
                 ColourSchemes.brown, new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f));
+            Components.Add(terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 3, 3));
 
-            terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 3, 3);
+            // Add distance string
+            Components.Add(
+                distance = new SimpleString(game, spriteBatch,
+                    resources.BoldFont,
+                    new Vector2(20, 20),
+                    "Distance: 0",
+                    ColourSchemes.pink));
 
-            Components.Add(terrain);
+            // Create Speed meter
+            Components.Add(
+                meterSpeed = new MeterBar(
+                    new SimpleString(game, spriteBatch,
+                        resources.RegularFont,
+                        new Vector2(20, 70),
+                        "Speed: ",
+                        Color.Black),
+                    0, ufo.MaxVelocity));
+
+            // Create Gas meter
+            Components.Add(
+                meterGas = new MeterBar(
+                    new SimpleString(game, spriteBatch,
+                        resources.RegularFont,
+                        new Vector2(20, 120),
+                        "Gas: ",
+                        Color.Black),
+                    0, ufo.Gas));
 
 
-            ufo = new UFO(Game, spriteBatch, new Vector2(50, 200));
-            // GasCan gasCan = new GasCan(Game, spriteBatch, new Vector2(200, GraphicsDevice.Viewport.Bounds.Height - 50));
-            // this.Components.Add(gasCan);
-            this.Components.Add(ufo);
-
-            Components.Add(mb = new MeterBar(
-                new SimpleString(game, spriteBatch, resources.RegularFont, 
-                    new Vector2(20, 70), "Speed: ", Color.Black),
-                0, ufo.MaxVelocity
-                ));
-
-            // Create gas meter
-            Components.Add(gasBar = new MeterBar(
-                new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 120),
-                "Gas: ", Color.Black), 0, ufo.Gas));
-            
-            Components.Add(distance = new SimpleString(game, spriteBatch, resources.BoldFont,new Vector2(20,20),"Distance: 0",ColourSchemes.pink ));
-            
             // Create collision manager
             Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
-            // collisionManager.Add(gasCan);
 
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
 
-            // Death sound and string
-            died = new SimpleString(game, spriteBatch, resources.DeathFont, new Vector2(Shared.stage.X / 2 - 100, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
-            deathSouthIns = resources.deathSound.CreateInstance();
-            deathSouthIns.Volume = .5f;
+            died = new SimpleString(game, spriteBatch, resources.DeathFont, new Vector2(Shared.stage.X / 2 - 105, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
+            deathSouthIns = resources.deathSound.CreateInstance();      
         }
 
         public override void Update(GameTime gameTime) {
@@ -98,11 +102,11 @@ namespace Prog2370_Final.Scenes {
                 Components.Add(gasCan);
                 collisionManager.Add(gasCan);
             }
-            mb.current = ufo.Speed;
-            gasBar.current = ufo.Gas;
+            meterSpeed.current = ufo.Speed;
+            meterGas.current = ufo.Gas;
             distance.message = "Distance " + ((int) ufo.position.X + (int) -terrain.MasterOffset);
-            mb.Update(gameTime);
-            gasBar.Update(gameTime);
+            meterSpeed.Update(gameTime);
+            meterGas.Update(gameTime);
             
             if (ufo.Dead && deadCounter == 0)
             {

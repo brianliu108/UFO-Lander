@@ -10,11 +10,18 @@ namespace Prog2370_Final.Drawable {
         private SpriteBatch spriteBatch;
         private SimpleString text;
         private readonly string initialMessage;
+        private Rectangle drawSize;
 
         private readonly float min, max;
         public float current;
 
-        public MeterBar(SimpleString text, float min, float max) : base(text.Game) {
+        public MeterBar(SimpleString text, float min, float max) : this(text, 
+            new Rectangle(
+                text.position.ToPoint(),
+                text.spriteFont.MeasureString(text.message).ToPoint()),
+            min, max) { }
+
+        public MeterBar(SimpleString text, Rectangle drawSize, float min, float max) : base(text.Game) {
             resources = ((Game1) text.Game).Resources;
             this.spriteBatch = text.spriteBatch;
             initialMessage = text.message;
@@ -22,8 +29,8 @@ namespace Prog2370_Final.Drawable {
             this.min = current = min;
             this.max = max;
             text.message = initialMessage + current;
+            this.drawSize = drawSize;
         }
-
 
         public override void Update(GameTime gameTime) {
             text.message = initialMessage + $"{current,5:##0.0}";
@@ -32,9 +39,7 @@ namespace Prog2370_Final.Drawable {
         public override void Draw(GameTime gameTime) {
             spriteBatch.Begin();
             Rectangle line;
-            Rectangle bb = line = new Rectangle(
-                text.position.ToPoint(),
-                text.spriteFont.MeasureString(text.message).ToPoint());
+            Rectangle bb = line = drawSize;
             line.Width = (int) (line.Width * current / (max - min));
             spriteBatch.Draw(resources.WhitePixel, line, ColourSchemes.pink);
             // Y
@@ -50,9 +55,8 @@ namespace Prog2370_Final.Drawable {
             line.X += bb.Width;
             spriteBatch.Draw(resources.WhitePixel, line, ColourSchemes.normRed);
             spriteBatch.End();
-            
-            text.Draw(gameTime);
 
+            text.Draw(gameTime);
         }
     }
 }

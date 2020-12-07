@@ -13,7 +13,7 @@ using static Prog2370_Final.CollisionNotificationLevel;
 
 namespace Prog2370_Final {
     public class CollisionManager : DrawableGameComponent {
-        private bool debug = true;
+        private bool debug = false;
         private readonly List<WeakReference<ICollidable>> collidables = new List<WeakReference<ICollidable>>();
 
         public CollisionManager(Game game) : base(game) { }
