@@ -26,6 +26,7 @@ namespace Prog2370_Final.Drawable.Sprites
         private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns, landIns;
         private bool dead = false;
         private SimpleString died;
+        private bool landed = false;
 
         private const float SPEED_MARGIN = 0.1f;
         private const int FRAMES_STILL_MARGIN = 15;
@@ -114,31 +115,37 @@ namespace Prog2370_Final.Drawable.Sprites
                 thrustIns.Stop();
             }
 
-            if(CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0 && !dead)
+            if (CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0)
             {
-                
-                if(Speed <= 1.5)
+                if(!dead && !landed)
                 {
-                    landIns.Play();
-                }
-                else if(Speed > 1.5 && Speed <= 5)
-                {
-                    softExplosionIns.Play();
-                    dead = true;
-                }
-                else if(Speed > 5)
-                {
-                    //softExplosionIns.Play();
-                    hugeExplosionIns.Play();
-                    dead = true;
-                }
-                velocity = Vector2.Zero;
+                    if (Speed <= 1.5)
+                    {
+                        landIns.Play();
+                    }
+                    else if (Speed > 1.5 && Speed <= 5)
+                    {
+                        softExplosionIns.Play();
+                        dead = true;
+                    }
+                    else if (Speed > 5)
+                    {
+                        //softExplosionIns.Play();
+                        hugeExplosionIns.Play();
+                        dead = true;
+                    }
+                    landed = true;
 
-                if (dead)
-                {
-                    
+                    this.velocity = Vector2.Zero;
                 }
+                
             }
+            else
+            {
+                landed = false;
+            }
+            
+
             
             base.Update(gameTime);
 
@@ -217,7 +224,11 @@ namespace Prog2370_Final.Drawable.Sprites
         /// </summary>
         private void ApplyEnvironmentEffects()
         {
-            this.velocity.Y += gravity;
+            if (!landed)
+            {
+                this.velocity.Y += gravity;
+            }
+            
             if (velocity.X > 0)
             {
                 this.velocity.X -= drag;

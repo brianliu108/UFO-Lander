@@ -70,8 +70,10 @@ namespace Prog2370_Final.Scenes {
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
 
-            died = new SimpleString(game, spriteBatch, resources.DeathFont, new Vector2(Shared.stage.X / 2 - 105, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
-            deathSouthIns = resources.deathSound.CreateInstance();      
+            // Death sound and string
+            died = new SimpleString(game, spriteBatch, resources.DeathFont, new Vector2(Shared.stage.X / 2 - 100, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
+            deathSouthIns = resources.deathSound.CreateInstance();
+            deathSouthIns.Volume = .5f;
         }
 
         public override void Update(GameTime gameTime) {
@@ -101,9 +103,7 @@ namespace Prog2370_Final.Scenes {
             distance.message = "Distance " + ((int) ufo.position.X + (int) -terrain.MasterOffset);
             mb.Update(gameTime);
             gasBar.Update(gameTime);
-
             
-
             if (ufo.Dead && deadCounter == 0)
             {
                 explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2), ufo.position.Y - (explosion.Dimension.Y / 2));
