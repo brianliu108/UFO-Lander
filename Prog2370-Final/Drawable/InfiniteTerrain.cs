@@ -53,7 +53,7 @@ namespace Prog2370_Final.Drawable {
 
         public bool HasNewGasCan(out GasCan gasCan) {
             if (-MasterOffset - lastGasCanTickOffset > minGasCanDistance) {
-                gasCans.RemoveAll(reference => 
+                gasCans.RemoveAll(reference =>
                     reference.TryGetTarget(out GasCan g) == false ||
                     g.Perished ||
                     g.pos.X < -100);
@@ -62,12 +62,13 @@ namespace Prog2370_Final.Drawable {
                     float x = GraphicsDevice.Viewport.Width - 100, y = GraphicsDevice.Viewport.Height - 100;
                     foreach (Terrain chunk in Chunks) {
                         Rectangle chunkBounds = chunk.terrain.BoundingBox;
-                        if (chunkBounds.X < x && x + 32 /*MAGIC NUMBER MUST COME FROM SOMEWHERE*/ < chunkBounds.X + chunkBounds.Width) {
+                        if (chunkBounds.X < x && x + 32 /*MAGIC NUMBER MUST COME FROM SOMEWHERE*/ <
+                            chunkBounds.X + chunkBounds.Width) {
                             //Then this is our chunk
-                            foreach (Vector2 vertex in chunk.terrain.Vertices)
-                                if (x < vertex.X + chunkBounds.X && vertex.X + chunkBounds.X< x + 32 /*same magic num*/)
+                            foreach (Vector2 vertex in chunk.terrain.BoundingVertices)
+                                if (x < vertex.X && vertex.X < x + 32 /*same magic num*/)
                                     y = Math.Min(y, vertex.Y);
-                            y += chunkBounds.Y;
+                            y -= 35;
                             break;
                         }
                     }
