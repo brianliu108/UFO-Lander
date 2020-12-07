@@ -24,8 +24,7 @@ namespace Prog2370_Final.Drawable.Sprites
         private int framesStill = 0;
         private SoundEffect thrust;
         private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns, landIns;
-        private bool dead = false;
-        private Explosion explosion;
+        private bool dead = false;        
 
         private const float SPEED_MARGIN = 0.1f;
         private const int FRAMES_STILL_MARGIN = 15;
@@ -44,6 +43,8 @@ namespace Prog2370_Final.Drawable.Sprites
 
         public float Gas { get => gas; set => gas = value; }
         public float MaxVelocity { get => maxVelocity; }
+        public bool Dead { get => dead; set => dead = value; }
+        
 
 
 
@@ -52,8 +53,7 @@ namespace Prog2370_Final.Drawable.Sprites
             SpriteBatch spriteBatch,            
             Vector2 position) : base(game, spriteBatch, ((Game1)game).Resources.UFO, position)
         {
-            this.spriteBatch = spriteBatch;
-            this.tex = tex;
+            this.spriteBatch = spriteBatch;            
             resources = ((Game1)game).Resources;
             thrust = resources.thrust;
             thrustIns = thrust.CreateInstance();
@@ -61,8 +61,7 @@ namespace Prog2370_Final.Drawable.Sprites
             hugeExplosionIns.Volume = .1f;
 
             softExplosionIns = resources.softExplosion.CreateInstance();
-
-            explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 10);
+            
         }
 
         public override void Draw(GameTime gameTime)
@@ -97,7 +96,7 @@ namespace Prog2370_Final.Drawable.Sprites
                 UpdateMovement(ks);
             }
             else
-            {
+            {                
                 thrustIns.Stop();
             }
 
@@ -118,6 +117,7 @@ namespace Prog2370_Final.Drawable.Sprites
                     dead = true;
                 }
             }
+            base.Update(gameTime);
 
         }
 

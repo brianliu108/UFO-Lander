@@ -16,7 +16,7 @@ namespace Prog2370_Final.Scenes {
         private CollisionManager collisionManager;
         private UFO ufo;
         private KeyboardState ks;
-        
+        int deadCounter = 0;
 
         private MeterBar mb;
         private MeterBar gasBar;
@@ -91,14 +91,14 @@ namespace Prog2370_Final.Scenes {
             mb.Update(gameTime);
             gasBar.Update(gameTime);
 
-            MouseState ms = Mouse.GetState();
+            
 
-            if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+            if (ufo.Dead && deadCounter == 0)
             {
-                explosion.Position = new Vector2(ms.X - (explosion.Dimension.X / 2), ms.Y - (explosion.Dimension.Y / 2));
+                explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2), ufo.position.Y - (explosion.Dimension.Y / 2));
                 explosion.Show(true);
-            }
-            oldState = ms;
+                deadCounter++;
+            }            
 
             base.Update(gameTime);
 
