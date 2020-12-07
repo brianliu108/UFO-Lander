@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Schema;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -78,6 +79,10 @@ namespace Prog2370_Final.Scenes {
                 float dif = ufo.position.X - ufoMinPos;
                 terrain.MasterOffset -= dif;
                 ufo.position.X -= dif;
+            }
+            if (terrain.HasNewGasCan(out GasCan gasCan)) {
+                Components.Add(gasCan);
+                collisionManager.Add(gasCan);
             }
             mb.current = ufo.Speed;
             gasBar.current = ufo.Gas;

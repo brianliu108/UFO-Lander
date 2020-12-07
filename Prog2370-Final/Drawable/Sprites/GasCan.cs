@@ -6,15 +6,17 @@ using System.Linq;
 namespace Prog2370_Final.Drawable.Sprites {
     public class GasCan : Sprite , ICollidable, IPerishable
     { //TODO Make this inherit from `Sprite` instead.        
-        private Rectangle position;
+        public Vector2 pos;
+        private Point drawSize;
+        // private Rectangle position;
         private bool perished;
 
         public bool CanCollide { get; private set; }
-        public Rectangle AABB => position;
+        public Rectangle AABB => new Rectangle(pos.ToPoint(),drawSize);
 
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Partner;
 
-        public List<CollisionLog> CollisionLogs { get; set; }
+        public List<CollisionLog> CollisionLogs { get; set; } = new List<CollisionLog>();
 
         public GasCan(Game game,
             SpriteBatch spriteBatch,
@@ -22,23 +24,26 @@ namespace Prog2370_Final.Drawable.Sprites {
             Vector2 position) : base(game, spriteBatch, tex, position) {
             this.spriteBatch = spriteBatch;
             this.tex = tex;
-            this.position = new Rectangle((int) position.X, (int) position.Y, tex.Width / 2, tex.Height / 2);
+            // this.position = new Rectangle((int) position.X, (int) position.Y, tex.Width / 2, tex.Height / 2);
+            this.pos = position;
+            drawSize = new Point(tex.Width / 2, tex.Height / 2);
             CanCollide = true;
             Perished = false;
         }
         
 
-        public void Move(Vector2 position) {
-            this.position = new Rectangle((int) (position.X), (int) (position.Y), tex.Width / 2, tex.Height / 2);
-        }
+        // public void Move(Vector2 position) {
+        //     // this.position = new Rectangle((int) (position.X), (int) (position.Y), tex.Width / 2, tex.Height / 2);
+        //     positionNew = position;
+        // }
 
-        public Rectangle GetBound() {
-            return new Rectangle((int) (position.X), (int) (position.Y), tex.Width, tex.Height);
-        }
+        // public Rectangle GetBound() {
+        //     return new Rectangle((int) (position.X), (int) (position.Y), tex.Width, tex.Height);
+        // }
 
         public override void Draw(GameTime gameTime) {
             spriteBatch.Begin();
-            spriteBatch.Draw(tex, position, Color.White);
+            spriteBatch.Draw(tex, new Rectangle(pos.ToPoint(),drawSize), Color.White);
             spriteBatch.End();
 
 
