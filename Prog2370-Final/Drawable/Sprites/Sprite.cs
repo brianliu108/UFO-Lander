@@ -17,8 +17,9 @@ namespace Prog2370_Final.Drawable.Sprites {
         public Rectangle hitbox; // TODO: Find hitboxes for each of our sprites=-
 
         public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game) {
+            this.spriteBatch = spriteBatch;
             resources = ((Game1) (Game)).Resources;
-            
+            this.tex = tex;
         }
 
         public static void DrawBoundingBox(Rectangle boundingBox, Game1 game, Color color) {
