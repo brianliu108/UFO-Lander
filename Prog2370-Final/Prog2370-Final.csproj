@@ -75,9 +75,10 @@
   <ItemGroup>
     <Content Include="Content\Fonts\BoldFont.spritefont" />
     <Content Include="Content\Fonts\RegularFont.spritefont" />
-    <Content Include="Content\Sounds\crash.mp3" />
-    <Content Include="Content\Sounds\land.mp3" />
-    <Content Include="Content\Sounds\rocket.wav" />
+    <Content Include="Content\Sounds\hugeExplosion.wav" />
+    <Content Include="Content\Sounds\land.wav" />
+    <Content Include="Content\Sounds\softExplosion.wav" />
+    <Content Include="Content\Sounds\thrust.wav" />
     <Content Include="Icon.ico" />
     <Content Include="UFO.ico" />
   </ItemGroup>
