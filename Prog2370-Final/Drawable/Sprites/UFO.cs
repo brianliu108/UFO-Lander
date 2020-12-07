@@ -18,10 +18,12 @@ namespace Prog2370_Final.Drawable.Sprites
         private float lightAcceleration = 0.075f;
         private float maxVelocity = 10f;
         private float drag = 0.02f;
+        private float highestYValue = 0;
         private double angle = (Math.PI / 2);
         private double changeInAngle = (Math.PI / 100);
         private float gas = 100;
         private int framesStill = 0;
+       
         private SoundEffect thrust;
         private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns, landIns;
         private bool dead = false;
@@ -136,7 +138,8 @@ namespace Prog2370_Final.Drawable.Sprites
                     }
                     landed = true;
 
-                    this.velocity = Vector2.Zero;
+                    this.velocity.Y = 0f;
+                    highestYValue = this.position.Y;
                 }
                 
             }
@@ -144,7 +147,12 @@ namespace Prog2370_Final.Drawable.Sprites
             {
                 landed = false;
             }
-            
+
+            if (landed)
+            {
+                if (this.position.Y > highestYValue)
+                    this.position.Y = highestYValue;
+            }
 
             
             base.Update(gameTime);
