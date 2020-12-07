@@ -3,23 +3,38 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Prog2370_Final.Drawable.Sprites;
 
 namespace Prog2370_Final.Drawable {
     public class InfiniteTerrain : DrawableGameComponent {
-        private ShortTerrainDeQueue data;
         private SpriteBatch spriteBatch;
+        private readonly Random r = new Random();
+        private readonly ShortTerrainDeQueue data; // Main terrain data
+        private readonly List<WeakReference<GasCan>> gasCans = new List<WeakReference<GasCan>>();
+        private float lastGasCanTickOffset = 0;
+        private float minGasCanDistance = 100;
+
         public List<Terrain> Chunks => data.AsTerrainList();
+
+        public float FurthestOffset { get; private set; } = 0;
 
         public float MasterOffset {
             get => data.terrainOffset;
             set {
+                float dif = value - data.terrainOffset;
                 data.terrainOffset = value;
+                if (value > FurthestOffset) FurthestOffset = value;
                 if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain > data.integerOffset) {
                     data.integerOffset++;
                     data.MoveLeft();
                 } else if ((int) (data.terrainOffset + data.Domain / 2) / (int) data.Domain < data.integerOffset) {
                     data.integerOffset--;
                     data.MoveRight();
+                }
+                foreach (var reference in gasCans) {
+                    if (reference.TryGetTarget(out GasCan gasCan)) {
+                        gasCan.pos.X += dif;
+                    }
                 }
             }
         }
@@ -34,9 +49,21 @@ namespace Prog2370_Final.Drawable {
             foreach (var terrain in data.AsTerrainList()) terrain.Draw(gameTime);
         }
 
-        public override void Update(GameTime gameTime) {
-            // data.terrainOffset -= 5; // Terrain moves left
-            // data.terrainOffset += 5; // Terrain moves right
+        public override void Update(GameTime gameTime) { }
+
+        public bool HasNewGasCan(out GasCan gasCan) {
+            if (-MasterOffset - lastGasCanTickOffset > minGasCanDistance) {
+                gasCans.RemoveAll(reference => reference.TryGetTarget(out GasCan g) == false || g.Perished);
+                lastGasCanTickOffset += minGasCanDistance;
+                if (r.Next(10) < 1) {
+                    GasCan g = new GasCan(Game, spriteBatch, ((Game1) Game).Resources.GasCan, new Vector2(GraphicsDevice.Viewport.Width + 100, 400));
+                    gasCans.Add(new WeakReference<GasCan>(g));
+                    gasCan = g;
+                    return true;
+                }
+            }
+            gasCan = null;
+            return false;
         }
 
         private class ShortTerrainDeQueue { //TODO rename
