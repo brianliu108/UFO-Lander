@@ -63,7 +63,7 @@ namespace Prog2370_Final.Scenes {
                     GraphicsDevice.Viewport.Bounds.Height / 2f);
                 for (int i = 0; i < starCount; i++) {
                     float x = (float) ((i + r.NextDouble() * 0.75) / (starCount - 1f) * 2f * Math.PI);
-                    stars[(int) i].offset = center + new Vector2(
+                    stars[(int) i].Offset = center + new Vector2(
                         (float) (200 * Math.Cos(x)),
                         (float) (100 * Math.Sin(x)));
                 }

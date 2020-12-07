@@ -56,7 +56,7 @@ namespace Prog2370_Final.Drawable {
             set {
                 offset = value;
                 if (terrain != null)
-                    terrain.offset = value;
+                    terrain.Offset = value;
             }
         }
 
@@ -77,7 +77,7 @@ namespace Prog2370_Final.Drawable {
                                       - Cos(17 * x) / 13
                                       + Cos(34 * x) / 13));
             terrain = new VectorImage(game, spriteBatch, vertices, width, color) {
-                offset = Offset
+                Offset = Offset
             };
         }
 

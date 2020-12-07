@@ -25,14 +25,23 @@ namespace Prog2370_Final.Drawable {
 
         public bool CanCollide => true;
         public Vector2[] Vertices => vertices;
-        public Vector2 offset = Vector2.Zero;
+        private Vector2 offset = Vector2.Zero;
         public Vector2 scale = Vector2.One;
+
+
+        public Vector2 Offset {
+            get => offset;
+            set {
+                offset = value;
+                offsetChangedSinceGetBoundingVertices = true;
+            }
+        }
 
         public Rectangle BoundingBox {
             get {
                 Rectangle r = boundingBox;
-                r.X += (int) offset.X;
-                r.Y += (int) offset.Y;
+                r.X += (int) Offset.X;
+                r.Y += (int) Offset.Y;
                 r.Width *= (int) scale.X;
                 r.Height *= (int) scale.Y;
                 return r;
@@ -99,14 +108,14 @@ namespace Prog2370_Final.Drawable {
         public override void Draw(GameTime gameTime) {
             // Setting up the offset array
             Rectangle[] rAdjusted;
-            if (offset == Vector2.Zero && scale == Vector2.Zero) {
+            if (Offset == Vector2.Zero && scale == Vector2.Zero) {
                 rAdjusted = rectangles;
             } else {
                 rAdjusted = new Rectangle[rectangles.Length];
                 for (var i = 0; i < rectangles.Length; i++)
                     rAdjusted[i] =
                         new Rectangle(
-                            (rectangles[i].Location.ToVector2() * scale + offset).ToPoint(),
+                            (rectangles[i].Location.ToVector2() * scale + Offset).ToPoint(),
                             (rectangles[i].Size.ToVector2() * new Vector2(scale.X, 1)).ToPoint());
             }
 
@@ -143,17 +152,25 @@ namespace Prog2370_Final.Drawable {
         public Rectangle AABB => BoundingBox;
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.None;
         public List<CollisionLog> CollisionLogs { get; set; }
+        
+        private bool offsetChangedSinceGetBoundingVertices = true;
+        private Vector2[] _boundingVertices;
         public Vector2[] BoundingVertices {
             get {
-                Vector2[] boundingVertices = new Vector2[vertices.Length];
-                for (int i = 0; i < vertices.Length; i++)
-                    boundingVertices[i] = vertices[i] + offset;
-                return boundingVertices;
+                if (offsetChangedSinceGetBoundingVertices) {
+                    offsetChangedSinceGetBoundingVertices = false;
+                    _boundingVertices = new Vector2[vertices.Length];
+                    for (int i = 0; i < vertices.Length; i++)
+                        _boundingVertices[i] = vertices[i] + Offset;
+                }
+                return _boundingVertices;
             }
         }
 
         public bool BoundingLinesLoop => false;
         public bool BoundingLinesFormConvexPolygon => false;
+
+
 
         #endregion
     }
