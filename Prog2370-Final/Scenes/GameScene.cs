@@ -48,25 +48,35 @@ namespace Prog2370_Final.Scenes {
                     "Distance: 0",
                     ColourSchemes.pink));
 
-            // Create Speed meter
+            // Create Speed meter & string
             Components.Add(
                 meterSpeed = new MeterBar(
                     new SimpleString(game, spriteBatch,
                         resources.RegularFont,
-                        new Vector2(20, 70),
-                        "Speed: ",
-                        Color.Black),
+                        new Vector2(215, 70),
+                        "", Color.Black,
+                        SimpleString.TextAlignH.Right),
+                    new Rectangle(20, 70, 200, resources.RegularFont.LineSpacing),
                     0, ufo.MaxVelocity));
-
-            // Create Gas meter
+            Components.Add(new SimpleString(game, spriteBatch,
+                resources.RegularFont,
+                new Vector2(25, 70),
+                "Speed", Color.Black));
+            
+            // Create Gas meter & string
             Components.Add(
                 meterGas = new MeterBar(
                     new SimpleString(game, spriteBatch,
                         resources.RegularFont,
-                        new Vector2(20, 120),
-                        "Gas: ",
-                        Color.Black),
+                        new Vector2(215, 120),
+                        "", Color.Black,
+                        SimpleString.TextAlignH.Right),
+                    new Rectangle(20, 120, 200, resources.RegularFont.LineSpacing),
                     0, ufo.Gas));
+            Components.Add(new SimpleString(game, spriteBatch,
+                resources.RegularFont,
+                new Vector2(25, 120),
+                "Gas: ", Color.Black));
 
 
             // Create collision manager
@@ -76,8 +86,9 @@ namespace Prog2370_Final.Scenes {
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
 
-            died = new SimpleString(game, spriteBatch, resources.DeathFont, new Vector2(Shared.stage.X / 2 - 105, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
-            deathSouthIns = resources.deathSound.CreateInstance();      
+            died = new SimpleString(game, spriteBatch, resources.DeathFont,
+                new Vector2(Shared.stage.X / 2 - 105, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
+            deathSouthIns = resources.deathSound.CreateInstance();
         }
 
         public override void Update(GameTime gameTime) {
@@ -104,36 +115,31 @@ namespace Prog2370_Final.Scenes {
             }
             meterSpeed.current = ufo.Speed;
             meterGas.current = ufo.Gas;
-            distance.message = "Distance " + ((int) ufo.position.X + (int) -terrain.MasterOffset);
+            distance.Message = "Distance " + ((int) ufo.position.X + (int) -terrain.MasterOffset);
             meterSpeed.Update(gameTime);
             meterGas.Update(gameTime);
-            
-            if (ufo.Dead && deadCounter == 0)
-            {
-                explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2), ufo.position.Y - (explosion.Dimension.Y / 2));
+
+            if (ufo.Dead && deadCounter == 0) {
+                explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2),
+                    ufo.position.Y - (explosion.Dimension.Y / 2));
                 explosion.Show(true);
                 deadCounter++;
-                startFrameCount = true;                
+                startFrameCount = true;
             }
-            if (startFrameCount)
-            {
+            if (startFrameCount) {
                 frameCount++;
-                
-                if (frameCount == 60)
-                {
+
+                if (frameCount == 60) {
                     deathSouthIns.Play();
                 }
-                if(frameCount == 120)
-                {
+                if (frameCount == 120) {
                     DeathScene();
                 }
             }
             base.Update(gameTime);
-
         }
 
-        private void DeathScene()
-        {
+        private void DeathScene() {
             this.Components.Add(died);
             startFrameCount = false;
         }

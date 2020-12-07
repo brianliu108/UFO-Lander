@@ -17,23 +17,23 @@ namespace Prog2370_Final.Drawable {
 
         public MeterBar(SimpleString text, float min, float max) : this(text, 
             new Rectangle(
-                text.position.ToPoint(),
-                text.spriteFont.MeasureString(text.message).ToPoint()),
+                text.Position.ToPoint(),
+                text.spriteFont.MeasureString(text.Message).ToPoint()),
             min, max) { }
 
         public MeterBar(SimpleString text, Rectangle drawSize, float min, float max) : base(text.Game) {
             resources = ((Game1) text.Game).Resources;
             this.spriteBatch = text.spriteBatch;
-            initialMessage = text.message;
+            initialMessage = text.Message;
             this.text = text;
             this.min = current = min;
             this.max = max;
-            text.message = initialMessage + current;
+            text.Message = initialMessage + current;
             this.drawSize = drawSize;
         }
 
         public override void Update(GameTime gameTime) {
-            text.message = initialMessage + $"{current,5:##0.0}";
+            text.Message = initialMessage + $"{current,5:##0.0}";
         }
 
         public override void Draw(GameTime gameTime) {
