@@ -94,48 +94,17 @@ namespace Prog2370_Final.Drawable.Sprites
             this.tex = resources.UFO;
             if (ks.IsKeyDown(Keys.Up))
             {
-                if (gas >= 0)
+                if (gas >= 0 && !dead)
                 {
-                    velocity -= UnitVectorFromAngle((float)angle) * acceleration;
-
-                    if (velocity.X > maxVelocity)
-                    {
-                        velocity.X = maxVelocity;
-                    }
-                    else if (velocity.X < (maxVelocity * -1))
-                    {
-                        velocity.X = (maxVelocity * -1);
-                    }
-
-                    gas = gas - 0.05f;
-                    this.tex = resources.UFO_thrust;
-
-                    // Play soundeffect
-                    thrustIns.Volume = 1.0f;
-                    thrustIns.Play();
+                    Thrust(acceleration, 0.05f, 1.0f);
 
                 }
             }
             else if (ks.IsKeyDown(Keys.Space))
             {
-                if (gas >= 0)
+                if (gas >= 0 && !dead)
                 {
-                    velocity -= UnitVectorFromAngle((float)angle) * lightAcceleration;
-
-                    if (velocity.X > maxVelocity)
-                    {
-                        velocity.X = maxVelocity;
-                    }
-                    else if (velocity.X < (maxVelocity * -1))
-                    {
-                        velocity.X = (maxVelocity * -1);
-                    }
-                    gas = gas - 0.025f;
-                    this.tex = resources.UFO_thrust;
-
-                    // Play soundeffect
-                    thrustIns.Volume = .5f;
-                    thrustIns.Play();
+                    Thrust(lightAcceleration, 0.025f, 0.5f);
                 }
             }
             else
@@ -195,5 +164,24 @@ namespace Prog2370_Final.Drawable.Sprites
             => new Vector2(
                 (float)Math.Cos(angle),
                 (float)Math.Sin(angle));
+
+        private void Thrust(float accel,float gasConsumption, float vol)
+        {
+            velocity -= UnitVectorFromAngle((float)angle) * accel;
+            if (velocity.X > maxVelocity)
+            {
+                velocity.X = maxVelocity;
+            }
+            else if (velocity.X < (maxVelocity * -1))
+            {
+                velocity.X = (maxVelocity * -1);
+            }
+            // Reduce gas level 
+            gas = gas - gasConsumption;
+            this.tex = resources.UFO_thrust;
+            // Play soundeffect
+            thrustIns.Volume = vol;
+            thrustIns.Play();
+        }
     }
 }
