@@ -61,7 +61,7 @@ namespace Prog2370_Final.Drawable {
                 lastGasCanTickOffset += minGasCanDistance;
                 if (r.Next(10) < 1) {
                     GasCan g = new GasCan(Game, spriteBatch, Vector2.Zero);
-                    float x = GraphicsDevice.Viewport.Width - 100, y = GraphicsDevice.Viewport.Height - 100;
+                    float x = GraphicsDevice.Viewport.Width + g.tex.Width, y = GraphicsDevice.Viewport.Height;
                     foreach (Terrain chunk in Chunks) {
                         Rectangle chunkBounds = chunk.terrain.BoundingBox;
                         if (chunkBounds.X < x && x + g.AABB.Width < chunkBounds.X + chunkBounds.Width) {
