@@ -53,7 +53,8 @@ namespace Prog2370_Final.Drawable.Sprites
             SpriteBatch spriteBatch,            
             Vector2 position) : base(game, spriteBatch, ((Game1)game).Resources.UFO, position)
         {
-            this.spriteBatch = spriteBatch;            
+            this.spriteBatch = spriteBatch;
+            this.position = position;
             resources = ((Game1)game).Resources;
             thrust = resources.thrust;
             thrustIns = thrust.CreateInstance();
