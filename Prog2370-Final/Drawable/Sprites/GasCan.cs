@@ -51,8 +51,8 @@ namespace Prog2370_Final.Drawable.Sprites {
         }
 
         public override void Update(GameTime gameTime) {
-            if (CollisionLogs.Count(log => log.collisionPartner is UFO) > 0)
-                Perished = true;
+            // if (CollisionLogs.Count(log => log.collisionPartner is UFO) > 0)
+            //     Perished = true;
         }
 
         protected override void LoadContent() {
