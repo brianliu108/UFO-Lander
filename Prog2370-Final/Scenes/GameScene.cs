@@ -46,13 +46,13 @@ namespace Prog2370_Final.Scenes {
             Components.Add(mb = new MeterBar(
                 new SimpleString(game, spriteBatch, resources.RegularFont, 
                     new Vector2(20, 200), "Speed: ", Color.Black),
-                0, ufo.maxVelocity
+                0, ufo.MaxVelocity
                 ));
 
             // Create gas meter
             Components.Add(gasBar = new MeterBar(
                 new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 100),
-                "Gas: ", Color.Black), 0, ufo.gas));
+                "Gas: ", Color.Black), 0, ufo.Gas));
             
             // Create collision manager
             Components.Add(collisionManager = new CollisionManager(Game));
@@ -80,7 +80,7 @@ namespace Prog2370_Final.Scenes {
                 ufo.position.X -= dif;
             }
             mb.current = ufo.Speed;
-            gasBar.current = ufo.gas;
+            gasBar.current = ufo.Gas;
             mb.Update(gameTime);
             gasBar.Update(gameTime);
 

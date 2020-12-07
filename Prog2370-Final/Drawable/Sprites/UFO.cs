@@ -10,24 +10,24 @@ namespace Prog2370_Final.Drawable.Sprites
 {
     public class UFO : Sprite , ICollidable
     {
-        public Vector2 position = new Vector2(50, 50);        
-        public Vector2 velocity = new Vector2(0f,0f);
-        public Rectangle drawPos;
-        public float gravity = .05f;
-        public float acceleration = 0.15f;
-        public float lightAcceleration = 0.075f;
-        public float maxVelocity = 10f;
-        public float drag = 0.02f;
-        public double angle = (Math.PI/2);
-        public double changeInAngle = (Math.PI / 100);
-        public float gas = 100;
-        public int framesStill = 0;
-        public SoundEffect thrust;
-        public SoundEffectInstance thrustIns;
-        public bool dead = false;
-        
-        public const float SPEED_MARGIN = 0.1f;
-        public const int FRAMES_STILL_MARGIN = 15;
+        public Vector2 position = new Vector2(50, 50);
+        private Vector2 velocity = new Vector2(0f,0f);
+        private Rectangle drawPos;
+        private float gravity = .05f;
+        private float acceleration = 0.15f;
+        private float lightAcceleration = 0.075f;
+        private float maxVelocity = 10f;
+        private float drag = 0.02f;
+        private double angle = (Math.PI/2);
+        private double changeInAngle = (Math.PI / 100);
+        private float gas = 100;
+        private int framesStill = 0;
+        private SoundEffect thrust;
+        private SoundEffectInstance thrustIns;
+        private bool dead = false;
+
+        private const float SPEED_MARGIN = 0.1f;
+        private const int FRAMES_STILL_MARGIN = 15;
 
         public float Speed => (float) Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
         
@@ -40,6 +40,11 @@ namespace Prog2370_Final.Drawable.Sprites
         public List<CollisionLog> CollisionLogs { get; set; }
 
         public bool Perished => throw new NotImplementedException();
+
+        public float Gas { get => gas; set => gas = value; }
+        public float MaxVelocity { get => maxVelocity;}
+
+
 
         //public static float maxGravity = .2f;
         public UFO(Game game,
