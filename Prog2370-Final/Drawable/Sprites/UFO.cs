@@ -40,7 +40,7 @@ namespace Prog2370_Final.Drawable.Sprites
 
         public List<CollisionLog> CollisionLogs { get; set; }
 
-        public bool Perished => throw new NotImplementedException();
+        public bool Perished => false;
 
         public float Gas { get => gas; set => gas = value; }
         public float MaxVelocity { get => maxVelocity; }
