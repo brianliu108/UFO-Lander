@@ -53,10 +53,11 @@ namespace Prog2370_Final.Drawable {
 
         public bool HasNewGasCan(out GasCan gasCan) {
             if (-MasterOffset - lastGasCanTickOffset > minGasCanDistance) {
-                gasCans.RemoveAll(reference =>
-                    reference.TryGetTarget(out GasCan g) == false ||
-                    g.Perished ||
-                    g.pos.X < -100);
+                gasCans.RemoveAll(reference => {
+                    if (reference.TryGetTarget(out GasCan g) == false) return true;
+                    if (g.pos.X < -100) g.Perished = true;
+                    return g.Perished;
+                });
                 lastGasCanTickOffset += minGasCanDistance;
                 if (r.Next(4) < 1) {
                     GasCan g = new GasCan(Game, spriteBatch, Vector2.Zero);
