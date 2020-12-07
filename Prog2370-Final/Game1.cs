@@ -15,21 +15,20 @@ namespace Prog2370_Final {
         private GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         private Resources _resources;
-        public KeyboardState oldState;       
+        public KeyboardState oldState;
         private StartScene startScene;
         private GameScene playScene;
         private CreditsScene creditsScene;
         private HelpScene helpScene;
-        
+
 
         public Resources Resources => _resources;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;            
+            graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
-            
         }
 
         /// <summary>
@@ -108,21 +107,29 @@ namespace Prog2370_Final {
 
             if (startScene.Enabled) {
                 selectedIndex = startScene.Menu.SelectedIndex;
-                if (selectedIndex == 0 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
-                    HideAllScenes();
-                    playScene.Show(true);
-                }
-                else if (selectedIndex == 1 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
-                {
-                    HideAllScenes();
-                    helpScene.Show(true);
-                }
-                else if (selectedIndex == 2 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
-                    HideAllScenes();
-                    creditsScene.Show(true);
-                } else if (selectedIndex == 3 && ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter)) {
-                    Exit();
-                }
+                if (ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
+                    switch (selectedIndex) {
+                        case 0:
+                            HideAllScenes();
+                            playScene.Show(true);
+                            break;
+                        case 1:
+                            HideAllScenes();
+                            Components.Remove(playScene);
+                            Components.Add(playScene = new GameScene(this,spriteBatch));
+                            playScene.Show(true);
+                            break;
+                        case 2:
+                            HideAllScenes();
+                            helpScene.Show(true);
+                            break;
+                        case 3:
+                            HideAllScenes();
+                            creditsScene.Show(true);
+                            break;
+                        case 4: Exit();
+                            break;
+                    }
             }
             oldState = ks;
 
