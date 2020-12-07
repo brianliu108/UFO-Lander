@@ -14,7 +14,7 @@ namespace Prog2370_Final {
         public static readonly Color brown = new Color(102, 59, 58);
         public static readonly Color pink = new Color(129, 34, 85);
 
-        public readonly SoundEffect softExplosion, hugeExplosion;
+        public readonly SoundEffect softExplosion, hugeExplosion, thrust;
 
         public readonly SpriteFont
             RegularFont,
@@ -41,6 +41,8 @@ namespace Prog2370_Final {
 
             softExplosion = game.Content.Load<SoundEffect>("Sounds/softExplosion");
             hugeExplosion = game.Content.Load<SoundEffect>("Sounds/hugeExplosion");
+            thrust = game.Content.Load<SoundEffect>("Sounds/thrust");
+
         }
 
     }

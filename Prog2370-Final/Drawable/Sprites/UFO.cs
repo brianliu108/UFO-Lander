@@ -22,6 +22,8 @@ namespace Prog2370_Final.Drawable.Sprites
         public double changeInAngle = (Math.PI / 100);
         public float gas = 100;
         public int framesStill = 0;
+        public SoundEffect thrust;
+        public SoundEffectInstance thrustIns;
         
         public const float SPEED_MARGIN = 0.1f;
         public const int FRAMES_STILL_MARGIN = 15;
@@ -45,7 +47,8 @@ namespace Prog2370_Final.Drawable.Sprites
             this.spriteBatch = spriteBatch;
             this.tex = tex;            
             resources = ((Game1)game).Resources;
-            
+            thrust = resources.thrust;
+            thrustIns = thrust.CreateInstance();
         }
                     
         public override void Draw(GameTime gameTime)
@@ -88,6 +91,10 @@ namespace Prog2370_Final.Drawable.Sprites
 
                     gas = gas - 0.05f;
                     this.tex = resources.UFO_thrust;
+
+                    // Play soundeffect
+                    thrustIns.Volume = 1.0f;
+                    thrustIns.Play();
                     
                 }
                                                 
@@ -107,8 +114,17 @@ namespace Prog2370_Final.Drawable.Sprites
                         velocity.X = (maxVelocity * -1);
                     }
                     gas = gas - 0.025f;
-                    this.tex = resources.UFO_thrust;                    
+                    this.tex = resources.UFO_thrust;
+
+                    // Play soundeffect
+                    thrustIns.Volume = .5f;
+                    thrustIns.Play();
                 }
+            }
+            else
+            {
+                // Stop soundeffect when not thrusting
+                thrustIns.Stop();
             }
             if (ks.IsKeyDown(Keys.Right))
             {
@@ -142,6 +158,11 @@ namespace Prog2370_Final.Drawable.Sprites
                 velocity.Y = 0;
             }
 
+
+            if(gas <= 0)
+            {
+                thrustIns.Stop();
+            }
         }
 
         private static Vector2 UnitVectorFromAngle(float angle)

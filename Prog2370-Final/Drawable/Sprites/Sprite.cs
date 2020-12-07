@@ -18,6 +18,7 @@ namespace Prog2370_Final.Drawable.Sprites {
 
         public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game) {
             resources = ((Game1) (Game)).Resources;
+            
         }
 
         public static void DrawBoundingBox(Rectangle boundingBox, Game1 game, Color color) {

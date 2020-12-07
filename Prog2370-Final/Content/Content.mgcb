@@ -88,15 +88,21 @@
 /processorParam:Quality=Best
 /build:Sounds/hugeExplosion.wav
 
-#begin Sounds/land.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
+#begin Sounds/land.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Sounds/land.mp3
+/build:Sounds/land.wav
 
 #begin Sounds/softExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/softExplosion.wav
+
+#begin Sounds/thrust.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/thrust.wav
 
