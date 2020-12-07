@@ -47,16 +47,16 @@ namespace Prog2370_Final.Scenes {
 
             Components.Add(mb = new MeterBar(
                 new SimpleString(game, spriteBatch, resources.RegularFont, 
-                    new Vector2(20, 200), "Speed: ", Color.Black),
+                    new Vector2(20, 70), "Speed: ", Color.Black),
                 0, ufo.MaxVelocity
                 ));
 
             // Create gas meter
             Components.Add(gasBar = new MeterBar(
-                new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 100),
+                new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 120),
                 "Gas: ", Color.Black), 0, ufo.Gas));
             
-            Components.Add(distance = new SimpleString(game, spriteBatch, resources.RegularFont,new Vector2(20,300),"Distance: 0",ColourSchemes.pink ));
+            Components.Add(distance = new SimpleString(game, spriteBatch, resources.BoldFont,new Vector2(20,20),"Distance: 0",ColourSchemes.pink ));
             
             // Create collision manager
             Components.Add(collisionManager = new CollisionManager(Game));
