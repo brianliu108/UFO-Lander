@@ -12,7 +12,7 @@ namespace Prog2370_Final.Drawable.Sprites
     {
         private Vector2 position;
         private Vector2 dimension;
-        private List<Rectangle> frames;
+        private List<Rectangle> frames;        
         private int frameIndex = -1;
         private int delay;
         private int delayCounter;

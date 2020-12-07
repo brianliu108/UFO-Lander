@@ -82,6 +82,12 @@
 /processorParam:TextureFormat=Color
 /build:Images/UFOThrust.png
 
+#begin Sounds/deathSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/deathSound.wav
+
 #begin Sounds/hugeExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

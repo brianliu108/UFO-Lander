@@ -24,7 +24,8 @@ namespace Prog2370_Final.Drawable.Sprites
         private int framesStill = 0;
         private SoundEffect thrust;
         private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns, landIns;
-        private bool dead = false;        
+        private bool dead = false;
+        private SimpleString died;
 
         private const float SPEED_MARGIN = 0.1f;
         private const int FRAMES_STILL_MARGIN = 15;
@@ -63,6 +64,7 @@ namespace Prog2370_Final.Drawable.Sprites
             landIns.Volume = .1f;
             softExplosionIns = resources.softExplosion.CreateInstance();
             softExplosionIns.Volume = .1f;
+
             
         }
 
@@ -130,6 +132,11 @@ namespace Prog2370_Final.Drawable.Sprites
                     dead = true;
                 }
                 velocity = Vector2.Zero;
+
+                if (dead)
+                {
+                    
+                }
             }
             
             base.Update(gameTime);

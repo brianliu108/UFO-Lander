@@ -17,6 +17,7 @@ namespace Prog2370_Final.Scenes {
         private UFO ufo;
         private KeyboardState ks;
         int deadCounter = 0;
+        SimpleString died;
 
         private MeterBar mb;
         private MeterBar gasBar;
@@ -62,6 +63,9 @@ namespace Prog2370_Final.Scenes {
 
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
+
+            died = new SimpleString(game, spriteBatch, resources.BoldFont, new Vector2(Shared.stage.X / 2, Shared.stage.Y / 2), "You Died", ColourSchemes.boldColour);
+                     
         }
 
         public override void Update(GameTime gameTime) {
@@ -98,9 +102,15 @@ namespace Prog2370_Final.Scenes {
                 explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2), ufo.position.Y - (explosion.Dimension.Y / 2));
                 explosion.Show(true);
                 deadCounter++;
+                
             }            
 
             base.Update(gameTime);
+
+        }
+
+        private void DeathScene()
+        {
 
         }
     }
