@@ -20,6 +20,7 @@ namespace Prog2370_Final.Scenes {
 
         private MeterBar mb;
         private MeterBar gasBar;
+        private SimpleString distance;
 
         private Explosion explosion;
         private MouseState oldState; // temp
@@ -55,6 +56,8 @@ namespace Prog2370_Final.Scenes {
                 new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 100),
                 "Gas: ", Color.Black), 0, ufo.Gas));
             
+            Components.Add(distance = new SimpleString(game, spriteBatch, resources.RegularFont,new Vector2(20,300),"Distance: 0",ColourSchemes.pink ));
+            
             // Create collision manager
             Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
@@ -88,6 +91,7 @@ namespace Prog2370_Final.Scenes {
             }
             mb.current = ufo.Speed;
             gasBar.current = ufo.Gas;
+            distance.message = "Distance " + ((int) ufo.position.X + (int) -terrain.MasterOffset);
             mb.Update(gameTime);
             gasBar.Update(gameTime);
 
