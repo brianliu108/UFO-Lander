@@ -59,20 +59,20 @@ namespace Prog2370_Final.Drawable {
                     g.pos.X < -100);
                 lastGasCanTickOffset += minGasCanDistance;
                 if (r.Next(4) < 1) {
+                    GasCan g = new GasCan(Game, spriteBatch, Vector2.Zero);
                     float x = GraphicsDevice.Viewport.Width - 100, y = GraphicsDevice.Viewport.Height - 100;
                     foreach (Terrain chunk in Chunks) {
                         Rectangle chunkBounds = chunk.terrain.BoundingBox;
-                        if (chunkBounds.X < x && x + 32 /*MAGIC NUMBER MUST COME FROM SOMEWHERE*/ <
-                            chunkBounds.X + chunkBounds.Width) {
+                        if (chunkBounds.X < x && x + g.AABB.Width < chunkBounds.X + chunkBounds.Width) {
                             //Then this is our chunk
                             foreach (Vector2 vertex in chunk.terrain.BoundingVertices)
-                                if (x < vertex.X && vertex.X < x + 32 /*same magic num*/)
+                                if (x < vertex.X && vertex.X < x + g.AABB.Width)
                                     y = Math.Min(y, vertex.Y);
                             y -= 35;
                             break;
                         }
                     }
-                    GasCan g = new GasCan(Game, spriteBatch, ((Game1) Game).Resources.GasCan, new Vector2(x, y));
+                    g.pos = new Vector2(x, y);
                     gasCans.Add(new WeakReference<GasCan>(g));
                     gasCan = g;
                     return true;

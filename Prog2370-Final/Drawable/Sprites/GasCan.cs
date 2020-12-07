@@ -20,10 +20,9 @@ namespace Prog2370_Final.Drawable.Sprites {
 
         public GasCan(Game game,
             SpriteBatch spriteBatch,
-            Texture2D tex,
-            Vector2 position) : base(game, spriteBatch, tex, position) {
+            Vector2 position) 
+            : base(game, spriteBatch, ((Game1) game).Resources.GasCan, position) {
             this.spriteBatch = spriteBatch;
-            this.tex = tex;
             // this.position = new Rectangle((int) position.X, (int) position.Y, tex.Width / 2, tex.Height / 2);
             this.pos = position;
             drawSize = new Point(tex.Width / 2, tex.Height / 2);
