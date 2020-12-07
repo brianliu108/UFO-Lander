@@ -23,8 +23,9 @@ namespace Prog2370_Final.Drawable.Sprites
         private float gas = 100;
         private int framesStill = 0;
         private SoundEffect thrust;
-        private SoundEffectInstance thrustIns, hugeExplosionIns;
+        private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns;
         private bool dead = false;
+        private Explosion explosion;
 
         private const float SPEED_MARGIN = 0.1f;
         private const int FRAMES_STILL_MARGIN = 15;
@@ -59,6 +60,9 @@ namespace Prog2370_Final.Drawable.Sprites
             thrustIns = thrust.CreateInstance();
             hugeExplosionIns = resources.hugeExplosion.CreateInstance();
             hugeExplosionIns.Volume = .1f;
+
+            softExplosionIns = resources.softExplosion.CreateInstance();
+
         }
 
         public override void Draw(GameTime gameTime)
@@ -179,7 +183,7 @@ namespace Prog2370_Final.Drawable.Sprites
             {
                 if (CollisionLogs[0].collisionPartner is VectorImage && Speed > 5)
                 {
-
+                    //softExplosionIns.Play();
                     hugeExplosionIns.Play();
                     dead = true;
                 }

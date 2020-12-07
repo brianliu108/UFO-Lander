@@ -21,8 +21,9 @@ namespace Prog2370_Final.Scenes {
         private MeterBar mb;
         private MeterBar gasBar;
 
+        private Explosion explosion;
+        private MouseState oldState; // temp
 
-        
         public GameScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
@@ -58,8 +59,10 @@ namespace Prog2370_Final.Scenes {
             // Create collision manager
             Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
-            collisionManager.Add(gasCan);            
+            collisionManager.Add(gasCan);
 
+            explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
+            this.Components.Add(explosion);
         }
 
         public override void Update(GameTime gameTime) {
@@ -89,8 +92,17 @@ namespace Prog2370_Final.Scenes {
             mb.Update(gameTime);
             gasBar.Update(gameTime);
 
-            
-                   
+            MouseState ms = Mouse.GetState();
+
+            if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+            {
+                explosion.Position = new Vector2(ms.X - (explosion.Dimension.X / 2), ms.Y - (explosion.Dimension.Y / 2));
+                explosion.Show(true);
+            }
+            oldState = ms;
+
+            base.Update(gameTime);
+
         }
     }
 }
