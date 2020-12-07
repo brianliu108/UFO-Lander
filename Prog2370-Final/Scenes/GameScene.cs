@@ -39,7 +39,7 @@ namespace Prog2370_Final.Scenes {
             Components.Add(terrain);
 
 
-            ufo = new UFO(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/UFO"), new Vector2(200, 200));
+            ufo = new UFO(Game, spriteBatch, new Vector2(200, 200));
             GasCan gasCan = new GasCan(Game, spriteBatch, Game.Content.Load<Texture2D>("Images/gascan"),
                 new Vector2(200, GraphicsDevice.Viewport.Bounds.Height - 50));
             this.Components.Add(gasCan);

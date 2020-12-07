@@ -23,7 +23,7 @@ namespace Prog2370_Final.Drawable.Sprites
         private float gas = 100;
         private int framesStill = 0;
         private SoundEffect thrust;
-        private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns;
+        private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns, landIns;
         private bool dead = false;
         private Explosion explosion;
 
@@ -49,9 +49,8 @@ namespace Prog2370_Final.Drawable.Sprites
 
         //public static float maxGravity = .2f;
         public UFO(Game game,
-            SpriteBatch spriteBatch,
-            Texture2D tex,
-            Vector2 position) : base(game, spriteBatch, tex, position)
+            SpriteBatch spriteBatch,            
+            Vector2 position) : base(game, spriteBatch, ((Game1)game).Resources.UFO, position)
         {
             this.spriteBatch = spriteBatch;
             this.tex = tex;
@@ -63,6 +62,7 @@ namespace Prog2370_Final.Drawable.Sprites
 
             softExplosionIns = resources.softExplosion.CreateInstance();
 
+            explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 10);
         }
 
         public override void Draw(GameTime gameTime)
