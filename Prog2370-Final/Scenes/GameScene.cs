@@ -40,8 +40,8 @@ namespace Prog2370_Final.Scenes {
 
 
             ufo = new UFO(Game, spriteBatch, new Vector2(200, 200));
-            GasCan gasCan = new GasCan(Game, spriteBatch, new Vector2(200, GraphicsDevice.Viewport.Bounds.Height - 50));
-            this.Components.Add(gasCan);
+            // GasCan gasCan = new GasCan(Game, spriteBatch, new Vector2(200, GraphicsDevice.Viewport.Bounds.Height - 50));
+            // this.Components.Add(gasCan);
             this.Components.Add(ufo);
 
             Components.Add(mb = new MeterBar(
@@ -58,7 +58,7 @@ namespace Prog2370_Final.Scenes {
             // Create collision manager
             Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
-            collisionManager.Add(gasCan);
+            // collisionManager.Add(gasCan);
 
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
