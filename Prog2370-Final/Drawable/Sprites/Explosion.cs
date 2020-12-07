@@ -18,8 +18,8 @@ namespace Prog2370_Final.Drawable.Sprites
         private int delayCounter;
         
 
-        private const int ROW = 9;
-        private const int COL = 9;
+        private const int ROW = 6;
+        private const int COL = 6;
 
         public Explosion(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position, int delay) : base(game, spriteBatch, tex, position)
         {
