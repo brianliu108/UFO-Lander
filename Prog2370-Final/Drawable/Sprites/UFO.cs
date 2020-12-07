@@ -24,6 +24,7 @@ namespace Prog2370_Final.Drawable.Sprites
         public int framesStill = 0;
         public SoundEffect thrust;
         public SoundEffectInstance thrustIns;
+        public bool dead = false;
         
         public const float SPEED_MARGIN = 0.1f;
         public const int FRAMES_STILL_MARGIN = 15;
@@ -37,6 +38,8 @@ namespace Prog2370_Final.Drawable.Sprites
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Location;
 
         public List<CollisionLog> CollisionLogs { get; set; }
+
+        public bool Perished => throw new NotImplementedException();
 
         //public static float maxGravity = .2f;
         public UFO(Game game,
@@ -96,8 +99,7 @@ namespace Prog2370_Final.Drawable.Sprites
                     thrustIns.Volume = 1.0f;
                     thrustIns.Play();
                     
-                }
-                                                
+                }                                                
             }
             else if (ks.IsKeyDown(Keys.Space))
             {
@@ -158,11 +160,19 @@ namespace Prog2370_Final.Drawable.Sprites
                 velocity.Y = 0;
             }
 
-
             if(gas <= 0)
             {
                 thrustIns.Stop();
             }
+            if(CollisionLogs.Count > 0 && !dead)
+            {
+                if (CollisionLogs[0].collisionPartner is VectorImage && Speed > 5)
+                {
+                    resources.hugeExplosion.Play();
+                    dead = true;
+                }
+            }
+            
         }
 
         private static Vector2 UnitVectorFromAngle(float angle)
