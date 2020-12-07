@@ -44,6 +44,7 @@
     <Compile Include="Collisions.cs" />
     <Compile Include="ColourSchemes.cs" />
     <Compile Include="Drawable\MeterBar.cs" />
+    <Compile Include="Drawable\Sprites\Explosion.cs" />
     <Compile Include="Drawable\Sprites\Sprite.cs" />
     <Compile Include="IPerishable.cs" />
     <Compile Include="Resources.cs" />

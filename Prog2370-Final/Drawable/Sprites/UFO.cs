@@ -24,7 +24,7 @@ namespace Prog2370_Final.Drawable.Sprites
         public int framesStill = 0;
         
         public const float SPEED_MARGIN = 0.1f;
-        public const int FRAMES_STILL_MARGIN = 60;
+        public const int FRAMES_STILL_MARGIN = 15;
 
         public float Speed => (float) Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
         

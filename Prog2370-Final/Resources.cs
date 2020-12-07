@@ -13,8 +13,8 @@ namespace Prog2370_Final {
         public static readonly Color darkBrown = new Color(69, 49, 51);
         public static readonly Color brown = new Color(102, 59, 58);
         public static readonly Color pink = new Color(129, 34, 85);
-        public readonly SoundEffect thrust;
 
+        public readonly SoundEffect softExplosion, hugeExplosion;
 
         public readonly SpriteFont
             RegularFont,
@@ -24,7 +24,7 @@ namespace Prog2370_Final {
         public readonly Texture2D
             WhitePixel,
             UFO, UFO_thrust,
-            GasCan;
+            GasCan, Explosion;
         
 
         public Resources(Game game) {
@@ -37,8 +37,10 @@ namespace Prog2370_Final {
             UFO = game.Content.Load<Texture2D>("Images/UFO");
             UFO_thrust = game.Content.Load<Texture2D>("Images/UFOThrust");
             GasCan = game.Content.Load<Texture2D>("Images/gascan");
+            Explosion = game.Content.Load<Texture2D>("Images/explosion");
 
-            thrust = game.Content.Load<SoundEffect>("Sounds/rocket");
+            softExplosion = game.Content.Load<SoundEffect>("Sounds/softExplosion");
+            hugeExplosion = game.Content.Load<SoundEffect>("Sounds/hugeExplosion");
         }
 
     }

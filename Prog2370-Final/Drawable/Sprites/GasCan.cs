@@ -26,11 +26,7 @@ namespace Prog2370_Final.Drawable.Sprites {
             CanCollide = true;
             Perished = false;
         }
-
-        public void Show(bool enable) {
-            Enabled = enable;
-            Visible = enable;
-        }
+        
 
         public void Move(Vector2 position) {
             this.position = new Rectangle((int) (position.X), (int) (position.Y), tex.Width / 2, tex.Height / 2);

@@ -15,10 +15,13 @@ namespace Prog2370_Final.Scenes {
         private CollisionManager collisionManager;
         private UFO ufo;
         private KeyboardState ks;
+        private Explosion explosion;
 
         private MeterBar mb;
         private MeterBar gasBar;
 
+
+        private MouseState oldState; // TEMP
         public GameScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
@@ -46,14 +49,19 @@ namespace Prog2370_Final.Scenes {
                 0, ufo.maxVelocity
                 ));
 
+            // Create gas meter
             Components.Add(gasBar = new MeterBar(
                 new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 100),
                 "Gas: ", Color.Black), 0, ufo.gas));
             
-            
+            // Create collision manager
             Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
             collisionManager.Add(gasCan);
+
+            // Create explosion
+            explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
+            this.Components.Add(explosion);
 
         }
 
@@ -79,6 +87,18 @@ namespace Prog2370_Final.Scenes {
             gasBar.current = ufo.gas;
             mb.Update(gameTime);
             gasBar.Update(gameTime);
+
+
+            MouseState ms = Mouse.GetState();
+
+            if (ms.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+            {
+                explosion.Position = new Vector2(ms.X - (explosion.Dimension.X/2), ms.Y - (explosion.Dimension.Y / 2));
+                explosion.Show(true);
+                resources.hugeExplosion.Play();
+            }
+            oldState = ms;
+            explosion.Update(gameTime);            
         }
     }
 }

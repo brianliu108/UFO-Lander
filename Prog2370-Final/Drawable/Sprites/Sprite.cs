@@ -37,5 +37,11 @@ namespace Prog2370_Final.Drawable.Sprites {
             game.spriteBatch.Draw(game.Resources.WhitePixel, line, color);
             game.spriteBatch.End();
         }
+
+        public void Show(bool enable)
+        {
+            this.Enabled = enable;
+            this.Visible = enable;
+        }
     }
 }

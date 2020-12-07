@@ -20,8 +20,7 @@ namespace Prog2370_Final {
         private GameScene playScene;
         private CreditsScene creditsScene;
         private HelpScene helpScene;
-
-        private SimpleString creditsString;
+        
 
         public Resources Resources => _resources;
 
@@ -30,6 +29,8 @@ namespace Prog2370_Final {
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;            
             Content.RootDirectory = "Content";
+
+            IsMouseVisible = true;
         }
 
         /// <summary>
