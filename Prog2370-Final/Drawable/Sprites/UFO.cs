@@ -100,6 +100,7 @@ namespace Prog2370_Final.Drawable.Sprites
             {
                 thrustIns.Stop();
             }
+
             
             // Environmental effects on speed
             ApplyEnvironmentEffects();
@@ -156,6 +157,10 @@ namespace Prog2370_Final.Drawable.Sprites
                     // Half acceleration
                     Thrust(lightAcceleration, 0.025f, 0.5f);
                 }
+            }
+            else
+            {
+                thrustIns.Stop();
             }
         }
 
