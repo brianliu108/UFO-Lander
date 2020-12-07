@@ -16,8 +16,11 @@ namespace Prog2370_Final.Scenes {
         private CollisionManager collisionManager;
         private UFO ufo;
         private KeyboardState ks;
-        int deadCounter = 0;
-        SimpleString died;
+        private bool startFrameCount = false;
+        private int frameCount = 0;
+        private int deadCounter = 0;
+        private SimpleString died;
+        private SoundEffectInstance deathSouthIns;
 
         private MeterBar mb;
         private MeterBar gasBar;
@@ -67,8 +70,8 @@ namespace Prog2370_Final.Scenes {
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
 
-            died = new SimpleString(game, spriteBatch, resources.BoldFont, new Vector2(Shared.stage.X / 2, Shared.stage.Y / 2), "You Died", ColourSchemes.boldColour);
-                     
+            died = new SimpleString(game, spriteBatch, resources.DeathFont, new Vector2(Shared.stage.X / 2 - 105, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
+            deathSouthIns = resources.deathSound.CreateInstance();      
         }
 
         public override void Update(GameTime gameTime) {
@@ -106,16 +109,29 @@ namespace Prog2370_Final.Scenes {
                 explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2), ufo.position.Y - (explosion.Dimension.Y / 2));
                 explosion.Show(true);
                 deadCounter++;
+                startFrameCount = true;                
+            }
+            if (startFrameCount)
+            {
+                frameCount++;
                 
-            }            
-
+                if (frameCount == 60)
+                {
+                    deathSouthIns.Play();
+                }
+                if(frameCount == 120)
+                {
+                    DeathScene();
+                }
+            }
             base.Update(gameTime);
 
         }
 
         private void DeathScene()
         {
-
+            this.Components.Add(died);
+            startFrameCount = false;
         }
     }
 }

@@ -14,12 +14,13 @@ namespace Prog2370_Final {
         public static readonly Color brown = new Color(102, 59, 58);
         public static readonly Color pink = new Color(129, 34, 85);
 
-        public readonly SoundEffect softExplosion, hugeExplosion, thrust, land;
+        public readonly SoundEffect softExplosion, hugeExplosion, thrust, land, deathSound;
 
         public readonly SpriteFont
             RegularFont,
             BoldFont,
-            TitleFont;
+            TitleFont,
+            DeathFont;
 
         public readonly Texture2D
             WhitePixel,
@@ -31,18 +32,24 @@ namespace Prog2370_Final {
             WhitePixel = new Texture2D(game.GraphicsDevice, 1, 1);
             WhitePixel.SetData(new[] {new Color(255, 255, 255)});
             
+            // Load Fonts
             RegularFont = game.Content.Load<SpriteFont>("Fonts/RegularFont");
             BoldFont = game.Content.Load<SpriteFont>("Fonts/BoldFont");
             TitleFont = game.Content.Load<SpriteFont>("Fonts/TitleFont");
+            DeathFont = game.Content.Load<SpriteFont>("Fonts/DeathFont");
+
+            // Load Textures
             UFO = game.Content.Load<Texture2D>("Images/UFO");
             UFO_thrust = game.Content.Load<Texture2D>("Images/UFOThrust");
             GasCan = game.Content.Load<Texture2D>("Images/gascan");
-            Explosion = game.Content.Load<Texture2D>("Images/explosion");
+            Explosion = game.Content.Load<Texture2D>("Images/explosion");            
 
+            // Load Sounds
             softExplosion = game.Content.Load<SoundEffect>("Sounds/softExplosion");
             hugeExplosion = game.Content.Load<SoundEffect>("Sounds/hugeExplosion");
             thrust = game.Content.Load<SoundEffect>("Sounds/thrust");
             land = game.Content.Load<SoundEffect>("Sounds/land");
+            deathSound = game.Content.Load<SoundEffect>("Sounds/deathSound");
         }
 
     }

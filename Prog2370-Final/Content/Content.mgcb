@@ -20,6 +20,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/BoldFont.spritefont
 
+#begin Fonts/DeathFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/DeathFont.spritefont
+
 #begin Fonts/RegularFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
