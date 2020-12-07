@@ -12,7 +12,7 @@ namespace Prog2370_Final.Drawable {
         private readonly ShortTerrainDeQueue data; // Main terrain data
         private readonly List<WeakReference<GasCan>> gasCans = new List<WeakReference<GasCan>>();
         private float lastGasCanTickOffset = 0;
-        private float minGasCanDistance = 100;
+        private float minGasCanDistance = 231.72f; // Decently random 
 
         public List<Terrain> Chunks => data.AsTerrainList();
 
@@ -59,9 +59,9 @@ namespace Prog2370_Final.Drawable {
                     return g.Perished;
                 });
                 lastGasCanTickOffset += minGasCanDistance;
-                if (r.Next(4) < 1) {
+                if (r.Next(10) < 1) {
                     GasCan g = new GasCan(Game, spriteBatch, Vector2.Zero);
-                    float x = GraphicsDevice.Viewport.Width - 100, y = GraphicsDevice.Viewport.Height - 100;
+                    float x = GraphicsDevice.Viewport.Width + g.tex.Width, y = GraphicsDevice.Viewport.Height;
                     foreach (Terrain chunk in Chunks) {
                         Rectangle chunkBounds = chunk.terrain.BoundingBox;
                         if (chunkBounds.X < x && x + g.AABB.Width < chunkBounds.X + chunkBounds.Width) {
@@ -70,13 +70,12 @@ namespace Prog2370_Final.Drawable {
                                 if (x < vertex.X && vertex.X < x + g.AABB.Width)
                                     y = Math.Min(y, vertex.Y);
                             y -= 35;
-                            break;
+                            g.pos = new Vector2(x, y);
+                            gasCans.Add(new WeakReference<GasCan>(g));
+                            gasCan = g;
+                            return true;
                         }
                     }
-                    g.pos = new Vector2(x, y);
-                    gasCans.Add(new WeakReference<GasCan>(g));
-                    gasCan = g;
-                    return true;
                 }
             }
             gasCan = null;

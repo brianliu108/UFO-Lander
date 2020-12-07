@@ -21,6 +21,7 @@ namespace Prog2370_Final.Scenes {
 
         private MeterBar mb;
         private MeterBar gasBar;
+        private SimpleString distance;
 
         private Explosion explosion;
         private MouseState oldState; // temp
@@ -40,26 +41,28 @@ namespace Prog2370_Final.Scenes {
             Components.Add(terrain);
 
 
-            ufo = new UFO(Game, spriteBatch, new Vector2(200, 200));
-            GasCan gasCan = new GasCan(Game, spriteBatch, new Vector2(200, GraphicsDevice.Viewport.Bounds.Height - 50));
-            this.Components.Add(gasCan);
+            ufo = new UFO(Game, spriteBatch, new Vector2(50, 200));
+            // GasCan gasCan = new GasCan(Game, spriteBatch, new Vector2(200, GraphicsDevice.Viewport.Bounds.Height - 50));
+            // this.Components.Add(gasCan);
             this.Components.Add(ufo);
 
             Components.Add(mb = new MeterBar(
                 new SimpleString(game, spriteBatch, resources.RegularFont, 
-                    new Vector2(20, 200), "Speed: ", Color.Black),
+                    new Vector2(20, 70), "Speed: ", Color.Black),
                 0, ufo.MaxVelocity
                 ));
 
             // Create gas meter
             Components.Add(gasBar = new MeterBar(
-                new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 100),
+                new SimpleString(game, spriteBatch, resources.RegularFont, new Vector2(20, 120),
                 "Gas: ", Color.Black), 0, ufo.Gas));
+            
+            Components.Add(distance = new SimpleString(game, spriteBatch, resources.BoldFont,new Vector2(20,20),"Distance: 0",ColourSchemes.pink ));
             
             // Create collision manager
             Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
-            collisionManager.Add(gasCan);
+            // collisionManager.Add(gasCan);
 
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
@@ -92,6 +95,7 @@ namespace Prog2370_Final.Scenes {
             }
             mb.current = ufo.Speed;
             gasBar.current = ufo.Gas;
+            distance.message = "Distance " + ((int) ufo.position.X + (int) -terrain.MasterOffset);
             mb.Update(gameTime);
             gasBar.Update(gameTime);
 
