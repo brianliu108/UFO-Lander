@@ -92,57 +92,17 @@ namespace Prog2370_Final.Drawable.Sprites
                 }
             }
             this.tex = resources.UFO;
-            if (ks.IsKeyDown(Keys.Up))
+            if (!dead)
             {
-                if (gas >= 0 && !dead)
-                {
-                    Thrust(acceleration, 0.05f, 1.0f);
-
-                }
-            }
-            else if (ks.IsKeyDown(Keys.Space))
-            {
-                if (gas >= 0 && !dead)
-                {
-                    Thrust(lightAcceleration, 0.025f, 0.5f);
-                }
+                UpdateMovement(ks);
             }
             else
             {
-                // Stop soundeffect when not thrusting
                 thrustIns.Stop();
             }
-            if (ks.IsKeyDown(Keys.Right))
-            {
-                angle += changeInAngle;
-            }
-            if (ks.IsKeyDown(Keys.Left))
-            {
-                angle -= changeInAngle;
-            }
-
+            
             // Environmental effects on speed
-            this.velocity.Y += gravity;
-            if (velocity.X > 0)
-            {
-                this.velocity.X -= drag;
-            }
-            else if (velocity.X < 0)
-            {
-                this.velocity.X += drag;
-            }
-            this.position += this.velocity;
-
-            if (position.Y < 0)
-            {
-                position.Y = 0;
-                velocity.Y = 0;
-            }
-            if (position.Y > Shared.stage.Y - 0)
-            {
-                position.Y = Shared.stage.Y - 0;
-                velocity.Y = 0;
-            }
+            ApplyEnvironmentEffects();
 
             if (gas <= 0)
             {
@@ -165,7 +125,47 @@ namespace Prog2370_Final.Drawable.Sprites
                 (float)Math.Cos(angle),
                 (float)Math.Sin(angle));
 
-        private void Thrust(float accel,float gasConsumption, float vol)
+        /// <summary>
+        /// Applies the UFO movement operations upon a key input.
+        /// </summary>
+        /// <param name="ks">Applies movement from arrow keys and spacebar</param>
+        private void UpdateMovement(KeyboardState ks)
+        {
+            if (ks.IsKeyDown(Keys.Right))
+            {
+                angle += changeInAngle;
+            }
+            else if (ks.IsKeyDown(Keys.Left))
+            {
+                angle -= changeInAngle;
+            }
+
+            if (ks.IsKeyDown(Keys.Up))
+            {
+                if (gas >= 0)
+                {
+                    // Max acceleration
+                    Thrust(acceleration, 0.05f, 1.0f);
+
+                }
+            }
+            else if (ks.IsKeyDown(Keys.Space))
+            {
+                if (gas >= 0)
+                {
+                    // Half acceleration
+                    Thrust(lightAcceleration, 0.025f, 0.5f);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Changes the UFO to a moving state
+        /// </summary>
+        /// <param name="accel">Rate of acceleration</param>
+        /// <param name="gasConsumption">Rate of decrease in gas level when accelerating</param>
+        /// <param name="vol">Volume of thrust sound</param>
+        private void Thrust(float accel, float gasConsumption, float vol)
         {
             velocity -= UnitVectorFromAngle((float)angle) * accel;
             if (velocity.X > maxVelocity)
@@ -182,6 +182,34 @@ namespace Prog2370_Final.Drawable.Sprites
             // Play soundeffect
             thrustIns.Volume = vol;
             thrustIns.Play();
+        }
+
+        /// <summary>
+        /// Applies the constant effects of the environment to the UFO
+        /// </summary>
+        private void ApplyEnvironmentEffects()
+        {
+            this.velocity.Y += gravity;
+            if (velocity.X > 0)
+            {
+                this.velocity.X -= drag;
+            }
+            else if (velocity.X < 0)
+            {
+                this.velocity.X += drag;
+            }
+            this.position += this.velocity;
+
+            if (position.Y < 0)
+            {
+                position.Y = 0;
+                velocity.Y = 0;
+            }
+            if (position.Y > Shared.stage.Y - 0)
+            {
+                position.Y = Shared.stage.Y - 0;
+                velocity.Y = 0;
+            }
         }
     }
 }
