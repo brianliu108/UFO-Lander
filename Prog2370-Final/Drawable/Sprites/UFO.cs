@@ -113,6 +113,7 @@ namespace Prog2370_Final.Drawable.Sprites
 
             if(CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0 && !dead)
             {
+                
                 if(Speed <= 1.5)
                 {
                     landIns.Play();
@@ -128,7 +129,7 @@ namespace Prog2370_Final.Drawable.Sprites
                     hugeExplosionIns.Play();
                     dead = true;
                 }
-                
+                velocity = Vector2.Zero;
             }
             
             base.Update(gameTime);
