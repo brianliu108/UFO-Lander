@@ -29,8 +29,7 @@ namespace Prog2370_Final {
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;            
             Content.RootDirectory = "Content";
-
-            IsMouseVisible = true;
+            
         }
 
         /// <summary>

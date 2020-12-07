@@ -59,8 +59,10 @@ namespace Prog2370_Final.Drawable.Sprites
             thrustIns = thrust.CreateInstance();
             hugeExplosionIns = resources.hugeExplosion.CreateInstance();
             hugeExplosionIns.Volume = .1f;
-
+            landIns = resources.land.CreateInstance();
+            landIns.Volume = .1f;
             softExplosionIns = resources.softExplosion.CreateInstance();
+            softExplosionIns.Volume = .1f;
             
         }
 
@@ -108,15 +110,27 @@ namespace Prog2370_Final.Drawable.Sprites
             {
                 thrustIns.Stop();
             }
-            if (CollisionLogs.Count > 0 && !dead)
+
+            if(CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0 && !dead)
             {
-                if (CollisionLogs[0].collisionPartner is VectorImage && Speed > 5)
+                if(Speed <= 1.5)
+                {
+                    landIns.Play();
+                }
+                else if(Speed > 1.5 && Speed <= 5)
+                {
+                    softExplosionIns.Play();
+                    dead = true;
+                }
+                else if(Speed > 5)
                 {
                     //softExplosionIns.Play();
                     hugeExplosionIns.Play();
                     dead = true;
                 }
+                
             }
+            
             base.Update(gameTime);
 
         }
