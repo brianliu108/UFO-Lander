@@ -95,6 +95,12 @@
 /processorParam:Quality=Best
 /build:Sounds/deathSound.wav
 
+#begin Sounds/enterSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/enterSound.wav
+
 #begin Sounds/hugeExplosion.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -106,6 +112,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/land.wav
+
+#begin Sounds/menuSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/menuSound.wav
 
 #begin Sounds/softExplosion.wav
 /importer:WavImporter

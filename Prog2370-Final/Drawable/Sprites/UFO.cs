@@ -140,12 +140,12 @@ namespace Prog2370_Final.Drawable.Sprites
 
                     this.velocity.Y = 0f;
                     highestYValue = this.position.Y;
-                }
-                
+                }                
             }
             else
             {
                 landed = false;
+                highestYValue = 0;
             }
 
             if (landed)

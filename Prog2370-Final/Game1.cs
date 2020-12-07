@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using Prog2370_Final.Scenes;
 using Prog2370_Final.Drawable;
 using Prog2370_Final.Drawable.Sprites;
@@ -20,7 +21,7 @@ namespace Prog2370_Final {
         private GameScene playScene;
         private CreditsScene creditsScene;
         private HelpScene helpScene;
-
+        private SoundEffectInstance enterSoundIns;
 
         public Resources Resources => _resources;
 
@@ -75,6 +76,9 @@ namespace Prog2370_Final {
             helpScene = new HelpScene(this, spriteBatch);
             Components.Add(helpScene);
             helpScene.Show(false);
+
+            // Create enterSound
+            enterSoundIns = this.Content.Load<SoundEffect>("Sounds/enterSound").CreateInstance(); ;
         }
 
         /// <summary>
@@ -112,20 +116,24 @@ namespace Prog2370_Final {
                         case 0:
                             HideAllScenes();
                             playScene.Show(true);
+                            enterSoundIns.Play();
                             break;
                         case 1:
                             HideAllScenes();
                             Components.Remove(playScene);
                             Components.Add(playScene = new GameScene(this,spriteBatch));
                             playScene.Show(true);
+                            enterSoundIns.Play();
                             break;
                         case 2:
                             HideAllScenes();
                             helpScene.Show(true);
+                            enterSoundIns.Play();
                             break;
                         case 3:
                             HideAllScenes();
                             creditsScene.Show(true);
+                            enterSoundIns.Play();
                             break;
                         case 4: Exit();
                             break;
