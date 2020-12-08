@@ -117,6 +117,8 @@ namespace Prog2370_Final.Drawable.Sprites
                 thrustIns.Stop();
             }
 
+            // Check if UFO is colliding with the terrain at all
+            // Apply death logic
             if (CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0)
             {
                 if(!dead && !landed)
@@ -141,7 +143,10 @@ namespace Prog2370_Final.Drawable.Sprites
                     this.velocity.Y = 0f;
                     highestYValue = this.position.Y;
 
-                    MediaPlayer.Stop();
+                    if (dead)
+                    {
+                        MediaPlayer.Stop();
+                    }
                 }   
                 
                 if(landed && gas <= 0)
