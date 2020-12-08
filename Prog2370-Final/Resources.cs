@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace Prog2370_Final {
     public class Resources {
@@ -18,6 +19,8 @@ namespace Prog2370_Final {
             hugeExplosion, thrust, land,
             deathSound, menuSound, enterSound;
 
+        public Song menuMusic;
+
         public readonly SpriteFont
             RegularFont,
             BoldFont,
@@ -27,7 +30,8 @@ namespace Prog2370_Final {
         public readonly Texture2D
             WhitePixel,
             UFO, UFO_thrust,
-            GasCan, Explosion;
+            GasCan, Explosion,
+            UFOSprite;
         
 
         public Resources(Game game) {
@@ -44,7 +48,9 @@ namespace Prog2370_Final {
             UFO = game.Content.Load<Texture2D>("Images/UFO");
             UFO_thrust = game.Content.Load<Texture2D>("Images/UFOThrust");
             GasCan = game.Content.Load<Texture2D>("Images/gascan");
-            Explosion = game.Content.Load<Texture2D>("Images/explosion");            
+            Explosion = game.Content.Load<Texture2D>("Images/explosion");
+            UFOSprite = game.Content.Load<Texture2D>("Images/ufoSprite");
+
 
             // Load Sounds
             softExplosion = game.Content.Load<SoundEffect>("Sounds/softExplosion");
@@ -54,6 +60,7 @@ namespace Prog2370_Final {
             deathSound = game.Content.Load<SoundEffect>("Sounds/deathSound");
             menuSound = game.Content.Load<SoundEffect>("Sounds/menuSound");
             enterSound = game.Content.Load<SoundEffect>("Sounds/enterSound");
+            menuMusic = game.Content.Load<Song>("Sounds/pauseMenu");
         }
 
     }
