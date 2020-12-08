@@ -47,6 +47,14 @@ namespace Prog2370_Final.Drawable {
 
         public override void Draw(GameTime gameTime) {
             foreach (var terrain in data.AsTerrainList()) terrain.Draw(gameTime);
+            
+            Sprite.DrawBoundingBox(new Rectangle(
+                    25,
+                    (int) ExtremeHeightAt(25, 50, false),
+                    50,
+                    1),
+                (Game1) Game,
+                Color.Aqua);
         }
 
         public override void Update(GameTime gameTime) { }
@@ -61,25 +69,47 @@ namespace Prog2370_Final.Drawable {
                 lastGasCanTickOffset += minGasCanDistance;
                 if (r.Next(10) < 1) {
                     GasCan g = new GasCan(Game, spriteBatch, Vector2.Zero);
-                    float x = GraphicsDevice.Viewport.Width + g.tex.Width, y = GraphicsDevice.Viewport.Height;
-                    foreach (Terrain chunk in Chunks) {
-                        Rectangle chunkBounds = chunk.terrain.BoundingBox;
-                        if (chunkBounds.X < x && x + g.AABB.Width < chunkBounds.X + chunkBounds.Width) {
-                            //Then this is our chunk
-                            foreach (Vector2 vertex in chunk.terrain.BoundingVertices)
-                                if (x < vertex.X && vertex.X < x + g.AABB.Width)
-                                    y = Math.Min(y, vertex.Y);
-                            y -= 35;
-                            g.pos = new Vector2(x, y);
-                            gasCans.Add(new WeakReference<GasCan>(g));
-                            gasCan = g;
-                            return true;
-                        }
+                    float x = GraphicsDevice.Viewport.Width + g.tex.Width, y = ExtremeHeightAt(x, g.tex.Width,false);
+                    if (y != float.MaxValue) {
+                        y -= 35;
+                        g.pos = new Vector2(x, y);
+                        gasCans.Add(new WeakReference<GasCan>(g));
+                        gasCan = g;
+                        return true;
                     }
+
                 }
             }
             gasCan = null;
             return false;
+        }
+
+        public float ExtremeHeightAt(float xStart, float dx, bool maxNotMin = true) {
+            float y = maxNotMin ? float.MinValue : float.MaxValue;
+            foreach (Terrain chunk in Chunks) {
+                Rectangle chunkBounds = chunk.terrain.BoundingBox;
+                if (chunkBounds.X < xStart && xStart + dx < chunkBounds.X + chunkBounds.Width)
+                    foreach (Vector2 vertex in chunk.terrain.BoundingVertices)
+                        if (xStart < vertex.X && vertex.X < xStart + dx)
+                            y = maxNotMin ? Math.Max(y, vertex.Y) : Math.Min(y, vertex.Y);
+            }
+            return y;
+        }
+        
+        public float AverageHeightAt(float xStart, float dx) {
+            float y = 0;
+            int count = 0;
+            foreach (Terrain chunk in Chunks) {
+                Rectangle chunkBounds = chunk.terrain.BoundingBox;
+                if (chunkBounds.X < xStart && xStart + dx < chunkBounds.X + chunkBounds.Width)
+                    foreach (Vector2 vertex in chunk.terrain.BoundingVertices)
+                        if (xStart < vertex.X && vertex.X < xStart + dx) {
+                            y += vertex.Y;
+                            count++;
+                        }
+            }
+            if (count == 0) return 0;
+            else return y / count;
         }
 
         private class ShortTerrainDeQueue { //TODO rename

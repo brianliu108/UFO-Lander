@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using System.Xml.Schema;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,8 +31,6 @@ namespace Prog2370_Final.Scenes {
         public GameScene(Game game, SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
 
-            // Add our UFO
-            this.Components.Add(ufo = new UFO(Game, spriteBatch, new Vector2(50, 200)));
 
             // Add the infinite terrain (which also does gas cans)
             var tempTerrain = new Terrain(Game, spriteBatch,
@@ -39,6 +38,9 @@ namespace Prog2370_Final.Scenes {
                 80, 1, 0, 4,
                 ColourSchemes.brown, new Vector2(0, GraphicsDevice.Viewport.Bounds.Height * 0.75f));
             Components.Add(terrain = new InfiniteTerrain(Game, spriteBatch, tempTerrain, 3, 3));
+            // Add our UFO
+            this.Components.Add(ufo = new UFO(Game, spriteBatch,
+                new Vector2(50, terrain.ExtremeHeightAt(25, 50, false))));
 
             // Add distance string
             Components.Add(
@@ -62,7 +64,7 @@ namespace Prog2370_Final.Scenes {
                 resources.RegularFont,
                 new Vector2(25, 70),
                 "Speed", Color.Black));
-            
+
             // Create Gas meter & string
             Components.Add(
                 meterGas = new MeterBar(
