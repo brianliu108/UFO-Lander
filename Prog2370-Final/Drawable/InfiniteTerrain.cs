@@ -47,14 +47,6 @@ namespace Prog2370_Final.Drawable {
 
         public override void Draw(GameTime gameTime) {
             foreach (var terrain in data.AsTerrainList()) terrain.Draw(gameTime);
-            
-            Sprite.DrawBoundingBox(new Rectangle(
-                    25,
-                    (int) ExtremeHeightAt(25, 50, false),
-                    50,
-                    1),
-                (Game1) Game,
-                Color.Aqua);
         }
 
         public override void Update(GameTime gameTime) { }
