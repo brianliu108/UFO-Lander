@@ -59,6 +59,8 @@ namespace Prog2370_Final.Drawable.Sprites
             if(frameIndex >= 0)
             {
                 spriteBatch.Draw(tex, position, frames[frameIndex], Color.White);
+                //spriteBatch.Draw(tex, new Rectangle((int)position.X - (frames[frameIndex].Width * .5), 
+                //    (int)position.Y - (frames[frameIndex].Height * ), (int)(frames[frameIndex].Width * 1), (int)(frames[frameIndex].Height * 1)), frames[frameIndex], Color.White);
             }
 
             spriteBatch.End();

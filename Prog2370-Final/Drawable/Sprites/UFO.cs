@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,7 @@ namespace Prog2370_Final.Drawable.Sprites
        
         private SoundEffect thrust;
         private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns, landIns;
-        private bool dead = false;
-        private SimpleString died;
+        private bool dead = false;        
         private bool landed = false;
 
         private const float SPEED_MARGIN = 0.1f;
@@ -55,7 +55,7 @@ namespace Prog2370_Final.Drawable.Sprites
         //public static float maxGravity = .2f;
         public UFO(Game game,
             SpriteBatch spriteBatch,            
-            Vector2 position) : base(game, spriteBatch, ((Game1)game).Resources.UFO, position)
+            Vector2 position) : base(game, spriteBatch, ((Game1)game).Resources.UFOSprite, position)
         {
             this.spriteBatch = spriteBatch;
             this.position = position;
@@ -117,6 +117,8 @@ namespace Prog2370_Final.Drawable.Sprites
                 thrustIns.Stop();
             }
 
+            // Check if UFO is colliding with the terrain at all
+            // Apply death logic
             if (CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0)
             {
                 if(!dead && !landed)
@@ -140,7 +142,17 @@ namespace Prog2370_Final.Drawable.Sprites
 
                     this.velocity.Y = 0f;
                     highestYValue = this.position.Y;
-                }                
+
+                    if (dead)
+                    {
+                        MediaPlayer.Stop();
+                    }
+                }   
+                
+                if(landed && gas <= 0)
+                {
+                    Console.WriteLine("loser");
+                }
             }
             else
             {

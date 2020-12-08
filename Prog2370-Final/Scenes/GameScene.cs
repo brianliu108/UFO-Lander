@@ -88,9 +88,11 @@ namespace Prog2370_Final.Scenes {
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
 
+            // Death components
             died = new SimpleString(game, spriteBatch, resources.DeathFont,
-                new Vector2(Shared.stage.X / 2 - 105, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
+                new Vector2(Shared.stage.X / 2 - 120, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
             deathSouthIns = resources.deathSound.CreateInstance();
+            deathSouthIns.Volume = .2f;
         }
 
         public override void Update(GameTime gameTime) {

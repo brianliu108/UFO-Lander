@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using Prog2370_Final.Drawable;
 
 namespace Prog2370_Final.Scenes {
@@ -7,6 +9,7 @@ namespace Prog2370_Final.Scenes {
         private MenuComponent menu;
         
         private string[] menuItems = {"Play", "Restart", "Help","Credits", "Exit"};
+        private Song music;
 
         public StartScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
@@ -18,6 +21,10 @@ namespace Prog2370_Final.Scenes {
             Components.Add(menu);
 
             LoadContent();
+
+            music = resources.menuMusic;
+
+            PlayMusic(true);
         }
 
         public MenuComponent Menu {
@@ -31,7 +38,18 @@ namespace Prog2370_Final.Scenes {
                 new Vector2(100, 100), "Cool Title", ColourSchemes.boldColour);
             this.Components.Add(title);
 
+        }
 
+        public void PlayMusic(bool enable)
+        {
+            if (enable)
+            {
+                MediaPlayer.Play(music);
+            }
+            else
+            {
+                MediaPlayer.Stop();
+            }
         }
     }
 }
