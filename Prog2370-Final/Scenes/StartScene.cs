@@ -8,7 +8,7 @@ namespace Prog2370_Final.Scenes {
     internal class StartScene : Scene {
         private MenuComponent menu;
         
-        private string[] menuItems = {"Play", "Restart", "Help","Credits", "Exit"};
+        private string[] menuItems = {"Play", "Restart", "Help","High Scores","Credits", "Exit"};
         private Song music;
 
         public StartScene(Game game,

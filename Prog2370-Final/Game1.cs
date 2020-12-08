@@ -22,6 +22,7 @@ namespace Prog2370_Final {
         private GameScene playScene;
         private CreditsScene creditsScene;
         private HelpScene helpScene;
+        private HighScoreScene highScoreScene;
         private SoundEffectInstance enterSoundIns;
         public Song menuMusic;
 
@@ -81,6 +82,11 @@ namespace Prog2370_Final {
             Components.Add(helpScene);
             helpScene.Show(false);
 
+            // Add highScoreScene
+            highScoreScene = new HighScoreScene(this, spriteBatch);
+            Components.Add(highScoreScene);
+            highScoreScene.Show(false);
+
             // Create enterSound
             enterSoundIns = this.Content.Load<SoundEffect>("Sounds/enterSound").CreateInstance();
 
@@ -104,7 +110,7 @@ namespace Prog2370_Final {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape)) {
-                if (playScene.Enabled || creditsScene.Enabled || helpScene.Enabled) {
+                if (playScene.Enabled || creditsScene.Enabled || helpScene.Enabled || highScoreScene.Enabled) {
                     HideAllScenes();
                     startScene.Show(true);
                 } else {
@@ -142,10 +148,16 @@ namespace Prog2370_Final {
                             break;
                         case 3:
                             HideAllScenes();
+                            highScoreScene.Show(true);
+                            enterSoundIns.Play();
+                            highScoreScene.ReadFromFile();
+                            break;
+                        case 4:
+                            HideAllScenes();
                             creditsScene.Show(true);
                             enterSoundIns.Play();
                             break;
-                        case 4: Exit();
+                        case 5: Exit();
                             break;
                     }
             }
@@ -169,6 +181,11 @@ namespace Prog2370_Final {
 
         private void HideAllScenes() {
             foreach (Scene item in Components) item.Show(false);
+        }
+
+        public void GoToHighScores()
+        {
+            
         }
     }
 }

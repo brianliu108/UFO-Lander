@@ -8,10 +8,13 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Prog2370_Final.Drawable;
 using Prog2370_Final.Drawable.Sprites;
+using System.IO;
+using System.Text;
 
-
-namespace Prog2370_Final.Scenes {
-    public class GameScene : Scene {
+namespace Prog2370_Final.Scenes
+{
+    public class GameScene : Scene
+    {
         private InfiniteTerrain terrain;
         private CollisionManager collisionManager;
         private UFO ufo;
@@ -28,7 +31,10 @@ namespace Prog2370_Final.Scenes {
 
         private Explosion explosion;
 
-        public GameScene(Game game, SpriteBatch spriteBatch) : base(game) {
+        private int totalDistance;
+
+        public GameScene(Game game, SpriteBatch spriteBatch) : base(game)
+        {
             this.spriteBatch = spriteBatch;
 
 
@@ -95,7 +101,10 @@ namespace Prog2370_Final.Scenes {
             deathSouthIns.Volume = .2f;
         }
 
-        public override void Update(GameTime gameTime) {
+        public int TotalDistance { get => totalDistance; }
+
+        public override void Update(GameTime gameTime)
+        {
             Components.RemoveAll(component => component is IPerishable p && p.Perished);
             foreach (Terrain chunk in terrain.Chunks)
                 if (!collisionManager.Contains(chunk.terrain))
@@ -104,52 +113,75 @@ namespace Prog2370_Final.Scenes {
             ks = Keyboard.GetState();
             ufo.Update(gameTime, ks);
             int ufoMinPos = 0, ufoMaxPos = 500;
-            if (ufo.position.X > ufoMaxPos) {
+            if (ufo.position.X > ufoMaxPos)
+            {
                 float dif = ufo.position.X - ufoMaxPos;
                 terrain.MasterOffset -= dif;
                 ufo.position.X -= dif;
-            } else if (ufo.position.X < ufoMinPos) {
+            }
+            else if (ufo.position.X < ufoMinPos)
+            {
                 float dif = ufo.position.X - ufoMinPos;
                 terrain.MasterOffset -= dif;
                 ufo.position.X -= dif;
             }
-            if (terrain.HasNewGasCan(out GasCan gasCan)) {
+            if (terrain.HasNewGasCan(out GasCan gasCan))
+            {
                 Components.Add(gasCan);
                 collisionManager.Add(gasCan);
             }
+
+            totalDistance = ((int)ufo.position.X + (int)-terrain.MasterOffset);
+
             meterSpeed.current = ufo.Speed;
             meterGas.current = ufo.Gas;
-            distance.Message = "Distance " + ((int) ufo.position.X + (int) -terrain.MasterOffset);
+            distance.Message = "Distance " + totalDistance;
             meterSpeed.Update(gameTime);
             meterGas.Update(gameTime);
 
-            if (ufo.Dead && deadCounter == 0) {
+            if (ufo.Dead && deadCounter == 0)
+            {
                 explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2),
                     ufo.position.Y - (explosion.Dimension.Y / 2));
                 if (ufo.Speed > 5)
                     explosion.ScaleUp = true;
                 else
                     explosion.ScaleUp = false;
+
                 explosion.Show(true);
+
+
                 deadCounter++;
                 startFrameCount = true;
             }
-            if (startFrameCount) {
+            if (startFrameCount)
+            {
                 frameCount++;
 
-                if (frameCount == 60) {
+                // Play deathsound
+                if (frameCount == 60)
+                {
                     deathSouthIns.Play();
                 }
-                if (frameCount == 120) {
+                // Show you died
+                if (frameCount == 120)
+                {
                     DeathScene();
+                }
+                // After deathsound finishes
+                if (frameCount == 550)
+                {
+                    ((Game1)Game).GoToHighScores();
+                    startFrameCount = false;
                 }
             }
             base.Update(gameTime);
         }
 
-        private void DeathScene() {
+        private void DeathScene()
+        {
             this.Components.Add(died);
-            startFrameCount = false;
+
         }
     }
 }
