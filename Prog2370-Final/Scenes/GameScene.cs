@@ -126,6 +126,8 @@ namespace Prog2370_Final.Scenes {
             if (ufo.Dead && deadCounter == 0) {
                 explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2),
                     ufo.position.Y - (explosion.Dimension.Y / 2));
+                if (ufo.Speed > 5)
+                    explosion.ScaleUp = true;                
                 explosion.Show(true);
                 deadCounter++;
                 startFrameCount = true;

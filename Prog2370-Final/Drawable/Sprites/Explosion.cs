@@ -12,11 +12,13 @@ namespace Prog2370_Final.Drawable.Sprites
     {
         private Vector2 position;
         private Vector2 dimension;
-        private List<Rectangle> frames;        
+        private List<Rectangle> frames;
         private int frameIndex = -1;
         private int delay;
         private int delayCounter;
-        
+        private int scale = 2;
+
+        private bool scaleUp = false;
 
         private const int ROW = 6;
         private const int COL = 6;
@@ -33,7 +35,7 @@ namespace Prog2370_Final.Drawable.Sprites
             this.Show(false);
 
             CreateFrames();
-        }        
+        }
 
         private void CreateFrames()
         {
@@ -56,11 +58,13 @@ namespace Prog2370_Final.Drawable.Sprites
         {
             spriteBatch.Begin();
 
-            if(frameIndex >= 0)
+            if (frameIndex >= 0)
             {
-                spriteBatch.Draw(tex, position, frames[frameIndex], Color.White);
-                //spriteBatch.Draw(tex, new Rectangle((int)position.X - (frames[frameIndex].Width * .5), 
-                //    (int)position.Y - (frames[frameIndex].Height * ), (int)(frames[frameIndex].Width * 1), (int)(frames[frameIndex].Height * 1)), frames[frameIndex], Color.White);
+                if (!scaleUp)
+                    spriteBatch.Draw(tex, position, frames[frameIndex], Color.White);
+                else
+                    spriteBatch.Draw(tex, new Rectangle((int)position.X - (frames[frameIndex].Width / 2),
+                        (int)position.Y - (frames[frameIndex].Height / 2), (int)(frames[frameIndex].Width * 2), (int)(frames[frameIndex].Height * 2)), frames[frameIndex], Color.White);
             }
 
             spriteBatch.End();
@@ -72,14 +76,14 @@ namespace Prog2370_Final.Drawable.Sprites
             if (delayCounter < delay)
             {
                 frameIndex++;
-                if(frameIndex > ROW * COL - 1)
+                if (frameIndex > ROW * COL - 1)
                 {
                     frameIndex = -1;
                     this.Show(false);
                 }
 
                 delayCounter = 0;
-                
+
             }
         }
 
@@ -87,5 +91,6 @@ namespace Prog2370_Final.Drawable.Sprites
 
         public Vector2 Position { get => position; set => position = value; }
         public Vector2 Dimension { get => dimension; set => dimension = value; }
+        public bool ScaleUp { get => scaleUp; set => scaleUp = value; }
     }
 }
