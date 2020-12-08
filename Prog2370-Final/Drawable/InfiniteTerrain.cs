@@ -61,7 +61,7 @@ namespace Prog2370_Final.Drawable {
                 lastGasCanTickOffset += minGasCanDistance;
                 if (r.Next(10) < 1) {
                     GasCan g = new GasCan(Game, spriteBatch, Vector2.Zero);
-                    float x = GraphicsDevice.Viewport.Width + g.tex.Width, y = ExtremeHeightAt(x, g.tex.Width,false);
+                    float x = GraphicsDevice.Viewport.Width + g.tex.Width, y = ExtremeHeightAt(x, 30,false);
                     if (y != float.MaxValue) {
                         y -= 35;
                         g.pos = new Vector2(x, y);
