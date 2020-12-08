@@ -51,6 +51,7 @@
     <Compile Include="Scenes\CreditsScene.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Scenes\HelpScene.cs" />
+    <Compile Include="Scenes\HighScoreScene.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Drawable\Sprites\GasCan.cs" />
     <Compile Include="Drawable\InfiniteTerrain.cs" />
@@ -75,10 +76,19 @@
   <ItemGroup>
     <Content Include="Content\Fonts\BoldFont.spritefont" />
     <Content Include="Content\Fonts\RegularFont.spritefont" />
+    <Content Include="Content\Images\explosion.png" />
+    <Content Include="Content\Images\explosion2.png" />
+    <Content Include="Content\Images\explosion3.png" />
+    <Content Include="Content\Images\gascan.png" />
+    <Content Include="Content\Images\UFO.png" />
+    <Content Include="Content\Images\ufoSprite.png" />
+    <Content Include="Content\Images\UFOThrust.png" />
     <Content Include="Content\Sounds\deathSound.wav" />
+    <Content Include="Content\Sounds\enterSound.wav" />
     <Content Include="Content\Sounds\hugeExplosion.wav" />
     <Content Include="Content\Sounds\land.wav" />
     <Content Include="Content\Sounds\menuSound.wav" />
+    <Content Include="Content\Sounds\pauseMenu.mp3" />
     <Content Include="Content\Sounds\softExplosion.wav" />
     <Content Include="Content\Sounds\thrust.wav" />
     <Content Include="Icon.ico" />
@@ -88,9 +98,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

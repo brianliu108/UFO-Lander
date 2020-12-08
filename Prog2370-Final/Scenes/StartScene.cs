@@ -36,6 +36,7 @@ namespace Prog2370_Final.Scenes {
         {
             var title = new SimpleString(Game, spriteBatch, ((Game1)Game).Resources.TitleFont,
                 new Vector2(100, 100), "Cool Title", ColourSchemes.boldColour);
+            
             this.Components.Add(title);
 
         }

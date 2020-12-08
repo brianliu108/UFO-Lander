@@ -9,16 +9,19 @@ using System.Linq;
 
 namespace Prog2370_Final.Drawable.Sprites
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class UFO : Sprite, ICollidable
     {
         public Vector2 position = new Vector2(50, 50);
         private Vector2 velocity = new Vector2(0f, 0f);
         private Rectangle drawPos;
-        private float gravity = .05f;
-        private float acceleration = 0.15f;
-        private float lightAcceleration = 0.075f;
-        private float maxVelocity = 10f;
-        private float drag = 0.02f;
+        private static float gravity = .05f;
+        private static float acceleration = 0.15f;
+        private static float lightAcceleration = 0.075f;
+        private static float maxVelocity = 10f;
+        private static float drag = 0.02f;
         private float highestYValue = 0;
         private double angle = (Math.PI / 2);
         private double changeInAngle = (Math.PI / 100);
@@ -33,6 +36,15 @@ namespace Prog2370_Final.Drawable.Sprites
         private const float SPEED_MARGIN = 0.1f;
         private const int FRAMES_STILL_MARGIN = 15;
 
+        private Vector2 dimension;
+        private static List<Rectangle> frames;
+        private int frameIndex = -1;
+        private int delay;
+        private int delayCounter;
+        
+        private const int ROW = 3;
+        private const int COL = 3;
+
         public float Speed => (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
 
         public bool CanCollide => true;
@@ -45,14 +57,11 @@ namespace Prog2370_Final.Drawable.Sprites
 
         public bool Perished => false;
 
-        public float Gas { get => gas; set => gas = value; }
+        public float Gas { get => gas;}
         public float MaxVelocity { get => maxVelocity; }
-        public bool Dead { get => dead; set => dead = value; }
-        
+        public bool Dead { get => dead;}
+        public Vector2 Dimension { get => dimension; set => dimension = value; }
 
-
-
-        //public static float maxGravity = .2f;
         public UFO(Game game,
             SpriteBatch spriteBatch,            
             Vector2 position) : base(game, spriteBatch, ((Game1)game).Resources.UFOSprite, position)
@@ -69,7 +78,29 @@ namespace Prog2370_Final.Drawable.Sprites
             softExplosionIns = resources.softExplosion.CreateInstance();
             softExplosionIns.Volume = .1f;
 
-            
+
+            delay = 5;
+            dimension = new Vector2(tex.Width / COL, tex.Height / ROW);
+            CreateFrames();
+        }
+
+        private void CreateFrames()
+        {
+            frames = new List<Rectangle>();
+
+            for (int i = 0; i < ROW; i++)
+            {
+                for (int j = 0; j < COL; j++)
+                {
+                    int x = j * (int)dimension.X;
+                    int y = i * (int)dimension.Y;
+
+                    Rectangle r = new Rectangle(x, y, (int)dimension.X, (int)dimension.Y);
+                    frames.Add(r);
+
+                }
+
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -77,7 +108,13 @@ namespace Prog2370_Final.Drawable.Sprites
             spriteBatch.Begin();
             drawPos = new Rectangle((int)position.X, (int)position.Y, tex.Width / 3, tex.Height / 3);
 
-            spriteBatch.Draw(tex, drawPos, null, Color.White, (float)angle - (float)(Math.PI / 2), new Vector2(tex.Width / 2, tex.Height / 2), SpriteEffects.None, 0);
+            if(frameIndex < 0)
+            spriteBatch.Draw(resources.UFOSprite, drawPos, frames[0], Color.White, (float)angle - (float)(Math.PI / 2), new Vector2(tex.Width / 2, tex.Height / 2), SpriteEffects.None, 0);
+            else
+            {
+                spriteBatch.Draw(resources.UFOSprite, drawPos, frames[frameIndex], Color.White, (float)angle - (float)(Math.PI / 2), new Vector2(frames[frameIndex].Width / 2, frames[frameIndex].Height / 2), SpriteEffects.None, 0);
+                //spriteBatch.Draw(resources.UFOSprite, position, frames[frameIndex], Color.White);
+            }
 
 
             spriteBatch.End();
@@ -99,6 +136,8 @@ namespace Prog2370_Final.Drawable.Sprites
                 }
             }
             this.tex = resources.UFO;
+            delayCounter = -1;
+            
             if (!dead)
             {
                 UpdateMovement(ks);
@@ -115,6 +154,7 @@ namespace Prog2370_Final.Drawable.Sprites
             if (gas <= 0)
             {
                 thrustIns.Stop();
+                frameIndex = 0;
             }
 
             // Check if UFO is colliding with the terrain at all
@@ -146,6 +186,7 @@ namespace Prog2370_Final.Drawable.Sprites
                     if (dead)
                     {
                         MediaPlayer.Stop();
+                        frameIndex = 0;
                     }
                 }   
                 
@@ -196,7 +237,7 @@ namespace Prog2370_Final.Drawable.Sprites
                 if (gas >= 0)
                 {
                     // Max acceleration
-                    Thrust(acceleration, 0.05f, 1.0f);
+                    Thrust(acceleration, 0.1f, 1.0f);
 
                 }
             }
@@ -205,12 +246,13 @@ namespace Prog2370_Final.Drawable.Sprites
                 if (gas >= 0)
                 {
                     // Half acceleration
-                    Thrust(lightAcceleration, 0.025f, 0.5f);
+                    Thrust(lightAcceleration, 0.05f, 0.5f);
                 }
             }
             else
             {
                 thrustIns.Stop();
+                frameIndex = 0;
             }
         }
 
@@ -234,6 +276,21 @@ namespace Prog2370_Final.Drawable.Sprites
             // Reduce gas level 
             gas = gas - gasConsumption;
             this.tex = resources.UFO_thrust;
+            delayCounter++;
+
+            // Animation
+            if (delayCounter < delay)
+            {
+                frameIndex++;
+                if (frameIndex > ROW * COL - 1)
+                {
+                    frameIndex = -1;
+                    Show(true);
+                }
+
+                delayCounter = 0;
+            }            
+
             // Play soundeffect
             thrustIns.Volume = vol;
             thrustIns.Play();

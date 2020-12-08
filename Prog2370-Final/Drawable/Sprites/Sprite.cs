@@ -10,11 +10,14 @@ using Microsoft.Xna.Framework.Input;
 using Prog2370_Final;
 
 namespace Prog2370_Final.Drawable.Sprites {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Sprite : DrawableGameComponent {
         protected SpriteBatch spriteBatch;
         public Texture2D tex;
         protected Resources resources;
-        public Rectangle hitbox; // TODO: Find hitboxes for each of our sprites=-
+        
 
         public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game) {
             this.spriteBatch = spriteBatch;
