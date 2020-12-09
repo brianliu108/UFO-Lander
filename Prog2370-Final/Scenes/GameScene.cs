@@ -124,11 +124,13 @@ namespace Prog2370_Final.Scenes {
         }
 
         /// <summary>
-        /// 
+        /// Updates the gamescene logic
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">snapshot of game timing</param>
         public override void Update(GameTime gameTime) {
+            // removing all IPerishable items if perished
             Components.RemoveAll(component => component is IPerishable p && p.Perished);
+            // creating terrain chunks when moving
             foreach (Terrain chunk in terrain.Chunks)
                 if (!collisionManager.Contains(chunk.terrain))
                     collisionManager.Add(chunk.terrain);
@@ -136,6 +138,7 @@ namespace Prog2370_Final.Scenes {
             ks = Keyboard.GetState();
             ufo.Update(gameTime, ks);
             int ufoMinPos = 0, ufoMaxPos = 500;
+            // moving the terrain
             if (ufo.position.X > ufoMaxPos) {
                 float dif = ufo.position.X - ufoMaxPos;
                 terrain.MasterOffset -= dif;
@@ -158,6 +161,7 @@ namespace Prog2370_Final.Scenes {
             meterSpeed.Update(gameTime);
             meterGas.Update(gameTime);
 
+            // creating explosion on death
             if (ufo.Dead && deadCounter == 0) {
                 explosion.Position = new Vector2(ufo.position.X - (explosion.Dimension.X / 2),
                     ufo.position.Y - (explosion.Dimension.Y / 2));
@@ -173,6 +177,7 @@ namespace Prog2370_Final.Scenes {
                 startFrameCount = true;
                 finalDistance = totalDistance;
             }
+            // creating a buffer between death and related events
             if (startFrameCount) {
                 frameCount++;
 
@@ -186,6 +191,7 @@ namespace Prog2370_Final.Scenes {
                 }
                 // After deathsound finishes
                 if (frameCount == 550) {
+                    // calculating if player was a top scorer
                     var topScorers = Resources.ParseHighScores();
                     if (topScorers.Count < 10 || TotalDistance > topScorers.Min(tuple => tuple.Item2)) {
                         bool topScorer = topScorers.Count == 0 || 
@@ -198,23 +204,26 @@ namespace Prog2370_Final.Scenes {
                             Color.Wheat,
                             SimpleString.TextAlignH.Middle));
                         Components.Add(inputNameString);
-                    } else {
-                        //FLAG this may cause interesting bugs if we forget about it
+                    } else {                        
                         ((Game1) Game).ForcefulSceneChange = 3; 
                     }
+                    // end of timing related events                    
                     startFrameCount = false;
                 }
             }
+            // recording the player's score
             if (ufo.Dead && Keyboard.GetState().IsKeyDown(Keys.Enter) && !recorded) {
                 recorded = inputNameString.locked = true;
                 string name = inputNameString.Message == "" ? "PLAYER" : inputNameString.Message;
-                Resources.AddToHighScoreFile(name,TotalDistance);
-                //FLAG this may cause interesting bugs if we forget about it
+                Resources.AddToHighScoreFile(name,TotalDistance);                
                 ((Game1) Game).ForcefulSceneChange = 3; 
             }
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Show the death message and total score to player
+        /// </summary>
         private void ShowDeathText() {
             Components.Add(new SimpleString(Game, spriteBatch,
                 resources.DeathFont,
