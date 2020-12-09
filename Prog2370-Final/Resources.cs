@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 
 namespace Prog2370_Final {
+    /// <summary>
+    /// Object to commonly reference game content
+    /// </summary>
     public class Resources {
         public const string SaveFileLocation = @".\highscores.txt";
         public static readonly Color regularColour = new Color(130, 52, 65);
@@ -46,7 +49,10 @@ namespace Prog2370_Final {
             Explosion,
             UFOSprite;
 
-
+        /// <summary>
+        /// Creates the Resource object
+        /// </summary>
+        /// <param name="game">Current game reference</param>
         public Resources(Game game) {
             WhitePixel = new Texture2D(game.GraphicsDevice, 1, 1);
             WhitePixel.SetData(new[] {new Color(255, 255, 255)});
@@ -78,6 +84,10 @@ namespace Prog2370_Final {
         }
 
         public const int maxRecordsInScore = 10;
+        /// <summary>
+        /// Creates list of high scores
+        /// </summary>
+        /// <returns>a list of highscores. Tupled with a name and a score</returns>
         public static List<Tuple<string, int>> ParseHighScores() {
             List<Tuple<string, int>> highScores = new List<Tuple<string, int>>();
             using (StreamReader reader = new StreamReader(Resources.SaveFileLocation)) {
@@ -90,6 +100,10 @@ namespace Prog2370_Final {
             return highScores;
         }
 
+        /// <summary>
+        /// Creates the formatted high scores string
+        /// </summary>
+        /// <returns>formatted high scores</returns>
         public static string FormattedHighScores() {
             List<Tuple<string, int>> records = ParseHighScores();
             if (records.Count == 0) return "";
@@ -108,6 +122,11 @@ namespace Prog2370_Final {
             return strb.ToString();
         }
 
+        /// <summary>
+        /// Adds a new high score
+        /// </summary>
+        /// <param name="name">name of palyer</param>
+        /// <param name="score">player's score</param>
         public static void AddToHighScoreFile(string name, int score) {
             List<Tuple<string, int>> records = ParseHighScores();
             records.Add(new Tuple<string, int>(name,score));
