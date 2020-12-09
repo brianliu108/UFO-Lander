@@ -77,6 +77,7 @@ namespace Prog2370_Final {
             menuMusic = game.Content.Load<Song>("Sounds/pauseMenu");
         }
 
+        public const int maxRecordsInScore = 10;
         public static List<Tuple<string, int>> ParseHighScores() {
             List<Tuple<string, int>> highScores = new List<Tuple<string, int>>();
             using (StreamReader reader = new StreamReader(Resources.SaveFileLocation)) {
@@ -105,6 +106,19 @@ namespace Prog2370_Final {
                     .Append(string.Format("{0," + (maxScoreLength + 1) + "}", record.Item2))
                     .Append("\n");
             return strb.ToString();
+        }
+
+        public static void AddToHighScoreFile(string name, int score) {
+            List<Tuple<string, int>> records = ParseHighScores();
+            records.Add(new Tuple<string, int>(name,score));
+            if (records.Count >= maxRecordsInScore) {
+                int minScore = records.Min(tuple => tuple.Item2);
+                records.RemoveAll(tuple => tuple.Item2 == minScore);
+            }
+            records.Sort((l, r) => r.Item2 - l.Item2);
+            using (StreamWriter writer = new StreamWriter(Resources.SaveFileLocation))
+                foreach (var record in records)
+                    writer.WriteLine(record.Item1 + " " + record.Item2);
         }
     }
 }

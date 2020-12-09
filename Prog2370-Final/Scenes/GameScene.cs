@@ -27,15 +27,25 @@ namespace Prog2370_Final.Scenes {
         private MeterBar meterSpeed;
         private MeterBar meterGas;
         private SimpleString distance;
-
+        private KbInputString inputNameString;
+        
         private Explosion explosion;
 
         private int totalDistance;
         private int finalDistance;
 
+        private bool recorded = false;
+
         public GameScene(Game game, SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
 
+            inputNameString = new KbInputString(Game, spriteBatch,
+                resources.MonoFont,
+                new Vector2(GraphicsDevice.Viewport.Width / 2f,
+                    GraphicsDevice.Viewport.Height / 2f + resources.MonoFont.LineSpacing * 2),
+                Color.Wheat,
+                SimpleString.TextAlignH.Middle);
+            
             // Add the infinite terrain (which also does gas cans)
             var tempTerrain = new Terrain(Game, spriteBatch,
                 GraphicsDevice.Viewport.Bounds.Width / 3f, 50,
@@ -169,18 +179,20 @@ namespace Prog2370_Final.Scenes {
                             "\nEnter your name to be added to the leaderboard:\n\n[Press enter]",
                             Color.Wheat,
                             SimpleString.TextAlignH.Middle));
-                        Components.Add(new KbInputString(Game, spriteBatch,
-                            resources.MonoFont,
-                            new Vector2(GraphicsDevice.Viewport.Width / 2f,
-                                GraphicsDevice.Viewport.Height / 2f + resources.MonoFont.LineSpacing * 2),
-                            Color.Wheat,
-                            SimpleString.TextAlignH.Middle));
+                        Components.Add(inputNameString);
                     } else {
                         //FLAG this may cause interesting bugs if we forget about it
                         ((Game1) Game).ForcefulSceneChange = 3; 
                     }
                     startFrameCount = false;
                 }
+            }
+            if (ufo.Dead && Keyboard.GetState().IsKeyDown(Keys.Enter) && !recorded) {
+                recorded = true;
+                string name = inputNameString.Message == "" ? "PLAYER" : inputNameString.Message;
+                Resources.AddToHighScoreFile(name,TotalDistance);
+                //FLAG this may cause interesting bugs if we forget about it
+                ((Game1) Game).ForcefulSceneChange = 3; 
             }
             base.Update(gameTime);
         }
