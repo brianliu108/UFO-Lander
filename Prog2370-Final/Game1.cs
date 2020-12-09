@@ -54,7 +54,7 @@ namespace Prog2370_Final {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             Shared.stage = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-
+            if (!File.Exists(Resources.SaveFileLocation)) File.Create(Resources.SaveFileLocation);
             base.Initialize();
         }
 
@@ -67,8 +67,6 @@ namespace Prog2370_Final {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _resources = new Resources(this);
-
-            if (!File.Exists(Resources.SaveFileLocation)) File.Create(Resources.SaveFileLocation);
 
             // Add startScene
             startScene = new StartScene(this, spriteBatch);
