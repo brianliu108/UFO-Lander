@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Prog2370_Final.Drawable;
 using Prog2370_Final.Drawable.Sprites;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Prog2370_Final.Scenes {
@@ -30,6 +31,7 @@ namespace Prog2370_Final.Scenes {
         private Explosion explosion;
 
         private int totalDistance;
+        private int finalDistance;
 
         public GameScene(Game game, SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
@@ -90,15 +92,12 @@ namespace Prog2370_Final.Scenes {
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
 
-            // Death components
-            died = new SimpleString(game, spriteBatch, resources.DeathFont,
-                new Vector2(Shared.stage.X / 2 - 120, Shared.stage.Y / 2 - 100), "You Died", Color.Gray);
             deathSouthIns = resources.deathSound.CreateInstance();
             deathSouthIns.Volume = .2f;
         }
 
         public int TotalDistance {
-            get => totalDistance;
+            get => finalDistance == 0 ? totalDistance : finalDistance;
         }
 
         public override void Update(GameTime gameTime) {
@@ -128,7 +127,7 @@ namespace Prog2370_Final.Scenes {
 
             meterSpeed.current = ufo.Speed;
             meterGas.current = ufo.Gas;
-            distance.Message = "Distance " + totalDistance;
+            distance.Message = "Distance " + TotalDistance;
             meterSpeed.Update(gameTime);
             meterGas.Update(gameTime);
 
@@ -145,6 +144,7 @@ namespace Prog2370_Final.Scenes {
 
                 deadCounter++;
                 startFrameCount = true;
+                finalDistance = totalDistance;
             }
             if (startFrameCount) {
                 frameCount++;
@@ -155,16 +155,27 @@ namespace Prog2370_Final.Scenes {
                 }
                 // Show you died
                 if (frameCount == 120) {
-                    DeathScene();
+                    ShowDeathText();
                 }
                 // After deathsound finishes
                 if (frameCount == 550) {
-                    Components.Add(new KbInputString(Game, spriteBatch,
-                        resources.MonoFont,
-                        new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f),
-                        Color.Wheat,
-                        SimpleString.TextAlignH.Middle,
-                        SimpleString.TextAlignV.Middle));
+                    var topScorers = Resources.ParseHighScores();
+                    if (TotalDistance > topScorers.Min(tuple => tuple.Item2)) {
+                        bool topScorer = TotalDistance > topScorers.Max(tuple => tuple.Item2);
+                        Components.Add(new SimpleString(Game, spriteBatch,
+                            resources.MonoFont,
+                            new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f),
+                            (topScorer ? "Top Score!" : "Top 5 score! ") +
+                            "\nEnter your name to be added to the leaderboard:\n\n[Press enter]",
+                            Color.Wheat,
+                            SimpleString.TextAlignH.Middle));
+                        Components.Add(new KbInputString(Game, spriteBatch,
+                            resources.MonoFont,
+                            new Vector2(GraphicsDevice.Viewport.Width / 2f,
+                                GraphicsDevice.Viewport.Height / 2f + resources.MonoFont.LineSpacing * 2),
+                            Color.Wheat,
+                            SimpleString.TextAlignH.Middle));
+                    }
                     // ((Game1) Game).ForcefulSceneChange = 3; //TODO use later FLAG this may cause interesting bugs if we forget about it
                     startFrameCount = false;
                 }
@@ -172,8 +183,23 @@ namespace Prog2370_Final.Scenes {
             base.Update(gameTime);
         }
 
-        private void DeathScene() {
-            this.Components.Add(died);
+        private void ShowDeathText() {
+            Components.Add(new SimpleString(Game, spriteBatch,
+                resources.DeathFont,
+                new Vector2(GraphicsDevice.Viewport.Width / 2f,
+                    GraphicsDevice.Viewport.Height / 2f - resources.DeathFont.LineSpacing * 2),
+                "You Died",
+                Color.Gray,
+                SimpleString.TextAlignH.Middle,
+                SimpleString.TextAlignV.Bottom));
+            Components.Add(new SimpleString(Game, spriteBatch,
+                resources.DeathFont,
+                new Vector2(GraphicsDevice.Viewport.Width / 2f,
+                    GraphicsDevice.Viewport.Height / 2f - resources.DeathFont.LineSpacing),
+                "Score: " + TotalDistance,
+                Color.Gray,
+                SimpleString.TextAlignH.Middle,
+                SimpleString.TextAlignV.Bottom));
         }
     }
 }
