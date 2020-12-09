@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Prog2370_Final.Drawable.Sprites {
     /// <summary>
-    /// 
+    /// UFO Player Object. Arrow keys and spacebar to control
     /// </summary>
     public class UFO : Sprite, ICollidable {
         public Vector2 position = new Vector2(50, 50);
@@ -43,36 +43,61 @@ namespace Prog2370_Final.Drawable.Sprites {
         private const int ROW = 3;
         private const int COL = 3;
 
+        /// <summary>
+        /// Get current speed of UFO
+        /// </summary>
         public float Speed => (float) Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
 
+        /// <summary>
+        /// if UFO can currently collide with an ICollidable
+        /// </summary>
         public bool CanCollide => true;
-
+        /// <summary>
+        /// the Axis Aligned Bounding Box for the UFO
+        /// </summary>
         public Rectangle AABB => new Rectangle((int) position.X - (drawPos.Width / 2),
             (int) position.Y - (drawPos.Height / 2), drawPos.Width, drawPos.Height - 12);
-
+        /// <summary>
+        /// The type of collisions the UFO can have
+        /// </summary>
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Location;
-
+        /// <summary>
+        /// Log of collisions
+        /// </summary>
         public List<CollisionLog> CollisionLogs { get; set; }
-
-        public bool Perished => false;
-
+        /// <summary>
+        /// The gas level
+        /// </summary>
         public float Gas {
             get => gas;
         }
-
+        /// <summary>
+        /// The UFO's max velocity
+        /// </summary>
         public float MaxVelocity {
             get => maxVelocity;
         }
-
+        /// <summary>
+        /// Whether the UFO is dead or not
+        /// </summary>
         public bool Dead {
             get => dead;
         }
 
+        /// <summary>
+        /// Dimensions of the sprite frame
+        /// </summary>
         public Vector2 Dimension {
             get => dimension;
             set => dimension = value;
         }
 
+        /// <summary>
+        /// Creates the UFO object
+        /// </summary>
+        /// <param name="game">reference to main game</param>
+        /// <param name="spriteBatch">spritebatch to draw with?</param>
+        /// <param name="position">initial position of the UFO</param>
         public UFO(Game game,
             SpriteBatch spriteBatch,
             Vector2 position) : base(game, spriteBatch, ((Game1) game).Resources.UFOSprite, position) {
@@ -80,6 +105,8 @@ namespace Prog2370_Final.Drawable.Sprites {
             this.position = position;
             resources = ((Game1) game).Resources;
             thrust = resources.thrust;
+
+            // Creating the sounds
             thrustIns = thrust.CreateInstance();
             hugeExplosionIns = resources.hugeExplosion.CreateInstance();
             hugeExplosionIns.Volume = .1f;
@@ -88,12 +115,15 @@ namespace Prog2370_Final.Drawable.Sprites {
             softExplosionIns = resources.softExplosion.CreateInstance();
             softExplosionIns.Volume = .1f;
 
-
+            // Creating sprite frames
             delay = 5;
             dimension = new Vector2(tex.Width / COL, tex.Height / ROW);
             CreateFrames();
         }
 
+        /// <summary>
+        /// Extract the frames from the sprite
+        /// </summary>
         private void CreateFrames() {
             frames = new List<Rectangle>();
 
@@ -108,10 +138,15 @@ namespace Prog2370_Final.Drawable.Sprites {
             }
         }
 
+        /// <summary>
+        /// Draws the UFO to the screen
+        /// </summary>
+        /// <param name="gameTime">Common update sequence</param>
         public override void Draw(GameTime gameTime) {
             spriteBatch.Begin();
             drawPos = new Rectangle((int) position.X, (int) position.Y, tex.Width / 3, tex.Height / 3);
 
+            // 
             if (frameIndex < 0)
                 spriteBatch.Draw(resources.UFOSprite, drawPos, frames[0], Color.White,
                     (float) angle - (float) (Math.PI / 2), new Vector2(tex.Width / 2, tex.Height / 2),
@@ -121,8 +156,7 @@ namespace Prog2370_Final.Drawable.Sprites {
                     (float) angle - (float) (Math.PI / 2),
                     new Vector2(frames[frameIndex].Width / 2, frames[frameIndex].Height / 2), SpriteEffects.None, 0);
                 //spriteBatch.Draw(resources.UFOSprite, position, frames[frameIndex], Color.White);
-            }
-
+            }            
 
             spriteBatch.End();
         }
