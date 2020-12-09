@@ -188,7 +188,7 @@ namespace Prog2370_Final.Scenes {
                 }
             }
             if (ufo.Dead && Keyboard.GetState().IsKeyDown(Keys.Enter) && !recorded) {
-                recorded = true;
+                recorded = inputNameString.locked = true;
                 string name = inputNameString.Message == "" ? "PLAYER" : inputNameString.Message;
                 Resources.AddToHighScoreFile(name,TotalDistance);
                 //FLAG this may cause interesting bugs if we forget about it
