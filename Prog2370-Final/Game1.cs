@@ -42,6 +42,7 @@ namespace Prog2370_Final {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
+            graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
         }
 
