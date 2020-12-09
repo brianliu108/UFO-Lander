@@ -165,7 +165,7 @@ namespace Prog2370_Final.Scenes {
                         Components.Add(new SimpleString(Game, spriteBatch,
                             resources.MonoFont,
                             new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f),
-                            (topScorer ? "Top Score!" : "Top 5 score! ") +
+                            (topScorer ? "Top Score!" : "Top 10 score! ") +
                             "\nEnter your name to be added to the leaderboard:\n\n[Press enter]",
                             Color.Wheat,
                             SimpleString.TextAlignH.Middle));
@@ -175,8 +175,10 @@ namespace Prog2370_Final.Scenes {
                                 GraphicsDevice.Viewport.Height / 2f + resources.MonoFont.LineSpacing * 2),
                             Color.Wheat,
                             SimpleString.TextAlignH.Middle));
+                    } else {
+                        //FLAG this may cause interesting bugs if we forget about it
+                        ((Game1) Game).ForcefulSceneChange = 3; 
                     }
-                    // ((Game1) Game).ForcefulSceneChange = 3; //TODO use later FLAG this may cause interesting bugs if we forget about it
                     startFrameCount = false;
                 }
             }
