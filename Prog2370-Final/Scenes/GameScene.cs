@@ -13,6 +13,9 @@ using System.Linq;
 using System.Text;
 
 namespace Prog2370_Final.Scenes {
+    /// <summary>
+    /// The scene to show the gameplay
+    /// </summary>
     public class GameScene : Scene {
         private InfiniteTerrain terrain;
         private CollisionManager collisionManager;
@@ -36,6 +39,11 @@ namespace Prog2370_Final.Scenes {
 
         private bool recorded = false;
 
+        /// <summary>
+        /// Creates the GameScene scene
+        /// </summary>
+        /// <param name="game">Current game reference</param>
+        /// <param name="spriteBatch">spriteBatch to draw scene</param>
         public GameScene(Game game, SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
 
@@ -99,17 +107,26 @@ namespace Prog2370_Final.Scenes {
             Components.Add(collisionManager = new CollisionManager(Game));
             collisionManager.Add(ufo);
 
+            // Create explosion
             explosion = new Explosion(game, spriteBatch, resources.Explosion, Vector2.Zero, 3);
             this.Components.Add(explosion);
 
+            // Death sound
             deathSouthIns = resources.deathSound.CreateInstance();
             deathSouthIns.Volume = .2f;
         }
 
+        /// <summary>
+        /// Get the total distance travelled
+        /// </summary>
         public int TotalDistance {
             get => finalDistance == 0 ? totalDistance : finalDistance;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
             Components.RemoveAll(component => component is IPerishable p && p.Perished);
             foreach (Terrain chunk in terrain.Chunks)
