@@ -130,7 +130,7 @@ namespace Prog2370_Final {
         public static void AddToHighScoreFile(string name, int score) {
             List<Tuple<string, int>> records = ParseHighScores();
             records.Add(new Tuple<string, int>(name,score));
-            if (records.Count >= maxRecordsInScore) {
+            if (records.Count > maxRecordsInScore) {
                 int minScore = records.Min(tuple => tuple.Item2);
                 records.RemoveAll(tuple => tuple.Item2 == minScore);
             }
