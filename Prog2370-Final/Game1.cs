@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
@@ -28,13 +29,13 @@ namespace Prog2370_Final {
 
         public Resources Resources => _resources;
 
+        public int ForcefulSceneChange { get; set; }
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
-
-            
         }
 
         /// <summary>
@@ -57,10 +58,10 @@ namespace Prog2370_Final {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
-
+            
             _resources = new Resources(this);
+            
+            if (!File.Exists(Resources.SaveFileLocation)) File.Create(Resources.SaveFileLocation);
 
             // Add startScene
             startScene = new StartScene(this, spriteBatch);
@@ -121,11 +122,14 @@ namespace Prog2370_Final {
             // TODO: Add your update logic here
 
             var ks = Keyboard.GetState();
-            var selectedIndex = 0;
 
-            if (startScene.Enabled) {
-                selectedIndex = startScene.Menu.SelectedIndex;
-                if (ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
+            if (startScene.Enabled || ForcefulSceneChange != 0) {
+                var selectedIndex = startScene.Menu.SelectedIndex;
+                if (ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter) || ForcefulSceneChange != 0) {
+                    if (ForcefulSceneChange != 0) {
+                        selectedIndex = ForcefulSceneChange;
+                        ForcefulSceneChange = 0;
+                    }
                     switch (selectedIndex) {
                         case 0:
                             HideAllScenes();
@@ -135,7 +139,7 @@ namespace Prog2370_Final {
                         case 1:
                             HideAllScenes();
                             Components.Remove(playScene);
-                            Components.Add(playScene = new GameScene(this,spriteBatch));
+                            Components.Add(playScene = new GameScene(this, spriteBatch));
                             playScene.Show(true);
                             enterSoundIns.Play();
 
@@ -157,9 +161,11 @@ namespace Prog2370_Final {
                             creditsScene.Show(true);
                             enterSoundIns.Play();
                             break;
-                        case 5: Exit();
+                        case 5:
+                            Exit();
                             break;
                     }
+                }
             }
             oldState = ks;
 
@@ -183,9 +189,5 @@ namespace Prog2370_Final {
             foreach (Scene item in Components) item.Show(false);
         }
 
-        public void GoToHighScores()
-        {
-            
-        }
     }
 }

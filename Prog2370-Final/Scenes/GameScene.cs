@@ -169,9 +169,8 @@ namespace Prog2370_Final.Scenes
                     DeathScene();
                 }
                 // After deathsound finishes
-                if (frameCount == 550)
-                {
-                    ((Game1)Game).GoToHighScores();
+                if (frameCount == 550) {
+                    ((Game1) Game).ForcefulSceneChange = 3; //FLAG this may cause interesting bugs if we forget about it
                     startFrameCount = false;
                 }
             }

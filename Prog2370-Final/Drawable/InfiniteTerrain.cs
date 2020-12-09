@@ -39,10 +39,10 @@ namespace Prog2370_Final.Drawable {
             }
         }
 
-        public InfiniteTerrain(Game game, SpriteBatch spriteBatch, Terrain terrain, int trimLength, int genLenth)
+        public InfiniteTerrain(Game game, SpriteBatch spriteBatch, Terrain terrain, int trimLength, int genLength)
             : base(game) {
             this.spriteBatch = spriteBatch;
-            data = new ShortTerrainDeQueue(terrain, trimLength, genLenth, GraphicsDevice.Viewport.Bounds.Width / 2f);
+            data = new ShortTerrainDeQueue(terrain, trimLength, genLength, GraphicsDevice.Viewport.Bounds.Width / 2f);
         }
 
         public override void Draw(GameTime gameTime) {

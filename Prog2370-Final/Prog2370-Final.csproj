@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\BoldFont.spritefont" />
+    <Content Include="Content\Fonts\Monospaced.spritefont" />
     <Content Include="Content\Fonts\RegularFont.spritefont" />
     <Content Include="Content\Images\explosion.png" />
     <Content Include="Content\Images\explosion2.png" />
