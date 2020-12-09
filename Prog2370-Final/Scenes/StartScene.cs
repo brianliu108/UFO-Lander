@@ -34,7 +34,7 @@ namespace Prog2370_Final.Scenes {
 
         protected override void LoadContent() {
             var title = new SimpleString(Game, spriteBatch, ((Game1) Game).Resources.TitleFont,
-                new Vector2(100, 100), "Cool Title", ColourSchemes.boldColour);
+                new Vector2(Shared.stage.X/2 - 45, 100), "Cool Title", ColourSchemes.boldColour, SimpleString.TextAlignH.Middle,SimpleString.TextAlignV.Middle);
 
             this.Components.Add(title);
         }
