@@ -3,15 +3,32 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Prog2370_Final.Drawable {
+    /// <summary>
+    /// Collects keyboard input and adds to a simplestring
+    /// </summary>
     public class KbInputString : SimpleString {
         private KeyboardState oldState;
         public bool locked = false;
 
+        /// <summary>
+        /// Creates the KbInputString object
+        /// </summary>
+        /// <param name="game">Current game reference</param>
+        /// <param name="spriteBatch">spriteBatch to draw</param>
+        /// <param name="spriteFont">font to use</param>
+        /// <param name="position">position of interface</param>
+        /// <param name="color">Colour of text</param>
+        /// <param name="horizontalAlignment">alignment enum</param>
+        /// <param name="verticalAlignment">alignment enum</param>
         public KbInputString(Game game, SpriteBatch spriteBatch,
             SpriteFont spriteFont, Vector2 position, Color color,
             TextAlignH horizontalAlignment = TextAlignH.Left, TextAlignV verticalAlignment = TextAlignV.Top) :
             base(game, spriteBatch, spriteFont, position, "", color, horizontalAlignment, verticalAlignment) { }
 
+        /// <summary>
+        /// Collects the alphabetical input and appends
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime) {
             KeyboardState ks = Keyboard.GetState();
             if (!locked) {
