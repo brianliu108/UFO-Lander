@@ -23,19 +23,23 @@ namespace Prog2370_Final.Drawable {
             get => position;
             set {
                 fakePos = position = value;
-                if (horizontalAlignment == TextAlignH.Left && verticalAlignment == TextAlignV.Top) 
+                if (horizontalAlignment == TextAlignH.Left && verticalAlignment == TextAlignV.Top)
                     return;
                 Vector2 size = spriteFont.MeasureString(Message);
                 switch (horizontalAlignment) {
-                    case TextAlignH.Middle: position.X -= size.X / 2f;
+                    case TextAlignH.Middle:
+                        position.X -= size.X / 2f;
                         break;
-                    case TextAlignH.Right: position.X -= size.X ;
+                    case TextAlignH.Right:
+                        position.X -= size.X;
                         break;
                 }
                 switch (verticalAlignment) {
-                    case TextAlignV.Middle: position.Y -= size.Y / 2f;
+                    case TextAlignV.Middle:
+                        position.Y -= size.Y / 2f;
                         break;
-                    case TextAlignV.Bottom: position.Y -= size.Y;
+                    case TextAlignV.Bottom:
+                        position.Y -= size.Y;
                         break;
                 }
             }
@@ -45,7 +49,7 @@ namespace Prog2370_Final.Drawable {
             get => message;
             set {
                 message = value;
-                Position =  fakePos;
+                Position = fakePos;
             }
         }
 

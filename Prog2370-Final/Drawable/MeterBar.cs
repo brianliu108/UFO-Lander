@@ -15,7 +15,7 @@ namespace Prog2370_Final.Drawable {
         private readonly float min, max;
         public float current;
 
-        public MeterBar(SimpleString text, float min, float max) : this(text, 
+        public MeterBar(SimpleString text, float min, float max) : this(text,
             new Rectangle(
                 text.Position.ToPoint(),
                 text.spriteFont.MeasureString(text.Message).ToPoint()),

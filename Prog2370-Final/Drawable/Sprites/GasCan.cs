@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Prog2370_Final.Drawable.Sprites {
-    public class GasCan : Sprite , ICollidable, IPerishable
-    { //TODO Make this inherit from `Sprite` instead.        
+    public class GasCan : Sprite, ICollidable, IPerishable { //TODO Make this inherit from `Sprite` instead.        
         public Vector2 pos;
+
         private Point drawSize;
+
         // private Rectangle position;
         private bool perished;
 
         public bool CanCollide { get; private set; }
-        public Rectangle AABB => new Rectangle(pos.ToPoint(),drawSize);
+        public Rectangle AABB => new Rectangle(pos.ToPoint(), drawSize);
 
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Partner;
 
@@ -20,7 +21,7 @@ namespace Prog2370_Final.Drawable.Sprites {
 
         public GasCan(Game game,
             SpriteBatch spriteBatch,
-            Vector2 position) 
+            Vector2 position)
             : base(game, spriteBatch, ((Game1) game).Resources.GasCan, position) {
             this.spriteBatch = spriteBatch;
             // this.position = new Rectangle((int) position.X, (int) position.Y, tex.Width / 2, tex.Height / 2);
@@ -29,7 +30,7 @@ namespace Prog2370_Final.Drawable.Sprites {
             CanCollide = true;
             Perished = false;
         }
-        
+
 
         // public void Move(Vector2 position) {
         //     // this.position = new Rectangle((int) (position.X), (int) (position.Y), tex.Width / 2, tex.Height / 2);
@@ -42,7 +43,7 @@ namespace Prog2370_Final.Drawable.Sprites {
 
         public override void Draw(GameTime gameTime) {
             spriteBatch.Begin();
-            spriteBatch.Draw(tex, new Rectangle(pos.ToPoint(),drawSize), Color.White);
+            spriteBatch.Draw(tex, new Rectangle(pos.ToPoint(), drawSize), Color.White);
             spriteBatch.End();
 
 

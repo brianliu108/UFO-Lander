@@ -5,7 +5,6 @@ using Prog2370_Final.Drawable;
 
 namespace Prog2370_Final.Scenes {
     public class CreditsScene : Scene {
-                
         private int starCount = 3;
         private VectorImage[] stars;
 

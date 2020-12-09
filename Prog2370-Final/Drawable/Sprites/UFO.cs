@@ -7,13 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Prog2370_Final.Drawable.Sprites
-{
+namespace Prog2370_Final.Drawable.Sprites {
     /// <summary>
     /// 
     /// </summary>
-    public class UFO : Sprite, ICollidable
-    {
+    public class UFO : Sprite, ICollidable {
         public Vector2 position = new Vector2(50, 50);
         private Vector2 velocity = new Vector2(0f, 0f);
         private Rectangle drawPos;
@@ -27,10 +25,10 @@ namespace Prog2370_Final.Drawable.Sprites
         private double changeInAngle = (Math.PI / 100);
         private float gas = 25;
         private int framesStill = 0;
-       
+
         private SoundEffect thrust;
         private SoundEffectInstance thrustIns, hugeExplosionIns, softExplosionIns, landIns;
-        private bool dead = false;        
+        private bool dead = false;
         private bool landed = false;
 
         private const float SPEED_MARGIN = 0.1f;
@@ -41,15 +39,16 @@ namespace Prog2370_Final.Drawable.Sprites
         private int frameIndex = -1;
         private int delay;
         private int delayCounter;
-        
+
         private const int ROW = 3;
         private const int COL = 3;
 
-        public float Speed => (float)Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+        public float Speed => (float) Math.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
 
         public bool CanCollide => true;
 
-        public Rectangle AABB => new Rectangle((int)position.X - (drawPos.Width / 2), (int)position.Y - (drawPos.Height / 2), drawPos.Width, drawPos.Height - 12);
+        public Rectangle AABB => new Rectangle((int) position.X - (drawPos.Width / 2),
+            (int) position.Y - (drawPos.Height / 2), drawPos.Width, drawPos.Height - 12);
 
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.Location;
 
@@ -57,18 +56,29 @@ namespace Prog2370_Final.Drawable.Sprites
 
         public bool Perished => false;
 
-        public float Gas { get => gas;}
-        public float MaxVelocity { get => maxVelocity; }
-        public bool Dead { get => dead;}
-        public Vector2 Dimension { get => dimension; set => dimension = value; }
+        public float Gas {
+            get => gas;
+        }
+
+        public float MaxVelocity {
+            get => maxVelocity;
+        }
+
+        public bool Dead {
+            get => dead;
+        }
+
+        public Vector2 Dimension {
+            get => dimension;
+            set => dimension = value;
+        }
 
         public UFO(Game game,
-            SpriteBatch spriteBatch,            
-            Vector2 position) : base(game, spriteBatch, ((Game1)game).Resources.UFOSprite, position)
-        {
+            SpriteBatch spriteBatch,
+            Vector2 position) : base(game, spriteBatch, ((Game1) game).Resources.UFOSprite, position) {
             this.spriteBatch = spriteBatch;
             this.position = position;
-            resources = ((Game1)game).Resources;
+            resources = ((Game1) game).Resources;
             thrust = resources.thrust;
             thrustIns = thrust.CreateInstance();
             hugeExplosionIns = resources.hugeExplosion.CreateInstance();
@@ -84,35 +94,32 @@ namespace Prog2370_Final.Drawable.Sprites
             CreateFrames();
         }
 
-        private void CreateFrames()
-        {
+        private void CreateFrames() {
             frames = new List<Rectangle>();
 
-            for (int i = 0; i < ROW; i++)
-            {
-                for (int j = 0; j < COL; j++)
-                {
-                    int x = j * (int)dimension.X;
-                    int y = i * (int)dimension.Y;
+            for (int i = 0; i < ROW; i++) {
+                for (int j = 0; j < COL; j++) {
+                    int x = j * (int) dimension.X;
+                    int y = i * (int) dimension.Y;
 
-                    Rectangle r = new Rectangle(x, y, (int)dimension.X, (int)dimension.Y);
+                    Rectangle r = new Rectangle(x, y, (int) dimension.X, (int) dimension.Y);
                     frames.Add(r);
-
                 }
-
             }
         }
 
-        public override void Draw(GameTime gameTime)
-        {
+        public override void Draw(GameTime gameTime) {
             spriteBatch.Begin();
-            drawPos = new Rectangle((int)position.X, (int)position.Y, tex.Width / 3, tex.Height / 3);
+            drawPos = new Rectangle((int) position.X, (int) position.Y, tex.Width / 3, tex.Height / 3);
 
-            if(frameIndex < 0)
-            spriteBatch.Draw(resources.UFOSprite, drawPos, frames[0], Color.White, (float)angle - (float)(Math.PI / 2), new Vector2(tex.Width / 2, tex.Height / 2), SpriteEffects.None, 0);
-            else
-            {
-                spriteBatch.Draw(resources.UFOSprite, drawPos, frames[frameIndex], Color.White, (float)angle - (float)(Math.PI / 2), new Vector2(frames[frameIndex].Width / 2, frames[frameIndex].Height / 2), SpriteEffects.None, 0);
+            if (frameIndex < 0)
+                spriteBatch.Draw(resources.UFOSprite, drawPos, frames[0], Color.White,
+                    (float) angle - (float) (Math.PI / 2), new Vector2(tex.Width / 2, tex.Height / 2),
+                    SpriteEffects.None, 0);
+            else {
+                spriteBatch.Draw(resources.UFOSprite, drawPos, frames[frameIndex], Color.White,
+                    (float) angle - (float) (Math.PI / 2),
+                    new Vector2(frames[frameIndex].Width / 2, frames[frameIndex].Height / 2), SpriteEffects.None, 0);
                 //spriteBatch.Draw(resources.UFOSprite, position, frames[frameIndex], Color.White);
             }
 
@@ -120,16 +127,12 @@ namespace Prog2370_Final.Drawable.Sprites
             spriteBatch.End();
         }
 
-        public void Update(GameTime gameTime, KeyboardState ks)
-        {
+        public void Update(GameTime gameTime, KeyboardState ks) {
             if (Speed < SPEED_MARGIN) framesStill++;
             else framesStill = 0;
-            if (framesStill > FRAMES_STILL_MARGIN)
-            {
-                foreach (var log in CollisionLogs)
-                {
-                    if (log.collisionPartner is GasCan gasCan)
-                    {
+            if (framesStill > FRAMES_STILL_MARGIN) {
+                foreach (var log in CollisionLogs) {
+                    if (log.collisionPartner is GasCan gasCan) {
                         gas = 100; //TODO make a const?
                         gasCan.Perished = true;
                     }
@@ -137,43 +140,32 @@ namespace Prog2370_Final.Drawable.Sprites
             }
             this.tex = resources.UFO;
             delayCounter = -1;
-            
-            if (!dead)
-            {
+
+            if (!dead) {
                 UpdateMovement(ks);
-            }
-            else
-            {                
+            } else {
                 thrustIns.Stop();
             }
 
-            
+
             // Environmental effects on speed
             ApplyEnvironmentEffects();
 
-            if (gas <= 0)
-            {
+            if (gas <= 0) {
                 thrustIns.Stop();
                 frameIndex = 0;
             }
 
             // Check if UFO is colliding with the terrain at all
             // Apply death logic
-            if (CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0)
-            {
-                if(!dead && !landed)
-                {
-                    if (Speed <= 1.5)
-                    {
+            if (CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0) {
+                if (!dead && !landed) {
+                    if (Speed <= 1.5) {
                         landIns.Play();
-                    }
-                    else if (Speed > 1.5 && Speed <= 5)
-                    {
+                    } else if (Speed > 1.5 && Speed <= 5) {
                         softExplosionIns.Play();
                         dead = true;
-                    }
-                    else if (Speed > 5)
-                    {
+                    } else if (Speed > 5) {
                         //softExplosionIns.Play();
                         hugeExplosionIns.Play();
                         dead = true;
@@ -183,74 +175,56 @@ namespace Prog2370_Final.Drawable.Sprites
                     this.velocity.Y = 0f;
                     highestYValue = this.position.Y;
 
-                    if (dead)
-                    {
+                    if (dead) {
                         MediaPlayer.Stop();
                         frameIndex = 0;
                     }
-                }   
-                
-                if(landed && gas <= 0)
-                {
+                }
+
+                if (landed && gas <= 0) {
                     dead = true;
                 }
-            }
-            else
-            {
+            } else {
                 landed = false;
                 highestYValue = 0;
             }
 
-            if (landed)
-            {
+            if (landed) {
                 if (this.position.Y > highestYValue)
                     this.position.Y = highestYValue;
             }
 
-            
-            base.Update(gameTime);
 
+            base.Update(gameTime);
         }
 
         private static Vector2 UnitVectorFromAngle(float angle)
             => new Vector2(
-                (float)Math.Cos(angle),
-                (float)Math.Sin(angle));
+                (float) Math.Cos(angle),
+                (float) Math.Sin(angle));
 
         /// <summary>
         /// Applies the UFO movement operations upon a key input.
         /// </summary>
         /// <param name="ks">Applies movement from arrow keys and spacebar</param>
-        private void UpdateMovement(KeyboardState ks)
-        {
-            if (ks.IsKeyDown(Keys.Right))
-            {
+        private void UpdateMovement(KeyboardState ks) {
+            if (ks.IsKeyDown(Keys.Right)) {
                 angle += changeInAngle;
-            }
-            else if (ks.IsKeyDown(Keys.Left))
-            {
+            } else if (ks.IsKeyDown(Keys.Left)) {
                 angle -= changeInAngle;
             }
 
-            if (ks.IsKeyDown(Keys.Up))
-            {
-                if (gas >= 0)
-                {
+            if (ks.IsKeyDown(Keys.Up)) {
+                if (gas >= 0) {
                     // Max acceleration
                     Thrust(acceleration, 0.1f, 1.0f);
-
                 }
-            }
-            else if (ks.IsKeyDown(Keys.Space))
-            {
-                if (gas >= 0)
-                {
+            } else if (ks.IsKeyDown(Keys.Space)) {
+                if (gas >= 0) {
                     // Half acceleration
                     Thrust(lightAcceleration, 0.05f, 0.5f);
                 }
-            }
-            else
-            {
+            } else {
                 thrustIns.Stop();
                 frameIndex = 0;
             }
@@ -262,15 +236,11 @@ namespace Prog2370_Final.Drawable.Sprites
         /// <param name="accel">Rate of acceleration</param>
         /// <param name="gasConsumption">Rate of decrease in gas level when accelerating</param>
         /// <param name="vol">Volume of thrust sound</param>
-        private void Thrust(float accel, float gasConsumption, float vol)
-        {
-            velocity -= UnitVectorFromAngle((float)angle) * accel;
-            if (velocity.X > maxVelocity)
-            {
+        private void Thrust(float accel, float gasConsumption, float vol) {
+            velocity -= UnitVectorFromAngle((float) angle) * accel;
+            if (velocity.X > maxVelocity) {
                 velocity.X = maxVelocity;
-            }
-            else if (velocity.X < (maxVelocity * -1))
-            {
+            } else if (velocity.X < (maxVelocity * -1)) {
                 velocity.X = (maxVelocity * -1);
             }
             // Reduce gas level 
@@ -279,17 +249,15 @@ namespace Prog2370_Final.Drawable.Sprites
             delayCounter++;
 
             // Animation
-            if (delayCounter < delay)
-            {
+            if (delayCounter < delay) {
                 frameIndex++;
-                if (frameIndex > ROW * COL - 1)
-                {
+                if (frameIndex > ROW * COL - 1) {
                     frameIndex = -1;
                     Show(true);
                 }
 
                 delayCounter = 0;
-            }            
+            }
 
             // Play soundeffect
             thrustIns.Volume = vol;
@@ -299,30 +267,23 @@ namespace Prog2370_Final.Drawable.Sprites
         /// <summary>
         /// Applies the constant effects of the environment to the UFO
         /// </summary>
-        private void ApplyEnvironmentEffects()
-        {
-            if (!landed)
-            {
+        private void ApplyEnvironmentEffects() {
+            if (!landed) {
                 this.velocity.Y += gravity;
             }
-            
-            if (velocity.X > 0)
-            {
+
+            if (velocity.X > 0) {
                 this.velocity.X -= drag;
-            }
-            else if (velocity.X < 0)
-            {
+            } else if (velocity.X < 0) {
                 this.velocity.X += drag;
             }
             this.position += this.velocity;
 
-            if (position.Y < 0)
-            {
+            if (position.Y < 0) {
                 position.Y = 0;
                 velocity.Y = 0;
             }
-            if (position.Y > Shared.stage.Y - 0)
-            {
+            if (position.Y > Shared.stage.Y - 0) {
                 position.Y = Shared.stage.Y - 0;
                 velocity.Y = 0;
             }

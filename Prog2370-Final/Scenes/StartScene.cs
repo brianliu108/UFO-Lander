@@ -7,8 +7,8 @@ using Prog2370_Final.Drawable;
 namespace Prog2370_Final.Scenes {
     internal class StartScene : Scene {
         private MenuComponent menu;
-        
-        private string[] menuItems = {"Play", "Restart", "Help","High Scores","Credits", "Exit"};
+
+        private string[] menuItems = {"Play", "Restart", "Help", "High Scores", "Credits", "Exit"};
         private Song music;
 
         public StartScene(Game game,
@@ -32,23 +32,17 @@ namespace Prog2370_Final.Scenes {
             set => menu = value;
         }
 
-        protected override void LoadContent()
-        {
-            var title = new SimpleString(Game, spriteBatch, ((Game1)Game).Resources.TitleFont,
+        protected override void LoadContent() {
+            var title = new SimpleString(Game, spriteBatch, ((Game1) Game).Resources.TitleFont,
                 new Vector2(100, 100), "Cool Title", ColourSchemes.boldColour);
-            
-            this.Components.Add(title);
 
+            this.Components.Add(title);
         }
 
-        public void PlayMusic(bool enable)
-        {
-            if (enable)
-            {
+        public void PlayMusic(bool enable) {
+            if (enable) {
                 MediaPlayer.Play(music);
-            }
-            else
-            {
+            } else {
                 MediaPlayer.Stop();
             }
         }

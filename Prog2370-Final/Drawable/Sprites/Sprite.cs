@@ -17,7 +17,7 @@ namespace Prog2370_Final.Drawable.Sprites {
         protected SpriteBatch spriteBatch;
         public Texture2D tex;
         protected Resources resources;
-        
+
 
         public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game) {
             this.spriteBatch = spriteBatch;
@@ -43,8 +43,7 @@ namespace Prog2370_Final.Drawable.Sprites {
             game.spriteBatch.End();
         }
 
-        public void Show(bool enable)
-        {
+        public void Show(bool enable) {
             this.Enabled = enable;
             this.Visible = enable;
         }

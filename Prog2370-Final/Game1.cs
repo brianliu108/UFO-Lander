@@ -58,9 +58,9 @@ namespace Prog2370_Final {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             _resources = new Resources(this);
-            
+
             if (!File.Exists(Resources.SaveFileLocation)) File.Create(Resources.SaveFileLocation);
 
             // Add startScene
@@ -188,6 +188,5 @@ namespace Prog2370_Final {
         private void HideAllScenes() {
             foreach (Scene item in Components) item.Show(false);
         }
-
     }
 }

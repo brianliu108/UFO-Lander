@@ -152,9 +152,10 @@ namespace Prog2370_Final.Drawable {
         public Rectangle AABB => BoundingBox;
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.None;
         public List<CollisionLog> CollisionLogs { get; set; }
-        
+
         private bool offsetChangedSinceGetBoundingVertices = true;
         private Vector2[] _boundingVertices;
+
         public Vector2[] BoundingVertices {
             get {
                 if (offsetChangedSinceGetBoundingVertices) {
@@ -169,8 +170,6 @@ namespace Prog2370_Final.Drawable {
 
         public bool BoundingLinesLoop => false;
         public bool BoundingLinesFormConvexPolygon => false;
-
-
 
         #endregion
     }

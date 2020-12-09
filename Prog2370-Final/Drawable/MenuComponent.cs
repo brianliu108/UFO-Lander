@@ -34,12 +34,12 @@ namespace Prog2370_Final.Drawable {
             this.boldFont = boldFont;
             menuItems = new List<string>();
 
-            resources = ((Game1)Game).Resources;
+            resources = ((Game1) Game).Resources;
 
             menuItems = menus.ToList();
             float maxWidth = 0;
             foreach (string s in menus) maxWidth = Math.Max(maxWidth, boldFont.MeasureString(s).X);
-            float maxHeight = boldFont.MeasureString("A").Y + 
+            float maxHeight = boldFont.MeasureString("A").Y +
                               regularFont.MeasureString("A").Y * (menus.Length - 1);
             position = new Vector2((Shared.stage.X - maxWidth) / 2, (Shared.stage.Y - maxHeight) / 2);
             menuSoundIns = resources.menuSound.CreateInstance();
@@ -58,7 +58,7 @@ namespace Prog2370_Final.Drawable {
         public override void Update(GameTime gameTime) {
             var ks = Keyboard.GetState();
 
-            if (ks.IsKeyDown(Keys.Down) && oldState.IsKeyUp(Keys.Down)) {                
+            if (ks.IsKeyDown(Keys.Down) && oldState.IsKeyUp(Keys.Down)) {
                 selectedIndex++;
 
                 if (selectedIndex == menuItems.Count) selectedIndex = 0;

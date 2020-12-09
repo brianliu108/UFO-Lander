@@ -19,7 +19,7 @@ namespace Prog2370_Final {
         public CollisionManager(Game game) : base(game) { }
 
         public override void Update(GameTime gameTime) {
-            collidables.RemoveAll(weakReference => 
+            collidables.RemoveAll(weakReference =>
                 weakReference.TryGetTarget(out ICollidable c) == false || c is IPerishable p && p.Perished);
             List<CollisionLog>[] collisionLogs = new List<CollisionLog>[collidables.Count];
             for (int i = 0; i < collisionLogs.Length; i++) collisionLogs[i] = new List<CollisionLog>();
