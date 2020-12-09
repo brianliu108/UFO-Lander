@@ -21,7 +21,7 @@ namespace Prog2370_Final.Scenes {
         private bool startFrameCount = false;
         private int frameCount = 0;
         private int deadCounter = 0;
-        private SimpleString died;
+        
         private SoundEffectInstance deathSouthIns;
 
         private MeterBar meterSpeed;
@@ -62,7 +62,7 @@ namespace Prog2370_Final.Scenes {
                     resources.BoldFont,
                     new Vector2(20, 20),
                     "Distance: 0",
-                    ColourSchemes.pink));
+                    ColourSchemes.pink));            
 
             // Create Speed meter & string
             Components.Add(
