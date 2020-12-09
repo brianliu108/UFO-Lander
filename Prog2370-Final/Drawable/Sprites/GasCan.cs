@@ -44,7 +44,7 @@ namespace Prog2370_Final.Drawable.Sprites {
         public GasCan(Game game,
             SpriteBatch spriteBatch,
             Vector2 position)
-            : base(game, spriteBatch, ((Game1) game).Resources.GasCan, position) {
+            : base(game, spriteBatch, ((UfoLander) game).Resources.GasCan, position) {
             this.spriteBatch = spriteBatch;
             this.pos = position;
             drawSize = new Point(tex.Width / 2, tex.Height / 2);
@@ -66,7 +66,7 @@ namespace Prog2370_Final.Drawable.Sprites {
         /// Loads the texture
         /// </summary>
         protected override void LoadContent() {
-            tex = ((Game1) Game).Resources.GasCan;
+            tex = ((UfoLander) Game).Resources.GasCan;
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace Prog2370_Final.Drawable.Sprites {
         /// <param name="position">texture of sprite</param>
         public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game) {
             this.spriteBatch = spriteBatch;
-            resources = ((Game1) (Game)).Resources;
+            resources = ((UfoLander) (Game)).Resources;
             this.tex = tex;
         }
 
@@ -37,7 +37,7 @@ namespace Prog2370_Final.Drawable.Sprites {
         /// <param name="boundingBox">Box dimensions</param>
         /// <param name="game">Current game reference</param>
         /// <param name="color">Color of box</param>
-        public static void DrawBoundingBox(Rectangle boundingBox, Game1 game, Color color) {
+        public static void DrawBoundingBox(Rectangle boundingBox, UfoLander game, Color color) {
             game.spriteBatch.Begin();
             Rectangle line, bb = line = boundingBox;
             // Y

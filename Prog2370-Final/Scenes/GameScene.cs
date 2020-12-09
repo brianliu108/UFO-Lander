@@ -205,7 +205,7 @@ namespace Prog2370_Final.Scenes {
                             SimpleString.TextAlignH.Middle));
                         Components.Add(inputNameString);
                     } else {                        
-                        ((Game1) Game).ForcefulSceneChange = 3; 
+                        ((UfoLander) Game).ForcefulSceneChange = 3; 
                     }
                     // end of timing related events                    
                     startFrameCount = false;
@@ -216,7 +216,7 @@ namespace Prog2370_Final.Scenes {
                 recorded = inputNameString.locked = true;
                 string name = inputNameString.Message == "" ? "PLAYER" : inputNameString.Message;
                 Resources.AddToHighScoreFile(name,TotalDistance);                
-                ((Game1) Game).ForcefulSceneChange = 3; 
+                ((UfoLander) Game).ForcefulSceneChange = 3; 
             }
             base.Update(gameTime);
         }

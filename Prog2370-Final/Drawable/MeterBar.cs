@@ -39,7 +39,7 @@ namespace Prog2370_Final.Drawable {
         /// <param name="min">Min value. Represents 0% fill</param>
         /// <param name="max">Max value. Represents 100% fill.</param>
         public MeterBar(SimpleString text, Rectangle drawSize, float min, float max) : base(text.Game) {
-            resources = ((Game1) text.Game).Resources;
+            resources = ((UfoLander) text.Game).Resources;
             this.spriteBatch = text.spriteBatch;
             initialMessage = text.Message;
             this.text = text;

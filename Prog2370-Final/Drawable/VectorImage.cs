@@ -73,7 +73,7 @@ namespace Prog2370_Final.Drawable {
             this.vertices = vertices;
             this.width = width;
             this.color = color;
-            if (whitePixel == null) whitePixel = ((Game1) game).Resources.WhitePixel;
+            if (whitePixel == null) whitePixel = ((UfoLander) game).Resources.WhitePixel;
             rectangles = new Rectangle[vertices.Length - 1];
             rotations = new float[vertices.Length - 1];
             drawDir = new bool[vertices.Length - 1];

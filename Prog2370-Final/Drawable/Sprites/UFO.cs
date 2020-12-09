@@ -100,10 +100,10 @@ namespace Prog2370_Final.Drawable.Sprites {
         /// <param name="position">initial position of the UFO</param>
         public UFO(Game game,
             SpriteBatch spriteBatch,
-            Vector2 position) : base(game, spriteBatch, ((Game1) game).Resources.UFOSprite, position) {
+            Vector2 position) : base(game, spriteBatch, ((UfoLander) game).Resources.UFOSprite, position) {
             this.spriteBatch = spriteBatch;
             this.position = position;
-            resources = ((Game1) game).Resources;
+            resources = ((UfoLander) game).Resources;
             thrust = resources.thrust;
 
             // Creating the sounds

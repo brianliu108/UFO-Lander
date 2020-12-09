@@ -80,7 +80,7 @@
     <Compile Include="IPerishable.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Scenes\CreditsScene.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="UfoLander.cs" />
     <Compile Include="Scenes\HelpScene.cs" />
     <Compile Include="Scenes\HighScoreScene.cs" />
     <Compile Include="Scenes\Scene.cs" />

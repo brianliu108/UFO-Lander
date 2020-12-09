@@ -18,7 +18,7 @@ namespace Prog2370_Final.Scenes {
         /// <param name="game">Reference to current game</param>
         public Scene(Game game) : base(game) {
             components = new List<GameComponent>();
-            this.resources = ((Game1) game).Resources;
+            this.resources = ((UfoLander) game).Resources;
             Show(false);
         }
 

@@ -45,7 +45,7 @@ namespace Prog2370_Final.Drawable {
             this.boldFont = boldFont;
             menuItems = new List<string>();
 
-            resources = ((Game1) Game).Resources;
+            resources = ((UfoLander) Game).Resources;
 
             menuItems = menus.ToList();
             float maxWidth = 0;

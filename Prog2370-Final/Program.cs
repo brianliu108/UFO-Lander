@@ -11,7 +11,7 @@ namespace Prog2370_Final {
         /// </summary>
         [STAThread]
         private static void Main() {
-            using (var game = new Game1()) {
+            using (var game = new UfoLander()) {
                 game.Run();
             }
         }

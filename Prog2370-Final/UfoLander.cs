@@ -21,7 +21,7 @@ namespace Prog2370_Final {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game {
+    public class UfoLander : Game {
         private GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         private Resources _resources;
@@ -38,7 +38,7 @@ namespace Prog2370_Final {
 
         public int ForcefulSceneChange { get; set; }
 
-        public Game1() {
+        public UfoLander() {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;

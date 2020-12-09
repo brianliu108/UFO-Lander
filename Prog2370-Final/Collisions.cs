@@ -155,13 +155,13 @@ namespace Prog2370_Final {
             if (debug)
                 foreach (var reference in collidables)
                     if (reference.TryGetTarget(out ICollidable item)) {
-                        Sprite.DrawBoundingBox(item.AABB, (Game1) Game,
+                        Sprite.DrawBoundingBox(item.AABB, (UfoLander) Game,
                             item.CollisionLogs.Count == 0 ? ColourSchemes.normRed : Color.Wheat);
                         foreach (CollisionLog log in item.CollisionLogs) {
                             foreach (Vector2 loc in log.collisionLocations)
                                 Sprite.DrawBoundingBox(
                                     new Rectangle(loc.ToPoint() - new Point(5), new Point(10)),
-                                    (Game1) Game, Color.Wheat
+                                    (UfoLander) Game, Color.Wheat
                                 );
                         }
                     }
@@ -309,6 +309,7 @@ namespace Prog2370_Final {
         public Vector2[] BoundingVertices {
             get {
                 if (AABB == lastAABB) return lastBoundingVertices;
+                lastAABB = AABB;
                 AABB.Deconstruct(out int x, out int y, out int dx, out int dy);
                 return lastBoundingVertices = new[] {
                     new Vector2(x + 10, y + 10),
@@ -316,7 +317,6 @@ namespace Prog2370_Final {
                     new Vector2(x + dx - 10, y + dy - 10),
                     new Vector2(x + dx, y)
                 };
-                lastAABB = AABB;
             }
         }
 
