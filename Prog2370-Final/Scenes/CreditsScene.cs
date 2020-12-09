@@ -4,17 +4,28 @@ using Microsoft.Xna.Framework.Graphics;
 using Prog2370_Final.Drawable;
 
 namespace Prog2370_Final.Scenes {
+    /// <summary>
+    /// Scene to show our names
+    /// </summary>
     public class CreditsScene : Scene {
-        private int starCount = 3;
+        private int starCount = 4;
         private VectorImage[] stars;
 
+        /// <summary>
+        /// Creates the credits scene
+        /// </summary>
+        /// <param name="game">reference to current game</param>
+        /// <param name="spriteBatch">spriteBatch to draw with</param>
         public CreditsScene(Game game, SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
             LoadContent();
         }
 
+        /// <summary>
+        /// Loading the content for the scene
+        /// </summary>
         protected override void LoadContent() {
-            // Credit words
+            // Add Credit words
             string header = "Made by:";
             string credit = "Brian Liu\nTim Skibik";
             SpriteFont fontHeader = resources.RegularFont;
@@ -53,6 +64,10 @@ namespace Prog2370_Final.Scenes {
             }
         }
 
+        /// <summary>
+        /// Whether to show the scene or not. Hides the stars as well
+        /// </summary>
+        /// <param name="enable"></param>
         public override void Show(bool enable) {
             base.Show(enable);
             if (enable == true) {

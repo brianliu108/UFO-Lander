@@ -16,8 +16,7 @@ namespace Prog2370_Final.Drawable.Sprites {
         private List<Rectangle> frames;
         private int frameIndex = -1;
         private int delay;
-        private int delayCounter; // delay between when to draw frames
-        private int scale = 2; // scaling up the explosion 2x
+        private int delayCounter; // delay between when to draw frames        
 
         private bool scaleUp = false; // whether to scale up or not
 

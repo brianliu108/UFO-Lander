@@ -5,12 +5,20 @@ using Microsoft.Xna.Framework.Media;
 using Prog2370_Final.Drawable;
 
 namespace Prog2370_Final.Scenes {
-    internal class StartScene : Scene {
+    /// <summary>
+    /// Scene with menu items. Serves as pause menu as well
+    /// </summary>
+    public class StartScene : Scene {
         private MenuComponent menu;
 
         private string[] menuItems = {"Play", "Restart", "Help", "High Scores", "Credits", "Exit"};
         private Song music;
 
+        /// <summary>
+        /// Creates the StartScene
+        /// </summary>
+        /// <param name="game">Current game reference</param>
+        /// <param name="spriteBatch">Spritebatch to draw with</param>
         public StartScene(Game game,
             SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
@@ -27,11 +35,16 @@ namespace Prog2370_Final.Scenes {
             PlayMusic(true);
         }
 
+        /// <summary>
+        /// Get and set menu
+        /// </summary>
         public MenuComponent Menu {
             get => menu;
             set => menu = value;
         }
-
+        /// <summary>
+        /// Load compoenents
+        /// </summary>
         protected override void LoadContent() {
             var title = new SimpleString(Game, spriteBatch, ((Game1) Game).Resources.TitleFont,
                 new Vector2(Shared.stage.X/2 - 45, 100), "Cool Title", ColourSchemes.boldColour, SimpleString.TextAlignH.Middle,SimpleString.TextAlignV.Middle);
@@ -39,6 +52,10 @@ namespace Prog2370_Final.Scenes {
             this.Components.Add(title);
         }
 
+        /// <summary>
+        /// Start/Stop music
+        /// </summary>
+        /// <param name="enable">whether to start or stop the music</param>
         public void PlayMusic(bool enable) {
             if (enable) {
                 MediaPlayer.Play(music);
