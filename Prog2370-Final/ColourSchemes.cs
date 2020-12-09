@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Prog2370_Final {
+    /// <summary>
+    /// Reference to commonly used colours
+    /// </summary>
     public static class ColourSchemes {
         public static readonly Color regularColour = new Color(130, 52, 65);
         public static readonly Color boldColour = new Color(158, 70, 76);

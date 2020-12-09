@@ -101,9 +101,9 @@ namespace Prog2370_Final {
         }
 
         /// <summary>
-        /// Creates the formatted high scores
+        /// Creates the formatted high scores string
         /// </summary>
-        /// <returns></returns>
+        /// <returns>formatted high scores</returns>
         public static string FormattedHighScores() {
             List<Tuple<string, int>> records = ParseHighScores();
             if (records.Count == 0) return "";
@@ -122,6 +122,11 @@ namespace Prog2370_Final {
             return strb.ToString();
         }
 
+        /// <summary>
+        /// Adds a new high score
+        /// </summary>
+        /// <param name="name">name of palyer</param>
+        /// <param name="score">player's score</param>
         public static void AddToHighScoreFile(string name, int score) {
             List<Tuple<string, int>> records = ParseHighScores();
             records.Add(new Tuple<string, int>(name,score));
