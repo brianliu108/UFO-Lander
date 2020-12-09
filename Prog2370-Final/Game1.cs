@@ -116,6 +116,7 @@ namespace Prog2370_Final {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
+            // Whether to exit the game or not upon the press of Esc
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape)) {
                 if (playScene.Enabled || creditsScene.Enabled || helpScene.Enabled || highScoreScene.Enabled) {
                     HideAllScenes();
@@ -127,8 +128,10 @@ namespace Prog2370_Final {
 
             // TODO: Add your update logic here
 
+            
             var ks = Keyboard.GetState();
 
+            //Changing to a Scene depending on menu choice
             if (startScene.Enabled || ForcefulSceneChange != 0) {
                 var selectedIndex = startScene.Menu.SelectedIndex;
                 if (ks.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter) || ForcefulSceneChange != 0) {
@@ -183,14 +186,13 @@ namespace Prog2370_Final {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(ColourSchemes.darkRed);
-
-            // TODO: Add your drawing code here
-
+            GraphicsDevice.Clear(ColourSchemes.darkRed);            
 
             base.Draw(gameTime);
         }
-
+        /// <summary>
+        /// Hide all Scene type items in this.Components
+        /// </summary>
         private void HideAllScenes() {
             foreach (Scene item in Components) item.Show(false);
         }

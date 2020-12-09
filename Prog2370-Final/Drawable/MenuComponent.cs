@@ -9,12 +9,15 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Prog2370_Final.Drawable {
+    /// <summary>
+    /// Drawable menu system
+    /// </summary>
     public class MenuComponent : DrawableGameComponent {
         private SpriteBatch spriteBatch;
         private SpriteFont regularFont;
         private SpriteFont boldFont;
         private List<string> menuItems;
-        private int selectedIndex = 0;
+        private int selectedIndex = 0; // Current selected item
         private SoundEffectInstance menuSoundIns, menuSoundIns2;
         private Resources resources;
 
@@ -24,6 +27,14 @@ namespace Prog2370_Final.Drawable {
 
         private KeyboardState oldState;
 
+        /// <summary>
+        /// Creates the menu component
+        /// </summary>
+        /// <param name="game">Current game reference</param>
+        /// <param name="spriteBatch">spriteBatch to draw with</param>
+        /// <param name="regularFont">font for non-selected menu items</param>
+        /// <param name="boldFont">font for selected menu item</param>
+        /// <param name="menus">string array of menu items</param>
         public MenuComponent(Game game,
             SpriteBatch spriteBatch,
             SpriteFont regularFont,
@@ -49,12 +60,18 @@ namespace Prog2370_Final.Drawable {
             menuSoundIns2.Volume = .4f;
         }
 
+        /// <summary>
+        /// Get and Set selectedIndex
+        /// </summary>
         public int SelectedIndex {
             get => selectedIndex;
             set => selectedIndex = value;
         }
 
-
+        /// <summary>
+        /// Changes the selected item based on keyboard input
+        /// </summary>
+        /// <param name="gameTime">snapshot of game timing</param>
         public override void Update(GameTime gameTime) {
             var ks = Keyboard.GetState();
 
@@ -78,6 +95,10 @@ namespace Prog2370_Final.Drawable {
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draws the SpriteBatch to current selected index
+        /// </summary>
+        /// <param name="gameTime">Snapshot of game timing</param>
         public override void Draw(GameTime gameTime) {
             var temp = position;
             spriteBatch.Begin();

@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Prog2370_Final.Drawable {
+    /// <summary>
+    /// A drawable string object.
+    /// </summary>
     public class SimpleString : DrawableGameComponent {
         public readonly SpriteBatch spriteBatch;
 

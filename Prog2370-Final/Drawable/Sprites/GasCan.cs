@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Prog2370_Final.Drawable.Sprites {
+    /// <summary>
+    /// GasCan collectable object. Collision with UFO fills up gas
+    /// </summary>
     public class GasCan : Sprite, ICollidable, IPerishable { //TODO Make this inherit from `Sprite` instead.        
         public Vector2 pos;
 
@@ -12,6 +15,9 @@ namespace Prog2370_Final.Drawable.Sprites {
         // private Rectangle position;
         private bool perished;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool CanCollide { get; private set; }
         public Rectangle AABB => new Rectangle(pos.ToPoint(), drawSize);
 

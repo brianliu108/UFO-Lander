@@ -11,20 +11,32 @@ using Prog2370_Final;
 
 namespace Prog2370_Final.Drawable.Sprites {
     /// <summary>
-    /// 
+    /// Generic drawable game component with a texture
     /// </summary>
     public class Sprite : DrawableGameComponent {
         protected SpriteBatch spriteBatch;
         public Texture2D tex;
-        protected Resources resources;
+        protected Resources resources; // collection of various resources
 
-
+        /// <summary>
+        /// Creation of generic DrawableGameComponent
+        /// </summary>
+        /// <param name="game">reference to current game</param>
+        /// <param name="spriteBatch">spritebatch to draw with</param>
+        /// <param name="tex">texture to import</param>
+        /// <param name="position">texture of sprite</param>
         public Sprite(Game game, SpriteBatch spriteBatch, Texture2D tex, Vector2 position) : base(game) {
             this.spriteBatch = spriteBatch;
             resources = ((Game1) (Game)).Resources;
             this.tex = tex;
         }
 
+        /// <summary>
+        /// Draw an Axis Aligned Bounding Box
+        /// </summary>
+        /// <param name="boundingBox">Box dimensions</param>
+        /// <param name="game">Current game reference</param>
+        /// <param name="color">Color of box</param>
         public static void DrawBoundingBox(Rectangle boundingBox, Game1 game, Color color) {
             game.spriteBatch.Begin();
             Rectangle line, bb = line = boundingBox;
@@ -43,6 +55,10 @@ namespace Prog2370_Final.Drawable.Sprites {
             game.spriteBatch.End();
         }
 
+        /// <summary>
+        /// Whether to show and enable the sprite or not
+        /// </summary>
+        /// <param name="enable">Whether to execute the method</param>
         public void Show(bool enable) {
             this.Enabled = enable;
             this.Visible = enable;
