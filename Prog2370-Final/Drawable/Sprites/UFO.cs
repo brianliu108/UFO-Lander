@@ -251,12 +251,12 @@ namespace Prog2370_Final.Drawable.Sprites {
             if (ks.IsKeyDown(Keys.Up)) {
                 if (gas >= 0) {
                     // Max acceleration
-                    Thrust(acceleration, 0.1f, 1.0f);
+                    Thrust(acceleration, 0.2f, 1.0f);
                 }
             } else if (ks.IsKeyDown(Keys.Space)) {
                 if (gas >= 0) {
                     // Half acceleration
-                    Thrust(lightAcceleration, 0.05f, 0.5f);
+                    Thrust(lightAcceleration, 0.1f, 0.5f);
                 }
             } else {
                 thrustIns.Stop();
