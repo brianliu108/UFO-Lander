@@ -18,6 +18,8 @@ namespace Prog2370_Final.Drawable {
         private readonly List<WeakReference<GasCan>> gasCans = new List<WeakReference<GasCan>>();
         private float lastGasCanTickOffset = 0;
         private float minGasCanDistance = 231.72f; // Decently random 
+        private int gasCanPity = 35;
+        private int gasCanGenMissed;
 
         /// <summary>
         /// Gets all the individual Terrain chunks as a list
@@ -90,7 +92,8 @@ namespace Prog2370_Final.Drawable {
                     return g.Perished;
                 });
                 lastGasCanTickOffset += minGasCanDistance;
-                if (r.Next(10) < 1) {
+                if (r.Next(gasCanPity) < ++gasCanGenMissed ) {
+                    gasCanGenMissed = 0;
                     GasCan g = new GasCan(Game, spriteBatch, Vector2.Zero);
                     float x = GraphicsDevice.Viewport.Width + g.tex.Width, y = ExtremeHeightAt(x, 30, false);
                     if (y != float.MaxValue) {
