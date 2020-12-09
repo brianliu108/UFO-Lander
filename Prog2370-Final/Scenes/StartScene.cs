@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Resources;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
@@ -10,6 +11,7 @@ namespace Prog2370_Final.Scenes {
     /// </summary>
     public class StartScene : Scene {
         private MenuComponent menu;
+        private Terrain terrainPic;
 
         private string[] menuItems = {"Play", "Restart", "Help", "High Scores", "Credits", "Exit"};
         private Song music;
@@ -25,6 +27,16 @@ namespace Prog2370_Final.Scenes {
             menu = new MenuComponent(game, spriteBatch, resources.RegularFont,
                 game.Content.Load<SpriteFont>("Fonts/BoldFont"),
                 menuItems);
+
+            Components.Add(terrainPic = new Terrain(Game, spriteBatch,
+                (float) GraphicsDevice.Viewport.Width,
+                (float) GraphicsDevice.Viewport.Height / 6,
+                80,
+                2,
+                0,
+                8,
+                Resources.darkBrown,
+                new Vector2(0, GraphicsDevice.Viewport.Height * 3f / 4f)));
 
             Components.Add(menu);
 
@@ -42,12 +54,14 @@ namespace Prog2370_Final.Scenes {
             get => menu;
             set => menu = value;
         }
+
         /// <summary>
         /// Load compoenents
         /// </summary>
         protected override void LoadContent() {
             var title = new SimpleString(Game, spriteBatch, ((UfoLander) Game).Resources.TitleFont,
-                new Vector2(Shared.stage.X/2 - 45, 100), "Cool Title", ColourSchemes.boldColour, SimpleString.TextAlignH.Middle,SimpleString.TextAlignV.Middle);
+                new Vector2(Shared.stage.X / 2 - 45, 100), "Cool Title", ColourSchemes.boldColour,
+                SimpleString.TextAlignH.Middle, SimpleString.TextAlignV.Middle);
 
             this.Components.Add(title);
         }
