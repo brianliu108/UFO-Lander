@@ -23,7 +23,7 @@ namespace Prog2370_Final.Drawable.Sprites {
         private float highestYValue = 0;
         private double angle = (Math.PI / 2);
         private double changeInAngle = (Math.PI / 100);
-        private float gas = 25;
+        private float gas = 100;
         private int framesStill = 0;
 
         private SoundEffect thrust;
