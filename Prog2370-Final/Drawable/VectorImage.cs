@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Prog2370_Final.Drawable {
+    /// <summary>
+    /// Turns an array of vertices into a vector based graphic. This can also be drawn with Monogame
+    /// </summary>
     public class VectorImage : DrawableGameComponent, ICollidableComplex {
         private static bool debug = false;
 

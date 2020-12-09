@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using static System.Math;
 
 namespace Prog2370_Final.Drawable {
+    /// <summary>
+    /// A dynamically generated (based on different given variables) vector based terrain
+    /// </summary>
     public class Terrain : DrawableGameComponent {
         private Game game;
         private SpriteBatch spriteBatch;
