@@ -346,6 +346,10 @@ namespace Prog2370_Final {
         Location // Who did you collide with, and where did it happen
     }
 
+    /// <summary>
+    /// Represents a collision with a specific collidable. This always contains who the given Collidable collided with,
+    /// and may contain the exact location of the collision.
+    /// </summary>
     public class CollisionLog {
         /// <summary>The Collidable that this collided with. This will always have a value. </summary>
         public readonly ICollidable collisionPartner;
