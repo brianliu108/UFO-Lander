@@ -22,6 +22,11 @@ namespace Prog2370_Final.Drawable {
         private TextAlignH horizontalAlignment;
         private TextAlignV verticalAlignment;
 
+        /// <summary>
+        /// The position that the text is drawn at. Note: When text is centered in any other wy than top left, this
+        /// position reflects the drawing position, not the apparent position relative to alignment. For that you
+        /// want <c>fakePos</c>.
+        /// </summary>
         public Vector2 Position {
             get => position;
             set {
@@ -48,6 +53,9 @@ namespace Prog2370_Final.Drawable {
             }
         }
 
+        /// <summary>
+        /// The text that the string holds.
+        /// </summary>
         public string Message {
             get => message;
             set {
@@ -56,6 +64,17 @@ namespace Prog2370_Final.Drawable {
             }
         }
 
+        /// <summary>
+        /// Constructor for a displayable string.
+        /// </summary>
+        /// <param name="game">The game that is creating the string</param>
+        /// <param name="spriteBatch">The spritebatch used to draw the string</param>
+        /// <param name="spriteFont">The font to draw the string</param>
+        /// <param name="position">The location of the string. (See alignment args)</param>
+        /// <param name="message">The text that the string displays</param>
+        /// <param name="color">The color of the text</param>
+        /// <param name="horizontalAlignment">How to position the string relative to the position</param>
+        /// <param name="verticalAlignment">How to position the string relative to the position</param>
         public SimpleString(Game game,
             SpriteBatch spriteBatch,
             SpriteFont spriteFont,
@@ -74,17 +93,20 @@ namespace Prog2370_Final.Drawable {
             this.Position = position;
         }
 
-
+        /// <summary>
+        /// Draws the simple string
+        /// </summary>
+        /// <param name="gameTime">Unused.</param>
         public override void Draw(GameTime gameTime) {
             spriteBatch.Begin();
             spriteBatch.DrawString(spriteFont, Message, Position, color);
             spriteBatch.End();
         }
 
-        public override void Update(GameTime gameTime) { }
-
+        /// <summary> Simple enum for the types of horizontal orientation. </summary>
         public enum TextAlignH { Left, Middle, Right }
 
+        /// <summary> Simple enum for the types of vertical orientation. </summary>
         public enum TextAlignV { Top, Middle, Bottom }
     }
 }

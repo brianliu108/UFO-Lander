@@ -28,7 +28,9 @@ namespace Prog2370_Final.Drawable {
         private Vector2 offset = Vector2.Zero;
         public Vector2 scale = Vector2.One;
 
-
+        /// <summary>
+        /// The offset onscreen from the images origin
+        /// </summary>
         public Vector2 Offset {
             get => offset;
             set {
@@ -37,6 +39,9 @@ namespace Prog2370_Final.Drawable {
             }
         }
 
+        /// <summary>
+        /// A box to describe the furthest in the X and Y that this image covers.
+        /// </summary>
         public Rectangle BoundingBox {
             get {
                 Rectangle r = boundingBox;
@@ -131,6 +136,9 @@ namespace Prog2370_Final.Drawable {
             spriteBatch.End();
         }
 
+        /// <summary>
+        /// Draws the bounding box for debug settings
+        /// </summary>
         private void DebugDraw() {
             Rectangle line, bb = BoundingBox;
             // Y
@@ -149,13 +157,27 @@ namespace Prog2370_Final.Drawable {
 
         #region ICollidableComplex Members
 
+        /// <summary>
+        /// <inheritdoc cref="ICollidable.AABB"/>
+        /// </summary>
         public Rectangle AABB => BoundingBox;
+
+        /// <summary>
+        /// <inheritdoc cref="ICollidable.CollisionNotificationLevel"/>
+        /// </summary>
         public CollisionNotificationLevel CollisionNotificationLevel => CollisionNotificationLevel.None;
+
+        /// <summary>
+        /// <inheritdoc cref="ICollidable.CollisionLogs"/>
+        /// </summary>
         public List<CollisionLog> CollisionLogs { get; set; }
 
         private bool offsetChangedSinceGetBoundingVertices = true;
         private Vector2[] _boundingVertices;
 
+        /// <summary>
+        /// <inheritdoc cref="ICollidableComplex.BoundingVertices"/>
+        /// </summary>
         public Vector2[] BoundingVertices {
             get {
                 if (offsetChangedSinceGetBoundingVertices) {
@@ -168,7 +190,14 @@ namespace Prog2370_Final.Drawable {
             }
         }
 
+        /// <summary>
+        /// <inheritdoc cref="ICollidableComplex.BoundingLinesLoop"/>
+        /// </summary>
         public bool BoundingLinesLoop => false;
+
+        /// <summary>
+        /// <inheritdoc cref="ICollidableComplex.BoundingLinesFormConvexPolygon"/>
+        /// </summary>
         public bool BoundingLinesFormConvexPolygon => false;
 
         #endregion

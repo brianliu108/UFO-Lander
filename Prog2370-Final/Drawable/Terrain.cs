@@ -51,6 +51,9 @@ namespace Prog2370_Final.Drawable {
             Generate();
         }
 
+        /// <summary>
+        /// The offset of the origin of the image relative to the origin
+        /// </summary>
         public Vector2 Offset {
             get => offset;
             set {
@@ -81,6 +84,10 @@ namespace Prog2370_Final.Drawable {
             };
         }
 
+        /// <summary>
+        /// Creates new terrain identical to the current terrain.
+        /// </summary>
+        /// <returns></returns>
         public Terrain Clone() {
             return new Terrain(game, spriteBatch, domain, range, samples, period, seed, width, color, offset);
         }
@@ -93,6 +100,10 @@ namespace Prog2370_Final.Drawable {
             terrain.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Creates a new Terrain that, when placed directly to the right of this one, connects perfectly.
+        /// </summary>
+        /// <returns>A new terrain that fits to the right of the given terrain.</returns>
         public Terrain NewAdjacentRight() {
             var ter = Clone();
             ter.seed += (float) (PI * ter.period);
@@ -100,6 +111,10 @@ namespace Prog2370_Final.Drawable {
             return ter;
         }
 
+        /// <summary>
+        /// Creates a new Terrain that, when placed directly to the left of this one, connects perfectly.
+        /// </summary>
+        /// <returns>A new terrain that fits to the left of the given terrain.</returns>
         public Terrain NewAdjacentLeft() {
             var ter = Clone();
             ter.seed -= (float) (PI * ter.period);
