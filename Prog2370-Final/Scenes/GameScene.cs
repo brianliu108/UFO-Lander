@@ -34,7 +34,6 @@ namespace Prog2370_Final.Scenes {
         public GameScene(Game game, SpriteBatch spriteBatch) : base(game) {
             this.spriteBatch = spriteBatch;
 
-
             // Add the infinite terrain (which also does gas cans)
             var tempTerrain = new Terrain(Game, spriteBatch,
                 GraphicsDevice.Viewport.Bounds.Width / 3f, 50,
@@ -160,7 +159,13 @@ namespace Prog2370_Final.Scenes {
                 }
                 // After deathsound finishes
                 if (frameCount == 550) {
-                    ((Game1) Game).ForcefulSceneChange = 3; //FLAG this may cause interesting bugs if we forget about it
+                    Components.Add(new KbInputString(Game, spriteBatch,
+                        resources.MonoFont,
+                        new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f),
+                        Color.Wheat,
+                        SimpleString.TextAlignH.Middle,
+                        SimpleString.TextAlignV.Middle));
+                    // ((Game1) Game).ForcefulSceneChange = 3; //TODO use later FLAG this may cause interesting bugs if we forget about it
                     startFrameCount = false;
                 }
             }

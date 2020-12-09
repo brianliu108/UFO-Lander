@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Collisions.cs" />
     <Compile Include="ColourSchemes.cs" />
+    <Compile Include="Drawable\KbInputString.cs" />
     <Compile Include="Drawable\MeterBar.cs" />
     <Compile Include="Drawable\Sprites\Explosion.cs" />
     <Compile Include="Drawable\Sprites\Sprite.cs" />
