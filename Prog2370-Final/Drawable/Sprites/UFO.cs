@@ -161,7 +161,13 @@ namespace Prog2370_Final.Drawable.Sprites {
             spriteBatch.End();
         }
 
+        /// <summary>
+        /// Updates on the UFO logic
+        /// </summary>
+        /// <param name="gameTime">current snapshot of timing</param>
+        /// <param name="ks">Current keyboard state</param>
         public void Update(GameTime gameTime, KeyboardState ks) {
+            // Calculate gascan collection
             if (Speed < SPEED_MARGIN) framesStill++;
             else framesStill = 0;
             if (framesStill > FRAMES_STILL_MARGIN) {
@@ -175,16 +181,17 @@ namespace Prog2370_Final.Drawable.Sprites {
             this.tex = resources.UFO;
             delayCounter = -1;
 
+            // if not dead update on movement input
             if (!dead) {
                 UpdateMovement(ks);
             } else {
                 thrustIns.Stop();
             }
 
-
             // Environmental effects on speed
             ApplyEnvironmentEffects();
 
+            // if gas runs out
             if (gas <= 0) {
                 thrustIns.Stop();
                 frameIndex = 0;
@@ -193,6 +200,7 @@ namespace Prog2370_Final.Drawable.Sprites {
             // Check if UFO is colliding with the terrain at all
             // Apply death logic
             if (CollisionLogs.Count(log => log.collisionPartner is VectorImage) > 0) {
+                // making sure the collision logic only executes once
                 if (!dead && !landed) {
                     if (Speed <= 1.5) {
                         landIns.Play();
@@ -209,12 +217,14 @@ namespace Prog2370_Final.Drawable.Sprites {
                     this.velocity.Y = 0f;
                     highestYValue = this.position.Y;
 
+                    
                     if (dead) {
                         MediaPlayer.Stop();
                         frameIndex = 0;
                     }
                 }
 
+                // running out of gas when landed
                 if (landed && gas <= 0) {
                     dead = true;
                 }
@@ -223,6 +233,7 @@ namespace Prog2370_Final.Drawable.Sprites {
                 highestYValue = 0;
             }
 
+            // setting the position to the highest y value reached when landed
             if (landed) {
                 if (this.position.Y > highestYValue)
                     this.position.Y = highestYValue;
@@ -232,6 +243,11 @@ namespace Prog2370_Final.Drawable.Sprites {
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Getting a consistent radians value from the current angle
+        /// </summary>
+        /// <param name="angle">angle of ship in radians</param>
+        /// <returns></returns>
         private static Vector2 UnitVectorFromAngle(float angle)
             => new Vector2(
                 (float) Math.Cos(angle),
@@ -242,12 +258,14 @@ namespace Prog2370_Final.Drawable.Sprites {
         /// </summary>
         /// <param name="ks">Applies movement from arrow keys and spacebar</param>
         private void UpdateMovement(KeyboardState ks) {
+            // change angle on left and right
             if (ks.IsKeyDown(Keys.Right)) {
                 angle += changeInAngle;
             } else if (ks.IsKeyDown(Keys.Left)) {
                 angle -= changeInAngle;
             }
 
+            // thrust on up and space
             if (ks.IsKeyDown(Keys.Up)) {
                 if (gas >= 0) {
                     // Max acceleration
@@ -271,7 +289,9 @@ namespace Prog2370_Final.Drawable.Sprites {
         /// <param name="gasConsumption">Rate of decrease in gas level when accelerating</param>
         /// <param name="vol">Volume of thrust sound</param>
         private void Thrust(float accel, float gasConsumption, float vol) {
+            // moving the UFO based on the unit vector multiplied by acceleration
             velocity -= UnitVectorFromAngle((float) angle) * accel;
+            // max velocity
             if (velocity.X > maxVelocity) {
                 velocity.X = maxVelocity;
             } else if (velocity.X < (maxVelocity * -1)) {
@@ -302,17 +322,20 @@ namespace Prog2370_Final.Drawable.Sprites {
         /// Applies the constant effects of the environment to the UFO
         /// </summary>
         private void ApplyEnvironmentEffects() {
+            // Apply gravity if not landed
             if (!landed) {
                 this.velocity.Y += gravity;
             }
-
+            // apply drag
             if (velocity.X > 0) {
                 this.velocity.X -= drag;
             } else if (velocity.X < 0) {
                 this.velocity.X += drag;
             }
+            // moving the ufo
             this.position += this.velocity;
 
+            // locking the ufo inside the stage
             if (position.Y < 0) {
                 position.Y = 0;
                 velocity.Y = 0;
