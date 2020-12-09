@@ -40,7 +40,7 @@ namespace Prog2370_Final.Drawable {
             spriteBatch.Begin();
             Rectangle line;
             Rectangle bb = line = drawSize;
-            line.Width = (int) (line.Width * current / (max - min));
+            line.Width = (int) (line.Width * (Math.Min(current,max)) / (max - min));
             spriteBatch.Draw(resources.WhitePixel, line, ColourSchemes.pink);
             // Y
             line = bb;
