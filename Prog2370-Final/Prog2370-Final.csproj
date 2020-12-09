@@ -106,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\BoldFont.spritefont" />
+    <Content Include="Content\Fonts\File.spritefont" />
     <Content Include="Content\Fonts\Monospaced.spritefont" />
     <Content Include="Content\Fonts\RegularFont.spritefont" />
     <Content Include="Content\Images\explosion.png" />

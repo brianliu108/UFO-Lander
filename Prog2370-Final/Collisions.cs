@@ -12,12 +12,30 @@ using Prog2370_Final.Drawable.Sprites;
 using static Prog2370_Final.CollisionNotificationLevel;
 
 namespace Prog2370_Final {
+    /// <summary>
+    /// Manages collisions. There is an internal array of Collidables that can be modified from the outside, and on
+    /// and update, this will check for all potential collisions that occur, and send logs of those collisions to the
+    /// objects involved.
+    /// </summary>
     public class CollisionManager : DrawableGameComponent {
-        private bool debug = false;
+        private bool debug = false; // When set to true, all ICollidables will have their bounding boxes displayed.
+
+        /// <summary>
+        /// A list of weak references of all objects to test collisions for. This is a self cleaning list, since it
+        /// uses weak references, any item cleaned up by the garbage collector can and will be removed, as will
+        /// any perishable that perishes.
+        /// </summary>
         private readonly List<WeakReference<ICollidable>> collidables = new List<WeakReference<ICollidable>>();
 
         public CollisionManager(Game game) : base(game) { }
 
+        /// <summary>
+        /// Updating the Collision manager will test all combinations (specifically not permutations) of possible
+        /// collisions of objects in the <c>collidables</c> list. For each potential collision, it is first checked
+        /// if the axis aligned bounding boxes collide as that is very cheap and allows us to skip expensive checking
+        /// on things that will never collide. Then,  
+        /// </summary>
+        /// <param name="gameTime">Unused.</param>
         public override void Update(GameTime gameTime) {
             collidables.RemoveAll(weakReference =>
                 weakReference.TryGetTarget(out ICollidable c) == false || c is IPerishable p && p.Perished);
@@ -66,12 +84,13 @@ namespace Prog2370_Final {
                         // IF `collisionLocations == null` THEN `lookForCollisions == false →implies→ collision found`
                         bool lookForCollisions = true;
 
-
                         if (leftC.BoundingLinesLoop && leftC.BoundingLinesFormConvexPolygon &&
                             rightC.BoundingLinesLoop && rightC.BoundingLinesFormConvexPolygon) {
                             //TODO logic for convex polygons
                             // } else if (leftC.BoundingLinesLoop && rightC.BoundingLinesLoop) {
                             //     //TODO logic for concave polygons
+                            //     //We never had to worry about this one because
+                            //     //everything fits the other two categories
                         } else {
                             int leftItCount = leftC.BoundingVertices.Length - (leftC.BoundingLinesLoop ? 0 : 1);
                             int rightItCount = rightC.BoundingVertices.Length - (rightC.BoundingLinesLoop ? 0 : 1);
@@ -80,7 +99,7 @@ namespace Prog2370_Final {
                                 Vector2 // The raw points (allowing for rollover to make loops)
                                     p0 = leftC.BoundingVertices[p],
                                     p1 = leftC.BoundingVertices[(p + 1) % leftC.BoundingVertices.Length],
-                                    q0 = rightC.BoundingVertices[q],
+                                    q0 = rightC.BoundingVertices[q], //FLAG possible performance issue here and 1 below
                                     q1 = rightC.BoundingVertices[(q + 1) % rightC.BoundingVertices.Length];
                                 Vector2 // End points for `p + s` or `q + s` form
                                     s1 = new Vector2(p1.X - p0.X, p1.Y - p0.Y),
@@ -121,12 +140,17 @@ namespace Prog2370_Final {
                         }
                     }
                 }
+            // Giving the Collidables their collision logs
             for (int i = 0; i < collidables.Count; i++)
                 if (collidables[i].TryGetTarget(out ICollidable item))
                     item.CollisionLogs = collisionLogs[i];
         }
 
 
+        /// <summary>
+        /// Debug only; Draws the bounding boxes of all collidables, highlighting them if something collides.
+        /// </summary>
+        /// <param name="gameTime">Unused</param>
         public override void Draw(GameTime gameTime) {
             if (debug)
                 foreach (var reference in collidables)
@@ -143,8 +167,17 @@ namespace Prog2370_Final {
                     }
         }
 
+        /// <summary>
+        /// Adds a Collidable to the list of collidables.
+        /// </summary>
+        /// <param name="item">Unused</param>
         public void Add(ICollidable item) => collidables.Add(new WeakReference<ICollidable>(item));
 
+        /// <summary>
+        /// Tells if a specific item is in the list of collidables.w
+        /// </summary>
+        /// <param name="item">Item to check</param>
+        /// <returns>True if it exists in the list, otherwise false.</returns>
         public bool Contains(ICollidable item) {
             foreach (var reference in collidables)
                 if (reference.TryGetTarget(out ICollidable target) && target == item)
@@ -152,6 +185,10 @@ namespace Prog2370_Final {
             return false;
         }
 
+        /// <summary>
+        /// Removes a Collidable to the list of collidables.
+        /// </summary>
+        /// <param name="item">Unused</param>
         public bool Remove(ICollidable item) {
             foreach (var reference in collidables)
                 if (reference.TryGetTarget(out ICollidable target) && target == item)
@@ -169,6 +206,11 @@ namespace Prog2370_Final {
             => Rectangle.Intersect(left.AABB, right.AABB) != Rectangle.Empty;
     }
 
+    /// <summary>
+    /// Represents an object that can collide with another of the same type. These objects can be added to an instance
+    /// of the <c>CollisionManager</c> class to automatically check for collisions. This interface is for objects
+    /// defined in a very basic sense, for more complex objects use <see cref="ICollidableComplex"/>
+    /// </summary>
     public interface ICollidable {
         /// <summary>
         /// Can the object currently collide with anything?
@@ -194,6 +236,11 @@ namespace Prog2370_Final {
         List<CollisionLog> CollisionLogs { get; set; }
     }
 
+    /// <summary>
+    /// <p><inheritdoc cref="ICollidable"/></p>
+    /// <p>This specific interface represents more complex collidables, those that are described by strips of
+    /// connected vertices instead of by AABB's</p>
+    /// </summary>
     public interface ICollidableComplex : ICollidable {
         /// <summary>
         /// A series of vectors which represent the outer-most vertices of an object, defining the shape the object
@@ -223,33 +270,76 @@ namespace Prog2370_Final {
     /// needing to manually set the other properties.
     /// </summary>
     public class DefaultComplexCollidable : ICollidableComplex {
+        /// <summary>
+        /// The actual Collidable object that this represents. This is where all the data comes from.
+        /// </summary>
         private readonly ICollidable collidable;
+
+        /// <summary>
+        /// <inheritdoc cref="ICollidable.CanCollide"/>
+        /// </summary>
         public bool CanCollide => collidable.CanCollide;
+
+        /// <summary>
+        /// <inheritdoc cref="ICollidable.AABB"/>
+        /// </summary>
         public Rectangle AABB => collidable.AABB;
+
+        /// <summary>
+        /// <inheritdoc cref="ICollidable.CollisionNotificationLevel"/>
+        /// </summary>
         public CollisionNotificationLevel CollisionNotificationLevel => collidable.CollisionNotificationLevel;
 
+        /// <summary>
+        /// <inheritdoc cref="ICollidable.CollisionLogs"/>
+        /// </summary>
         public List<CollisionLog> CollisionLogs {
             get => collidable.CollisionLogs;
             set => collidable.CollisionLogs = value;
         }
 
+        private Rectangle lastAABB;
+        private Vector2[] lastBoundingVertices;
+
+        /// <summary>
+        /// <p><inheritdoc cref="ICollidableComplex.BoundingVertices"/></p>
+        /// Note: This also caches the bounding vertices for performance reasons.
+        /// This has adverse effect on the reliability of the returned value.
+        /// </summary>
         public Vector2[] BoundingVertices {
             get {
+                if (AABB == lastAABB) return lastBoundingVertices;
                 AABB.Deconstruct(out int x, out int y, out int dx, out int dy);
-                return new[] {
+                return lastBoundingVertices = new[] {
                     new Vector2(x + 10, y + 10),
                     new Vector2(x, y + dy),
                     new Vector2(x + dx - 10, y + dy - 10),
                     new Vector2(x + dx, y)
                 };
+                lastAABB = AABB;
             }
         }
 
+        /// <summary>
+        /// <inheritdoc cref="ICollidableComplex.BoundingLinesLoop"/>
+        /// </summary>
         public bool BoundingLinesLoop => true;
+
+        /// <summary>
+        /// <inheritdoc cref="ICollidableComplex.BoundingLinesFormConvexPolygon"/>
+        /// </summary>
         public bool BoundingLinesFormConvexPolygon => true;
+
+        /// <summary>
+        /// Creates a Complex Collidable that represents the given Collidable
+        /// </summary>
+        /// <param name="collidable">The Collidable to represent</param>
         public DefaultComplexCollidable(ICollidable collidable) => this.collidable = collidable;
     }
 
+    /// <summary>
+    /// Used by <see cref="ICollidable"/> to register how much information about the collision to receive.
+    /// </summary>
     public enum CollisionNotificationLevel {
         None, // For when you don't care at all
         Partner, // Only care about who you collided with
@@ -257,11 +347,25 @@ namespace Prog2370_Final {
     }
 
     public class CollisionLog {
+        /// <summary>The Collidable that this collided with. This will always have a value. </summary>
         public readonly ICollidable collisionPartner;
+
+        /// <summary>
+        /// The point(s) where the bounding lines intersected. Length will be 0 if this information is not requested
+        /// </summary>
         public readonly Vector2[] collisionLocations;
 
+        /// <summary>
+        /// Creates a collision log with only the collision partner.
+        /// </summary>
+        /// <param name="collisionPartner">The Collidable this collided with</param>
         public CollisionLog(ICollidable collisionPartner) : this(collisionPartner, new Vector2[0]) { }
 
+        /// <summary>
+        /// Creates a collision log with both a partner and collision points
+        /// </summary>
+        /// <param name="collisionPartner">The Collidable this collided with</param>
+        /// <param name="collisionLocations">The points where collisions occured.</param>
         public CollisionLog(ICollidable collisionPartner, Vector2[] collisionLocations) {
             this.collisionPartner = collisionPartner;
             this.collisionLocations = collisionLocations;
