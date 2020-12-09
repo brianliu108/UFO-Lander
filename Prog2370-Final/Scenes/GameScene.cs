@@ -170,7 +170,7 @@ namespace Prog2370_Final.Scenes {
                 // After deathsound finishes
                 if (frameCount == 550) {
                     var topScorers = Resources.ParseHighScores();
-                    if (topScorers.Count == 0 || TotalDistance > topScorers.Min(tuple => tuple.Item2)) {
+                    if (topScorers.Count < 10 || TotalDistance > topScorers.Min(tuple => tuple.Item2)) {
                         bool topScorer = topScorers.Count == 0 || 
                                          TotalDistance > topScorers.Max(tuple => tuple.Item2);
                         Components.Add(new SimpleString(Game, spriteBatch,
